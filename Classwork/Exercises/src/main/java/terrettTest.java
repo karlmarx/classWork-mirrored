@@ -33,6 +33,8 @@ public class terrettTest{
     String yourFruit;
     String yourBand;
     
+    
+            
     System.out.print("What is your name?");
     yourName = inputReader.nextLine();
    
@@ -73,8 +75,8 @@ public class terrettTest{
                 } else {
                     System.out.println("Darn, you missed! Better luck next time!");
                 }
-                        
-                        
+                
+                
                  }
             
                     System.out.println("You disabled the bear in " + numberStrikes + " strikes!  Let's celebrate by making out under the stars whilst listening to some " + yourBand + "!");

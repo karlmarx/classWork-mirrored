@@ -9,6 +9,6 @@ package AllTheMaths;
  *
  * @author karlmarx
  */
-public class teacherTempProblem {
+public class teacherTempProblem{
     
 }

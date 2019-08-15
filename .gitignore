@@ -442,3 +442,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 /Classwork/mavenproject1/target/
+/Classwork/TemperatureProject/target/
+/Classwork/Exercises/target/
