@@ -24,7 +24,8 @@ public class RockPaperScissors {
         Scanner scanner = new Scanner(System.in);
         while (playing) {
                 System.out.println("Rock, paper, scissors time! How many rounds would you like to play? (max=10)");
-                int totalRounds = scanner.nextInt(); 
+                int totalRounds = Integer.valueOf(scanner.nextLine()); 
+                
                 if (totalRounds > 10 ){
                     System.out.println("Error! I cannot play that much. Goodbye");
                     return;
@@ -44,7 +45,7 @@ public class RockPaperScissors {
                                 compWinTally ++;
                         } else if (gameOutcome.equals("userWin")) {
                                 userWinTally ++;
-                        }
+                        } 
 
                         System.out.println("Computer wins: " + compWinTally+ ". Your wins: " + userWinTally + ".");
                         currentRound ++;
@@ -54,6 +55,11 @@ public class RockPaperScissors {
                 System.out.println("Would you like to play again? Enter 'Y' or 'N'");
                 String answer = scanner.nextLine();
                 playing = answer.equalsIgnoreCase("y");
+                if (playing = 
+                        answer.equalsIgnoreCase("N")){
+                        System.out.println("Thanks for playing!");
+                        return;
+                }
         }
         
         } 
@@ -70,7 +76,9 @@ public class RockPaperScissors {
         
     
     
-    public static void displayOutcome(String gameOutcome ){
+    public static void displayOutcome(String gameOutcome){
+       
+        
         if (gameOutcome.equals("tie")) {
                 System.out.println("It's a tie!");
             
@@ -85,11 +93,11 @@ public class RockPaperScissors {
     
     
     public static String playGame() {
-        Scanner scanner2 = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Random randomizer = new Random();
         String gameOutcome = "ERROR";
-        System.out.println("Enter 0 for rock, 1 for paper, 2 for scissors");
-        int userChoice = scanner2.nextInt();
+        System.out.println("Enter 0 for ROCK, 1 for PAPER, 2 for SCISSORS.");
+        int userChoice = Integer.valueOf(scanner.nextLine());
         int compChoice = randomizer.nextInt(3);
         if (userChoice == compChoice) {
                 gameOutcome = "tie";
@@ -106,6 +114,17 @@ public class RockPaperScissors {
                     }else if ( userChoice == 2 && compChoice == 0) {
                         gameOutcome = "compWin";
                     }
+                       
+                    switch(compChoice){
+                        case 0: 
+                            System.out.println("The computer has chosen ROCK.");
+                        case 1: 
+                            System.out.println("The computer has chosen PAPER.");
+                        case 2: 
+                            System.out.println("The computer has chosen SCISSORS.");
+                    }
+                
+
             return gameOutcome;
     }
     
