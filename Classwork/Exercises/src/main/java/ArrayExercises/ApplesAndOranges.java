@@ -40,7 +40,7 @@ public class ApplesAndOranges {
         printArray(orangeArray);        
         
         
-        System.out.println("Total : " + orangesum + " oranges");
+        System.out.println("\nTotal : " + orangesum + " oranges");
         System.out.println("Total : " + applesum + " apples");
          
          
@@ -50,7 +50,7 @@ public class ApplesAndOranges {
         public static void printArray (String[] arrayName){
             System.out.println("The elements of this array are as follows: ");
             for (int i = 0; i < arrayName.length; i++){
-                System.out.print(arrayName[i] + ", ");
+                System.out.print(" -" + arrayName[i] + "- ");
            
            // unneeded line     System.out.println("\n");
             }
