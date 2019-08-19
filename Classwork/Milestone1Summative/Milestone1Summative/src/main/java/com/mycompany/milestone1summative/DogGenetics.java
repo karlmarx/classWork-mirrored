@@ -10,13 +10,13 @@ import java.util.Scanner;
 
 /**
  *
- * @author karlmarx
+ * @author karlmarxA
  */
 public class DogGenetics {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random randomizer = new Random();
-        int breedOne = randomizer.nextInt(100);
+        int breedOne = randomizer.nextInt(96)+1;
         int breedTwo = randomizer.nextInt(100 - breedOne);
         int breedThree = randomizer.nextInt(100 - breedOne - breedTwo);
         int breedFour = randomizer.nextInt(100 - breedOne - breedTwo - breedThree);
@@ -25,7 +25,8 @@ public class DogGenetics {
         ///add in some line breaks maybe?
         System.out.println("What is your dog's name?");
         String inputDogName = scanner.nextLine();
-        System.out.println("Well then, I have this highly reliable report on" + inputDogName + "'s prestigious background right here.");
+        System.out.println("Well then, I have this highly reliable report on" + inputDogName + " "
+                + "'s prestigious background right here.");
         System.out.println("\n" + inputDogName + " is:");
         System.out.println(breedOne + "% St Bernard.");
         System.out.println(breedTwo + "% Communist Dachshund.");

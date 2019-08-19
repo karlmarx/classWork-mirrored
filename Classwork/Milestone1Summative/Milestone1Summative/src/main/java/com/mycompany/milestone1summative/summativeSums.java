@@ -15,9 +15,9 @@ public class summativeSums {
         int[] arrayTwo  = { 999, -60, -77, 14, 160, 301 };
         int[] arrayThree = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 
             140, 150, 160, 170, 180, 190, 200, -99 }; 
-        System.out.println("#1 Array Sum: " + arraySummer(arrayOne));
-        System.out.println("#2 Array Sum: " + arraySummer(arrayTwo));
-        System.out.println("#3 Array Sum: " + arraySummer(arrayThree));
+        System.out.println("Array #1 Sum: " + arraySummer(arrayOne));
+        System.out.println("Array #2 Sum: " + arraySummer(arrayTwo));
+        System.out.println("Array #3 Sum: " + arraySummer(arrayThree));
     }
     
     public static int arraySummer (int[] inputArray) {
