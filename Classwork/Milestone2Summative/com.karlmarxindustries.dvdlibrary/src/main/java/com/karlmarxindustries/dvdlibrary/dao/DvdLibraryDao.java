@@ -6,7 +6,9 @@
 package com.karlmarxindustries.dvdlibrary.dao;
 
 import com.karlmarxindustries.dvdlibrary.dto.DVD;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -33,8 +35,10 @@ public interface DvdLibraryDao {
 
     String readString(String prompt);
     
-    DVD addStudent(String studentId, DVD student);
-    List<DVD> getAllStudents();
-    DVD getStudent(String studentId);
-    DVD removeStudent(String studentId);
+        List<DVD> getAllDvds() ;
+        DVD getDvd(String title) ;
+        DVD removeDvd(String title) ;
+        DVD addDVD (String title, DVD dvd) ;
+        void editDVD(String title, DVD dvd); ///why not working??
+    
 }

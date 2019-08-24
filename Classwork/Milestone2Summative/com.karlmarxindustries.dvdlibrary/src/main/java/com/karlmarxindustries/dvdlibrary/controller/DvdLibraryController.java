@@ -35,18 +35,20 @@ public class DvdLibraryController {
 
             switch (menuSelection) {
                 case 1:
-                    listStudents();
+                    listDvds();
                     break;
                 case 2:
-                    createStudent();
+                    addDvd();
                     break;
                 case 3:
-                    viewStudent();
+                    viewDvd();
                     break;
                 case 4:
-                    removeStudent();
+                    removeDvd();
                     break;
-                case 5:
+                case 5: 
+                    editDvd();
+                case 6:
                     keepGoing = false;
                     break;
                 default:
@@ -59,30 +61,46 @@ public class DvdLibraryController {
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }
-    private void createStudent() {
-        view.displayCreateStudentBanner();
-        DVD newStudent = view.getNewStudentInfo();
-        dao.addStudent(newStudent.getStudentId(), newStudent);
+    private void addDvd() {
+        view.displayAddDVDBanner();
+        DVD newDvd = view.getNewDvdInfo();
+        dao.addDVD(newDvd.getTitle(), newDvd);
         view.displayCreateSuccessBanner();
     }
     
-    private void listStudents() {
+    private void listDvds() {
         view.displayDisplayAllBanner();
-        List<DVD> studentList = dao.getAllStudents();
-        view.displayStudentList(studentList);
+        List<DVD> dvdList = dao.getAllDvds();
+        view.displayDvdList(dvdList);
     }
-    private void viewStudent() {
-        view.displayDisplayStudentBanner();
-        String studentId = view.getStudentIdChoice();
-        DVD student = dao.getStudent(studentId);
-        view.displayStudent(student);
+    private void viewDvd() {
+        view.displayDisplayDvdBanner();
+        String title = view.getTitleChoice();
+        DVD dvd = dao.getDvd(title); 
+        view.displayDvd(dvd);
     }
-    private void removeStudent() {
-        view.displayRemoveStudentBanner();
-        String studentId = view.getStudentIdChoice();
-        dao.removeStudent(studentId);
+    private void removeDvd() {
+        view.displayRemoveDvdBanner();
+        String title = view.getTitleChoice(); //make case-insensitive
+        dao.removeDvd(title);
         view.displayRemoveSuccessBanner();
     }
+       private void editDvd() {
+            view.displayEditDvdBanner();
+            DVD dvd = null;
+            boolean correctSelection = false;
+            while(!correctSelection) {
+                String title = view.getTitleChoice();
+                dvd = dao.getDvd(title); 
+                view.displayDvd(dvd); 
+                correctSelection = view.confirmCorrectSelection();
+            }
+            dvd = view.updateDvdInfo(dvd);
+            dao.editDVD(dvd.getTitle(), dvd); //turn this into EDIT 
+            view.displayEditSuccessBanner();
+    } //basically display and then add 
+    
+    
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }

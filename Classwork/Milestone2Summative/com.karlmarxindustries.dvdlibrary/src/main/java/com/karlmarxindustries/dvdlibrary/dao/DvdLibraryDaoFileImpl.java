@@ -69,29 +69,37 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     }
 
     @Override
-    public List<DVD> getAllStudents() {
-        return  new ArrayList<DVD>(students.values());
+    public List<DVD> getAllDvds() {
+        return  new ArrayList<DVD>(dvds.values());
     }
 
     @Override
-    public DVD getStudent(String studentId) {
-        return students.get(studentId);
+    public DVD getDvd(String title) {
+        return dvds.get(title);
     }
 
     @Override
-    public DVD removeStudent(String studentId) {
-        DVD removedStudent = students.remove(studentId);
-        return removedStudent;
+    public DVD removeDvd(String title) {
+        DVD removedDvd = dvds.remove(title);
+        return removedDvd;
     }   
     
 
     @Override
-    public DVD addStudent(String studentId, DVD student) {
-        DVD newStudent = students.put(studentId, student);
-        return newStudent;
+    public DVD addDVD (String title, DVD dvd) {
+        DVD newDvd =dvds.put(title, dvd);
+        return newDvd;
     }
     
-    private Map<String, DVD> students = new HashMap<>();
+    
+    public void editDVD (String title, DVD dvd) {
+        //this needs to be different - find and update in map
+       
+                dvds.put(title, dvd); //make sure first part is good with updates using an if 
+       
+    }
+    
+    private Map<String, DVD> dvds = new HashMap<>();
     
     
 }
