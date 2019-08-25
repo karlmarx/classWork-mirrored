@@ -30,6 +30,7 @@ public class DvdLibraryController {
     public void run() throws DvdLibraryDaoException {
         boolean keepGoing = true;
         int menuSelection = 0;
+        welcomeMessage();
         try{
         while (keepGoing) {
             
@@ -43,7 +44,7 @@ public class DvdLibraryController {
                     addDvd();
                     break;
                 case 3:
-                    viewDvd();
+                    searchDvd();
                     break;
                 case 4:
                     removeDvd();
@@ -52,13 +53,15 @@ public class DvdLibraryController {
                     editDvd();
                     break;
                 case 6:
+                    viewDvdTitle();
+                    break;
+                case 7:
                     keepGoing = false;
                     break;
                 default:
                     unknownCommand();
             }
         }
-        exitMessage();
         } catch (DvdLibraryDaoException e){
             view.displayErrorMessage(e.getMessage());
 
@@ -80,18 +83,25 @@ public class DvdLibraryController {
         List<DVD> dvdList = dao.getAllDvds();
         view.displayDvdList(dvdList);
     }
-    private void viewDvd() throws DvdLibraryDaoException {
+    private void searchDvd() throws DvdLibraryDaoException {
         view.displayDisplayDvdBanner();
         List<DVD> dvdList = dao.getAllDvds();
-         view.getTitleChoiceSearch(dvdList);
+         view.getTitleChoiceAndSearch(dvdList);
         
         //DVD dvd = dao.getDvd(title); 
-        //view.displayDvd(dvd);
+        //view.viewDvd(dvd);
+    }
+    
+    private void viewDvdTitle() throws DvdLibraryDaoException {
+        view.displayViewDvdBanner();
+        String exactTitle = view.getTitleChoiceExact();
+        DVD dvdMatch = dao.getDvd(exactTitle.toUpperCase());
+        view.viewDvd(dvdMatch);
     }
     private void removeDvd() throws DvdLibraryDaoException {
         view.displayRemoveDvdBanner();
         String title = view.getTitleChoice(); //make case-insensitive
-        dao.removeDvd(title);
+        dao.removeDvd(title.toUpperCase());
         view.displayRemoveSuccessBanner();
     }
        private void editDvd() throws DvdLibraryDaoException {
@@ -99,23 +109,23 @@ public class DvdLibraryController {
             DVD dvd = null;
             boolean correctSelection = false;
             while(!correctSelection) {
-                String title = view.getTitleChoice();
+                String title = view.getTitleChoice().toUpperCase();
                 dvd = dao.getDvd(title); 
-                view.displayDvd(dvd); 
+                view.viewDvd(dvd); 
                 correctSelection = view.confirmCorrectSelection();
             }
             dvd = view.updateDvdInfo(dvd);
-            dao.editDVD(dvd.getTitle(), dvd); //turn this into EDIT 
+            dao.editDVD(dvd.getTitle().toUpperCase(), dvd); //turn this into EDIT 
             view.displayEditSuccessBanner();
     } //basically display and then add 
-    
-    
     private void unknownCommand() {
         view.displayUnknownCommandBanner();
     }
-
     private void exitMessage() {
         view.displayExitBanner();
+    }
+    private void welcomeMessage(){
+        view.displayWelcomeBanner();
     }
     
     

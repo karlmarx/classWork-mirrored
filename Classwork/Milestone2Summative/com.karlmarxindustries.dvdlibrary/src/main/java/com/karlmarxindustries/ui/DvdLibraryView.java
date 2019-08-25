@@ -22,25 +22,32 @@ public class DvdLibraryView {
 
     public int printMenuAndGetSelection() {
         io.print("Main Menu");
-        io.print("1. List DVDs");
-        io.print("2. Add a DVD");
-        io.print("3. Search for a DVD");
-        io.print("4. Remove a DVD");
-        io.print("5. Edit Existing DVD");
-        //add search function
-        //add edit function
-        io.print("6. Exit");
+        io.print("[1] List DVDs");
+        io.print("[2] Add a DVD");
+        io.print("[3] Search for a DVD");
+        io.print("[4] Remove a DVD");
+        io.print("[5] Edit Existing DVD");
+        io.print("[6] View a DVD listing");
+        io.print("[7] Exit");
 
-        return io.readInt("Please select from the above choices.", 1, 6);
+        return io.readInt("Please select from the above choices.", 1, 7);
     }
     
    public DVD getNewDvdInfo(){
-        String title = io.readString("Please enter DVD title: ");
-        int releaseDate = io.readInt("Please input release date in format MMDDYYYY: "); //make sure to validate this input
-        String rating = io.readString("Please enter MPAA rating: ");
-        String director = io.readString("Please enter director's name: ");
-        String studio = io.readString("Please enter studio: ");
-        String userRatingOrNote = io.readString("Please enter personal rating or other note: ");
+        boolean titleBlank = true;
+        String title = io.readString("Please enter DVD title: ").toUpperCase().trim();
+        while (titleBlank) {
+            if (!(title.equals(""))){
+            titleBlank = false;
+            } else {
+                title = io.readString("Title is a required field. Please enter DVD title:");
+            } 
+        }
+        int releaseDate = io.readInt("Please input release date in format MMDDYYYY: "); // USE SPLIT TO MAKE IT LOOK NICER
+        String rating = io.readString("Please enter MPAA rating: ").toUpperCase();
+        String director = io.readString("Please enter director's name: ").toUpperCase();
+        String studio = io.readString("Please enter studio: ").toUpperCase();
+        String userRatingOrNote = io.readString("Please enter personal rating or other note: ").toUpperCase();
         DVD currentDVD = new DVD(title);
         currentDVD.setRating(rating);
         currentDVD.setReleaseDate(releaseDate);
@@ -100,34 +107,49 @@ public class DvdLibraryView {
         io.readString("DVD successfully added.  Please hit enter to continue");
     }
    public void displayDvdList(List<DVD> dvdList) {
+        int libraryCount = 0;
         for (DVD currentDvd : dvdList) {
-               io.print("Title: " + currentDvd.getTitle());
+            io.print("Title: " + currentDvd.getTitle());
             io.print("Release date: " + currentDvd.getReleaseDate());
             io.print("Rating: " + currentDvd.getRating());
             io.print("Director: " + currentDvd.getDirector());
             io.print("Studio: " + currentDvd.getStudio());
             io.print("User Rating/Notes: " + currentDvd.getUserRatingOrNote());
             io.print("======================");
+            libraryCount++;
             }   
+        io.print("Total DVDs in library: " + libraryCount);
         io.readString("Please hit enter to continue.");
     }
     public void displayDisplayAllBanner() {
         io.print("=== Display All DVDs ===");
     }
     public void displayDisplayDvdBanner () {
-        io.print("=== Display DVD Banner ===");
+        io.print("=== Search DVD Banner ===");
     }
 
     public String getTitleChoice() {
-        return io.readString("Please enter the DVD title.");
+        return io.readString("Please enter the DVD title.").toUpperCase();
     }
     
-       public void getTitleChoiceSearch(List<DVD> dvdList) {
-         String search = io.readString("Please enter all or part of the title you are looking for.");
+    public String getTitleChoiceExact() {
+        return io.readString("Please enter the exact DVD title. (If unsure, please use search or list functions instead.").toUpperCase();
+    }
     
+       public void getTitleChoiceAndSearch(List<DVD> dvdList) {
+        boolean titleBlank = true;
+        String search = io.readString("Please enter all or part of the title you are looking for.").toUpperCase();
+        while (titleBlank) {
+            if (!(search.equals(""))){
+            titleBlank = false;
+            } else {
+                search = io.readString("Title is a required field. Please enter DVD title:");
+            } 
+        }
+         int searchResults = 0;
                  for (DVD currentDvd : dvdList) {
                      if(currentDvd.getTitle().contains(search)){
-                            System.out.println("Matching Title: ");
+                            System.out.println("===Matching Title#" + (searchResults+1) + " ===");
 
                             io.print("Title: " + currentDvd.getTitle());
                             io.print("Release date: " + currentDvd.getReleaseDate());
@@ -136,8 +158,13 @@ public class DvdLibraryView {
                             io.print("Studio: " + currentDvd.getStudio());
                             io.print("User Rating/Notes: " + currentDvd.getUserRatingOrNote());
                             io.print("======================");
+                            searchResults++;
+                     } 
+                     if (searchResults == 0) {
+                         System.out.println("No results found.  Please try again or choose 'List DVDs' to view entire library.");
                      }
                 }   
+                
         io.readString("Please hit enter to continue.");
       
         }
@@ -145,7 +172,7 @@ public class DvdLibraryView {
 
     
     //edit can be search, is this correct?, yes or no to edit
-    public void displayDvd(DVD dvd) {
+    public void viewDvd(DVD dvd) {
         if (dvd != null) {
             io.print("Title: " + dvd.getTitle());
             io.print("Release date: " + dvd.getReleaseDate());
@@ -155,7 +182,7 @@ public class DvdLibraryView {
             io.print("User Rating/Notes: " + dvd.getUserRatingOrNote());
             io.print("");
         } else {
-            io.print("No such DVD.");
+            io.print("No such DVD. Please use 'Search' or 'List' to confirm title.");
         }
         io.readString("Please hit enter to continue.");
     }
@@ -165,6 +192,11 @@ public class DvdLibraryView {
     public void displayEditDvdBanner () {
         io.print("=== Edit DVD ===");
     }
+    public void displayViewDvdBanner () {
+        io.print("=== View DVD ===");
+       
+                
+    }
     public void displayRemoveSuccessBanner(){
         io.readString("DVD successfully removed.  Please hit enter to continue.");
     }
@@ -172,7 +204,7 @@ public class DvdLibraryView {
         io.readString("DVD successfully edited.  Please hit enter to continue.");
     }
     public void displayExitBanner() {
-        io.print("Goodbye!!!");
+        io.print("Thank you for using DVD Archive!!!");
     }
 
     public void displayUnknownCommandBanner() {
@@ -186,5 +218,8 @@ public class DvdLibraryView {
     public void displayErrorMessage(String errorMsg){
             io.print("--- ERROR ---");
             io.print(errorMsg);
-        }
+     }
+    public void displayWelcomeBanner(){
+            io.print("Welcome to DVD Archive!");
+    }
 }

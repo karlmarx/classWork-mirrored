@@ -5,6 +5,7 @@
  */
 package com.karlmarxindustries.ui;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -74,13 +75,26 @@ public class UserIOConsoleImpl implements UserIO {
     
     //@Override
     @Override
-    public int readInt(String prompt) {
+    public int readInt(String prompt) throws InputMismatchException {
             int result = 0;
             print(prompt);
-            result = scanner.nextInt();
-            scanner.nextLine();
-            return result;
-    }
+            boolean continueInput = true;
+            do{
+                try{
+                    result = scanner.nextInt();
+                 //changed to fix issue with alpha input in menu
+                    scanner.nextLine();
+                    continueInput = false;
+                } catch (InputMismatchException e){
+                      System.out.println("Try Again.  An integer is required.");
+                      scanner.nextLine();
+                }
+            }
+            while (continueInput);
+             return result;
+            }             
+           
+    
 
    // @Override
     @Override
@@ -93,7 +107,7 @@ public class UserIOConsoleImpl implements UserIO {
                 if (result >= min && result <= max){
                     badInput = false;
                 } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
+                    print("Input needs to be >= " + min + " or <= " + max + ".");
                 }
                 
                

@@ -5,6 +5,8 @@
  */
 package com.karlmarxindustries.ui;
 
+import java.util.InputMismatchException;
+
 /**
  *
  * @author karlmarx
@@ -21,7 +23,7 @@ public interface UserIO {
 
     float readFloat(String prompt, float min, float max);
 
-    int readInt(String prompt);
+    int readInt(String prompt) throws InputMismatchException;
 
     int readInt(String prompt, int min, int max);
 
