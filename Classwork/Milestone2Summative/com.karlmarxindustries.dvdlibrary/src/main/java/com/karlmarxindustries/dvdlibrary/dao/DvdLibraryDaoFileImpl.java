@@ -157,12 +157,10 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     @Override
     public DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException {
-      //  loadLibrary();
-        
+        loadLibrary();
         DVD newDvd =dvds.put(title, dvd);
         writeLibrary();
         return newDvd;
-        
     }
     
     

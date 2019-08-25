@@ -125,7 +125,7 @@ public class DvdLibraryView {
         io.print("=== Display All DVDs ===");
     }
     public void displayDisplayDvdBanner () {
-        io.print("=== Search DVD Banner ===");
+        io.print("===== Search DVDs ====");
     }
 
     public String getTitleChoice() {
@@ -204,6 +204,10 @@ public class DvdLibraryView {
         io.readString("DVD successfully edited.  Please hit enter to continue.");
     }
     public void displayExitBanner() {
+        io.print(" ____  _____ ____     _____         _   _         ");
+        io.print("|    \\|  |  |    \\   |  _  |___ ___| |_|_|_ _ ___ ");
+        io.print("|  |  |  |  |  |  |  |     |  _|  _|   | | | | -_|");
+        io.print("|____/ \\___/|____/   |__|__|_| |___|_|_|_|\\_/|___|");
         io.print("Thank you for using DVD Archive!!!");
     }
 
@@ -211,7 +215,7 @@ public class DvdLibraryView {
         io.print("Unknown Command!!!");
     }
     public boolean confirmCorrectSelection(){
-       String selection = io.readString("Is this the correct DVD? (Enter 'Y' or 'N'");
+       String selection = io.readString("Is this the correct DVD? (Enter 'Y' or 'N')");
        boolean correctSelection = selection.equalsIgnoreCase("Y");
        return correctSelection;
      }
@@ -220,6 +224,27 @@ public class DvdLibraryView {
             io.print(errorMsg);
      }
     public void displayWelcomeBanner(){
+            io.print(" ____  _____ ____     _____         _   _         ");
+            io.print("|    \\|  |  |    \\   |  _  |___ ___| |_|_|_ _ ___ ");
+            io.print("|  |  |  |  |  |  |  |     |  _|  _|   | | | | -_|");
+            io.print("|____/ \\___/|____/   |__|__|_| |___|_|_|_|\\_/|___|");
             io.print("Welcome to DVD Archive!");
     }
+    public boolean confirmContinueAdding(){
+       String selection = io.readString("Would you like to add another DVD? (Enter 'Y' or 'N')");
+       boolean continueAdding = selection.equalsIgnoreCase("Y");
+       return continueAdding;
+     }
+     public boolean confirmContinueRemoving(){
+       String selection = io.readString("Would you like to remove another DVD? (Enter 'Y' or 'N')");
+       boolean continueAdding = selection.equalsIgnoreCase("Y");
+       return continueAdding;
+     }
+     public boolean confirmContinueEditing(){
+       String selection = io.readString("Would you like to edit another DVD? (Enter 'Y' or 'N')");
+       boolean continueAdding = selection.equalsIgnoreCase("Y");
+       return continueAdding;
+     }
 }
+
+

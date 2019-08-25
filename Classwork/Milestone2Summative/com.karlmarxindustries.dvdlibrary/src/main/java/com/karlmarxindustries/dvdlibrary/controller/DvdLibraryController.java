@@ -73,9 +73,13 @@ public class DvdLibraryController {
     }
     private void addDvd() throws DvdLibraryDaoException {
         view.displayAddDVDBanner();
-        DVD newDvd = view.getNewDvdInfo();
-        dao.addDVD(newDvd.getTitle(), newDvd);
-        view.displayCreateSuccessBanner();
+        boolean keepAdding = true;
+        while (keepAdding) {
+            DVD newDvd = view.getNewDvdInfo();
+            dao.addDVD(newDvd.getTitle(), newDvd);
+            view.displayCreateSuccessBanner();
+            keepAdding = view.confirmContinueAdding();
+        } //added this while loop to allow for multiple adds in one session
     }
     
     private void listDvds() throws DvdLibraryDaoException {
@@ -100,22 +104,30 @@ public class DvdLibraryController {
     }
     private void removeDvd() throws DvdLibraryDaoException {
         view.displayRemoveDvdBanner();
-        String title = view.getTitleChoice(); //make case-insensitive
-        dao.removeDvd(title.toUpperCase());
-        view.displayRemoveSuccessBanner();
+        boolean keepRemoving = true;
+        while (keepRemoving) {
+            String title = view.getTitleChoice(); //made case-insensitive
+            dao.removeDvd(title.toUpperCase());
+            view.displayRemoveSuccessBanner();
+            keepRemoving = view.confirmContinueRemoving();
+        }
     }
        private void editDvd() throws DvdLibraryDaoException {
             view.displayEditDvdBanner();
             DVD dvd = null;
             boolean correctSelection = false;
-            while(!correctSelection) {
-                String title = view.getTitleChoice().toUpperCase();
-                dvd = dao.getDvd(title); 
-                view.viewDvd(dvd); 
-                correctSelection = view.confirmCorrectSelection();
-            }
-            dvd = view.updateDvdInfo(dvd);
-            dao.editDVD(dvd.getTitle().toUpperCase(), dvd); //turn this into EDIT 
+            boolean keepEditing = true;
+            while(keepEditing){
+                while(!correctSelection) {
+                    String title = view.getTitleChoice().toUpperCase();
+                    dvd = dao.getDvd(title); 
+                    view.viewDvd(dvd); 
+                    correctSelection = view.confirmCorrectSelection();
+                }
+                dvd = view.updateDvdInfo(dvd);
+                dao.editDVD(dvd.getTitle().toUpperCase(), dvd);
+                keepEditing = view.confirmContinueEditing();
+            }//turn this into EDIT 
             view.displayEditSuccessBanner();
     } //basically display and then add 
     private void unknownCommand() {
