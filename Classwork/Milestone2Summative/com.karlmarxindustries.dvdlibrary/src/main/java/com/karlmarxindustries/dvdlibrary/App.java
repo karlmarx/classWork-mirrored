@@ -7,6 +7,7 @@ package com.karlmarxindustries.dvdlibrary;
 
 import com.karlmarxindustries.dvdlibrary.controller.DvdLibraryController;
 import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDao;
+import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoException;
 import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoFileImpl;
 import com.karlmarxindustries.ui.DvdLibraryView;
 import com.karlmarxindustries.ui.UserIO;
@@ -18,7 +19,7 @@ import com.karlmarxindustries.ui.UserIOConsoleImpl;
  */
 public class App {
     
-        public static void main(String[] args) {
+        public static void main(String[] args) throws DvdLibraryDaoException {
             UserIO myIO = new UserIOConsoleImpl();
             DvdLibraryView myView = new DvdLibraryView(myIO);
             DvdLibraryDao myDao = new DvdLibraryDaoFileImpl();

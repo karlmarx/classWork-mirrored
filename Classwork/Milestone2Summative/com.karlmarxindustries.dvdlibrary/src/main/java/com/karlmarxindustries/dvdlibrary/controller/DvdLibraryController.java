@@ -6,6 +6,7 @@
 package com.karlmarxindustries.dvdlibrary.controller;
 
 import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDao;
+import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoException;
 import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoFileImpl;
 import com.karlmarxindustries.dvdlibrary.dto.DVD;
 import com.karlmarxindustries.ui.DvdLibraryView;
@@ -26,9 +27,10 @@ public class DvdLibraryController {
         this.view = view;
     }
 
-    public void run() {
+    public void run() throws DvdLibraryDaoException {
         boolean keepGoing = true;
         int menuSelection = 0;
+        try{
         while (keepGoing) {
             
             menuSelection = getMenuSelection();
@@ -48,12 +50,17 @@ public class DvdLibraryController {
                     break;
                 case 5: 
                     editDvd();
+                    break;
                 case 6:
                     keepGoing = false;
                     break;
                 default:
                     unknownCommand();
             }
+        }
+        exitMessage();
+        } catch (DvdLibraryDaoException e){
+            view.displayErrorMessage(e.getMessage());
 
         }
         exitMessage();
@@ -61,31 +68,33 @@ public class DvdLibraryController {
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }
-    private void addDvd() {
+    private void addDvd() throws DvdLibraryDaoException {
         view.displayAddDVDBanner();
         DVD newDvd = view.getNewDvdInfo();
         dao.addDVD(newDvd.getTitle(), newDvd);
         view.displayCreateSuccessBanner();
     }
     
-    private void listDvds() {
+    private void listDvds() throws DvdLibraryDaoException {
         view.displayDisplayAllBanner();
         List<DVD> dvdList = dao.getAllDvds();
         view.displayDvdList(dvdList);
     }
-    private void viewDvd() {
+    private void viewDvd() throws DvdLibraryDaoException {
         view.displayDisplayDvdBanner();
-        String title = view.getTitleChoice();
-        DVD dvd = dao.getDvd(title); 
-        view.displayDvd(dvd);
+        List<DVD> dvdList = dao.getAllDvds();
+         view.getTitleChoiceSearch(dvdList);
+        
+        //DVD dvd = dao.getDvd(title); 
+        //view.displayDvd(dvd);
     }
-    private void removeDvd() {
+    private void removeDvd() throws DvdLibraryDaoException {
         view.displayRemoveDvdBanner();
         String title = view.getTitleChoice(); //make case-insensitive
         dao.removeDvd(title);
         view.displayRemoveSuccessBanner();
     }
-       private void editDvd() {
+       private void editDvd() throws DvdLibraryDaoException {
             view.displayEditDvdBanner();
             DVD dvd = null;
             boolean correctSelection = false;
@@ -108,6 +117,6 @@ public class DvdLibraryController {
     private void exitMessage() {
         view.displayExitBanner();
     }
-
+    
     
 }

@@ -15,6 +15,7 @@ public class UserIOConsoleImpl implements UserIO {
     Scanner scanner = new Scanner(System.in);
         
   //  @Override
+    @Override
     public void print(String message) {
         System.out.println(message);
     }
@@ -46,6 +47,7 @@ public class UserIOConsoleImpl implements UserIO {
     }
     
   //  @Override
+    @Override
     public float readFloat(String prompt) {
             float result = 0;
             print(prompt);
@@ -71,6 +73,7 @@ public class UserIOConsoleImpl implements UserIO {
     }
     
     //@Override
+    @Override
     public int readInt(String prompt) {
             int result = 0;
             print(prompt);
@@ -80,6 +83,7 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
    // @Override
+    @Override
     public int readInt(String prompt, int min, int max) {
             int result = 0;
             boolean badInput = true;
@@ -98,6 +102,7 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     //@Override
+    @Override
     public long readLong(String prompt) {
         long result = 0;
         print(prompt);
@@ -107,6 +112,7 @@ public class UserIOConsoleImpl implements UserIO {
     }
 
     //@Override
+    @Override
     public long readLong(String prompt, long min, long max) {
             long result = 0;
             boolean badInput = true;
@@ -124,7 +130,7 @@ public class UserIOConsoleImpl implements UserIO {
 
 @Override
     public String readString(String prompt) {
-        String result = "";
+        String result = "(blank)";
         
         print(prompt);
         result = scanner.nextLine();

@@ -35,10 +35,10 @@ public interface DvdLibraryDao {
 
     String readString(String prompt);
     
-        List<DVD> getAllDvds() ;
-        DVD getDvd(String title) ;
-        DVD removeDvd(String title) ;
-        DVD addDVD (String title, DVD dvd) ;
-        void editDVD(String title, DVD dvd); ///why not working??
+        List<DVD> getAllDvds() throws DvdLibraryDaoException;
+        DVD getDvd(String title) throws DvdLibraryDaoException;
+        DVD removeDvd(String title) throws DvdLibraryDaoException;
+        DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException;
+        DVD editDVD(String title, DVD dvd) throws DvdLibraryDaoException; ///why not working??
     
 }

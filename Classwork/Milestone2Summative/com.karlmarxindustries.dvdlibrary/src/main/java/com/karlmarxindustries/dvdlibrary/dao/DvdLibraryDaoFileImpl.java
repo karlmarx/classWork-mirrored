@@ -6,10 +6,18 @@
 package com.karlmarxindustries.dvdlibrary.dao;
 
 import com.karlmarxindustries.dvdlibrary.dto.DVD;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  *
@@ -17,7 +25,65 @@ import java.util.Map;
  */
 public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     
-
+    public static final String LIBRARY_FILE = "library.txt";
+    public static final String DELIMITER = "::";
+    
+    private DVD unmarshallDvd(String dvdAsText){
+        String[] dvdTokens = dvdAsText.split(DELIMITER);
+        String title = dvdTokens[0];
+        DVD dvdFromFile = new DVD(title);
+        dvdFromFile.setReleaseDate(Integer.valueOf(dvdTokens[1]));
+        dvdFromFile.setRating(dvdTokens[2]);
+        dvdFromFile.setDirector(dvdTokens[3]);
+        dvdFromFile.setStudio(dvdTokens[4]);
+        dvdFromFile.setUserRatingOrNote(dvdTokens[5]);
+        return dvdFromFile;
+    }
+    
+    private String marshallDvd(DVD aDvd){
+        String dvdAsText = aDvd.getTitle() + DELIMITER;
+        dvdAsText += String.valueOf(aDvd.getReleaseDate()) + DELIMITER;
+        dvdAsText += aDvd.getRating() + DELIMITER; 
+        dvdAsText += aDvd.getDirector() + DELIMITER;
+        dvdAsText += aDvd.getStudio() + DELIMITER;
+        dvdAsText += aDvd.getUserRatingOrNote();
+        return dvdAsText;
+    }
+    
+    private void loadLibrary() throws DvdLibraryDaoException {
+        Scanner scanner;
+        try{
+            scanner = new Scanner(new BufferedReader(new FileReader(LIBRARY_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new DvdLibraryDaoException("Uh-oh! Could not load library data into memory", e);
+        }
+        String currentLine;
+        DVD currentDvd;
+        while (scanner.hasNextLine()){
+            currentLine = scanner.nextLine();
+            currentDvd = unmarshallDvd(currentLine);
+            dvds.put(currentDvd.getTitle(), currentDvd);
+        }
+        scanner.close();
+    }
+    
+    private void writeLibrary() throws DvdLibraryDaoException {
+        PrintWriter out;
+        try{
+            out = new PrintWriter(new FileWriter(LIBRARY_FILE));
+        } catch (IOException e){
+            throw new DvdLibraryDaoException("Could not save DVD data", e);
+        }
+        String dvdAsText;
+        List<DVD> dvdList = this.getAllDvds();
+        for (DVD currentDvd : dvdList){
+            dvdAsText = marshallDvd(currentDvd);
+            out.println(dvdAsText);
+            out.flush();
+        }
+               out.close();
+    }
+    
     @Override
     public void print(String msg) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -69,37 +135,51 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     }
 
     @Override
-    public List<DVD> getAllDvds() {
+    public List<DVD> getAllDvds() throws DvdLibraryDaoException {
+        loadLibrary();
         return  new ArrayList<DVD>(dvds.values());
     }
 
     @Override
-    public DVD getDvd(String title) {
+    public DVD getDvd(String title) throws DvdLibraryDaoException {
+        loadLibrary();
         return dvds.get(title);
     }
 
     @Override
-    public DVD removeDvd(String title) {
+    public DVD removeDvd(String title) throws DvdLibraryDaoException {
+        loadLibrary();
         DVD removedDvd = dvds.remove(title);
+        writeLibrary();
         return removedDvd;
     }   
     
 
     @Override
-    public DVD addDVD (String title, DVD dvd) {
+    public DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException {
+      //  loadLibrary();
+        
         DVD newDvd =dvds.put(title, dvd);
+        writeLibrary();
         return newDvd;
+        
     }
     
     
-    public void editDVD (String title, DVD dvd) {
+    @Override
+    public DVD editDVD (String title, DVD dvd) throws DvdLibraryDaoException{
         //this needs to be different - find and update in map
-       
-                dvds.put(title, dvd); //make sure first part is good with updates using an if 
-       
+        loadLibrary();
+        DVD editedDvd = dvds.put(title, dvd); //make sure first part is good with updates using an if 
+       writeLibrary();
+       return editedDvd;
     }
     
     private Map<String, DVD> dvds = new HashMap<>();
+
+    private Writer newFileWriter(String LIBRARY_FILE) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }
