@@ -192,7 +192,7 @@ public class DvdLibraryView {
                             searchResults++; //
                      } 
                      if (searchResults == 0) {
-                         System.out.println("No results found.  Please try again or choose 'List DVDs' to view entire library.");
+                         System.out.println(":( No results found.  Please try again or choose 'List DVDs' to view entire library.");
                          return; //this is to make it not confirm selection when there is no search result --> returns to menu
                      }
                 }   
@@ -229,10 +229,10 @@ public class DvdLibraryView {
                 
     }
     public void displayRemoveSuccessBanner(){
-        io.readString("DVD successfully removed!  Press enter to continue.");
+        io.readString("High 5! DVD has been removed.  Press enter to continue.");
     }
      public void displayEditSuccessBanner(){
-        io.readString("DVD successfully edited!  Press enter to continue.");
+        io.readString("Great work! DVD edit is complete.  Press enter to continue.");
     }
     public void displayExitBanner() {
         io.print(" ____  _____ ____     _____         _   _         ");
