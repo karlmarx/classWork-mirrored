@@ -36,19 +36,25 @@ public class DvdLibraryView {
         boolean titleBlank = true;
         String title = io.readString("Please enter DVD title: ").toUpperCase().trim();
         boolean titleDuplicate = true;
+        int duplicateCount =0;
         while (titleDuplicate){
             while (titleBlank) {
                 if (!(title.equals(""))){
                 titleBlank = false;
                 } else {
-                    title = io.readString("Title is a required field. Please enter DVD title:");
+                    title = io.readString("Title is a required field. Please enter DVD title:").toUpperCase().trim();
                 } 
-                for (DVD eachDVD: dvdList)
-                        if(!eachDVD.getTitle().equalsIgnoreCase(title)) {
-                            titleDuplicate = false;
-                        } else {
-                            title = io.readString("That title is already in use. Please enter unique DVD title or remove the DVD:");
-                        } //this is to make sure unique as to not overwrite 
+                for (DVD eachDVD: dvdList){
+                        if(eachDVD.getTitle().equalsIgnoreCase(title)) {
+                            duplicateCount ++;
+                        }  //this is to make sure unique as to not overwrite iterates through array and counts duplicates
+                } 
+            }
+            if (duplicateCount > 0) {
+                title = io.readString("That title is already in use. Please enter unique DVD title or remove the DVD:").toUpperCase().trim();
+                duplicateCount = 0;
+            } else {
+                titleDuplicate = false;
             }
         }
         int releaseDate = io.readInt("Please input release date in format MMDDYYYY: "); // USE SPLIT TO MAKE IT LOOK NICER

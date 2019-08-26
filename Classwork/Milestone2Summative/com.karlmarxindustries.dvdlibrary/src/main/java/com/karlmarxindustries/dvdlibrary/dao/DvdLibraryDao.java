@@ -25,6 +25,10 @@ public interface DvdLibraryDao {
     
     DVD editDVD(String title, DVD dvd) throws DvdLibraryDaoException; 
     
+    void loadLibrary() throws DvdLibraryDaoException;
+    
+    void writeLibrary() throws DvdLibraryDaoException;
+    
     void print(String msg);
 
     double readDouble(String prompt);

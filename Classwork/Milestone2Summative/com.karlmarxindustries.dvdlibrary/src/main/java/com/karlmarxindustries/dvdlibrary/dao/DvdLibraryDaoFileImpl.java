@@ -50,7 +50,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         return dvdAsText;
     }
     
-    private void loadLibrary() throws DvdLibraryDaoException {
+    public void loadLibrary() throws DvdLibraryDaoException {
         Scanner scanner;
         try{
             scanner = new Scanner(new BufferedReader(new FileReader(LIBRARY_FILE)));
@@ -67,7 +67,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         scanner.close();
     }
     
-    private void writeLibrary() throws DvdLibraryDaoException {
+    public void writeLibrary() throws DvdLibraryDaoException {
         PrintWriter out;
         try{
             out = new PrintWriter(new FileWriter(LIBRARY_FILE));
@@ -136,30 +136,24 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
 
     @Override
     public List<DVD> getAllDvds() throws DvdLibraryDaoException {
-        loadLibrary();
         return  new ArrayList<DVD>(dvds.values());
     }
 
     @Override
     public DVD getDvd(String title) throws DvdLibraryDaoException {
-        loadLibrary();
         return dvds.get(title);
     }
 
     @Override
     public DVD removeDvd(String title) throws DvdLibraryDaoException {
-        loadLibrary();
         DVD removedDvd = dvds.remove(title);
-        writeLibrary();
         return removedDvd;
     }   
     
 
     @Override
     public DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException {
-        loadLibrary();
         DVD newDvd =dvds.put(title, dvd);
-        writeLibrary();
         return newDvd;
     }
     
@@ -167,9 +161,7 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
     @Override
     public DVD editDVD (String title, DVD dvd) throws DvdLibraryDaoException{
         //this needs to be different - find and update in map
-        loadLibrary();
         DVD editedDvd = dvds.put(title, dvd); //make sure first part is good with updates using an if 
-        writeLibrary();
         return editedDvd;
     }
     
