@@ -1,9 +1,0 @@
-com/karlmarxindustries/dvdlibrary/dto/DVD.class
-com/karlmarxindustries/dvdlibrary/App.class
-com/karlmarxindustries/ui/UserIO.class
-com/karlmarxindustries/ui/UserIOConsoleImpl.class
-com/karlmarxindustries/ui/DvdLibraryView.class
-com/karlmarxindustries/dvdlibrary/dao/DvdLibraryDao.class
-com/karlmarxindustries/dvdlibrary/dao/DvdLibraryDaoFileImpl.class
-com/karlmarxindustries/dvdlibrary/controller/DvdLibraryController.class
-com/karlmarxindustries/dvdlibrary/dao/DvdLibraryDaoException.class
