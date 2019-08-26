@@ -31,6 +31,7 @@ public class DvdLibraryController {
         boolean keepGoing = true;
         int menuSelection = 0;
         welcomeMessage();
+        dao.loadLibrary();
         try{
         while (keepGoing) {
             
@@ -131,7 +132,8 @@ public class DvdLibraryController {
     private void invalidInput() {
         view.displayInvalidInput();
     }
-    private void exitMessage() {
+    private void exitMessage() throws DvdLibraryDaoException {
+        dao.writeLibrary();
         view.displayExitBanner();
     }
     private void welcomeMessage(){
