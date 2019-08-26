@@ -169,8 +169,8 @@ public class DvdLibraryDaoFileImpl implements DvdLibraryDao {
         //this needs to be different - find and update in map
         loadLibrary();
         DVD editedDvd = dvds.put(title, dvd); //make sure first part is good with updates using an if 
-       writeLibrary();
-       return editedDvd;
+        writeLibrary();
+        return editedDvd;
     }
     
     private Map<String, DVD> dvds = new HashMap<>();

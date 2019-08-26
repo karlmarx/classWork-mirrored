@@ -13,7 +13,7 @@ import java.util.InputMismatchException;
  */
 public interface UserIO {
  
-      void print(String message);
+    void print(String message);
 
     double readDouble(String prompt);
 

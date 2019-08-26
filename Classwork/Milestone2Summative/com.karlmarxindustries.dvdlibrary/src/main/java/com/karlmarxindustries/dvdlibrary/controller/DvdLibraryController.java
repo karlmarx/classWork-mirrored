@@ -74,8 +74,9 @@ public class DvdLibraryController {
     private void addDvd() throws DvdLibraryDaoException {
         view.displayAddDVDBanner();
         boolean keepAdding = true;
+        List<DVD> dvdList = dao.getAllDvds(); //added to make sure that title doesn't already exist
         while (keepAdding) {
-            DVD newDvd = view.getNewDvdInfo();
+            DVD newDvd = view.getNewDvdInfo(dvdList);
             dao.addDVD(newDvd.getTitle(), newDvd);
             view.displayCreateSuccessBanner();
             keepAdding = view.confirmContinueAdding();
@@ -91,9 +92,6 @@ public class DvdLibraryController {
         view.displayDisplayDvdBanner();
         List<DVD> dvdList = dao.getAllDvds();
          view.getTitleChoiceAndSearch(dvdList);
-        
-        //DVD dvd = dao.getDvd(title); 
-        //view.viewDvd(dvd);
     }
     
     private void viewDvdTitle() throws DvdLibraryDaoException {
@@ -127,9 +125,9 @@ public class DvdLibraryController {
                 dvd = view.updateDvdInfo(dvd);
                 dao.editDVD(dvd.getTitle().toUpperCase(), dvd);
                 keepEditing = view.confirmContinueEditing();
-            }//turn this into EDIT 
+            }
             view.displayEditSuccessBanner();
-    } //basically display and then add 
+    } 
     private void invalidInput() {
         view.displayInvalidInput();
     }

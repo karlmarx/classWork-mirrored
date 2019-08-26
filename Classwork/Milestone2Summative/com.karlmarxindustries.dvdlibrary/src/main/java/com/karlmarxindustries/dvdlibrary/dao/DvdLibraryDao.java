@@ -15,6 +15,16 @@ import java.util.Map;
  * @author karlmarx
  */
 public interface DvdLibraryDao {
+    List<DVD> getAllDvds() throws DvdLibraryDaoException;
+    
+    DVD getDvd(String title) throws DvdLibraryDaoException;
+    
+    DVD removeDvd(String title) throws DvdLibraryDaoException;
+    
+    DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException;
+    
+    DVD editDVD(String title, DVD dvd) throws DvdLibraryDaoException; 
+    
     void print(String msg);
 
     double readDouble(String prompt);
@@ -34,11 +44,5 @@ public interface DvdLibraryDao {
     long readLong(String prompt, long min, long max);
 
     String readString(String prompt);
-    
-        List<DVD> getAllDvds() throws DvdLibraryDaoException;
-        DVD getDvd(String title) throws DvdLibraryDaoException;
-        DVD removeDvd(String title) throws DvdLibraryDaoException;
-        DVD addDVD (String title, DVD dvd) throws DvdLibraryDaoException;
-        DVD editDVD(String title, DVD dvd) throws DvdLibraryDaoException; ///why not working??
     
 }
