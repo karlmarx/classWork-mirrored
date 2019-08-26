@@ -59,7 +59,7 @@ public class DvdLibraryController {
                     keepGoing = false;
                     break;
                 default:
-                    unknownCommand();
+                    invalidInput();
             }
         }
         } catch (DvdLibraryDaoException e){
@@ -130,8 +130,8 @@ public class DvdLibraryController {
             }//turn this into EDIT 
             view.displayEditSuccessBanner();
     } //basically display and then add 
-    private void unknownCommand() {
-        view.displayUnknownCommandBanner();
+    private void invalidInput() {
+        view.displayInvalidInput();
     }
     private void exitMessage() {
         view.displayExitBanner();

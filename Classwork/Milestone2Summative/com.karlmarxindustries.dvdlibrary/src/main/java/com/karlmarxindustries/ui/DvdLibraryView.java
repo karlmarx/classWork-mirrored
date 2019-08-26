@@ -49,6 +49,18 @@ public class DvdLibraryView {
         String studio = io.readString("Please enter studio: ").toUpperCase();
         String userRatingOrNote = io.readString("Please enter personal rating or other note: ").toUpperCase();
         DVD currentDVD = new DVD(title);
+        if (rating.isBlank()){
+            rating = " ";
+        }
+        if (director.isBlank()){
+            director = " ";
+        }  
+        if (studio.isBlank()){
+            studio = " ";
+        }
+        if (userRatingOrNote.isBlank()){
+            userRatingOrNote = " ";
+        }
         currentDVD.setRating(rating);
         currentDVD.setReleaseDate(releaseDate);
         currentDVD.setDirector(director);
@@ -60,44 +72,56 @@ public class DvdLibraryView {
     public DVD updateDvdInfo(DVD dvd){
         boolean keepGoing = true;
         while (keepGoing){
-        System.out.println("What would you like to update?");
-       int choice = io.readInt("Enter 1 for Release Date, 2 for MPAA rating, 3 for Director, 4 for Studio, or 5 for Note/Rating", 1, 6);
-        switch (choice){
-            case 1:
-                int newReleaseDate = io.readInt("Please input new release date in format MMDDYYYY: "); //reset scanner
-                dvd.setReleaseDate(newReleaseDate);
-                break;
-            case 2:
-                 String newRating = io.readString("Please enter new MPAA rating: ");
-                 dvd.setRating(newRating);
-                 break;
-            case 3:
-                String newDirector = io.readString("Please enter new director's name: ");
-                dvd.setDirector(newDirector);
-                break;
-            case 4:
-                String newStudio = io.readString("Please enter new studio: ");
-                dvd.setStudio(newStudio);
-                break;
-            case 5:
-                String newUserRatingOrNote = io.readString("Please enter new personal rating or other note: ");    
-                dvd.setUserRatingOrNote(newUserRatingOrNote);
-                break;
-            default:
-                System.out.println("Please enter a valid option");
-                ///put while loop to repeat if error OR multiple field edits
-        } if (choice >0 && choice <6) {
+            System.out.println("What would you like to update?");
+            int choice = io.readInt("Enter 1 for Release Date, 2 for MPAA rating, 3 for Director, 4 for Studio, or 5 for Note/Rating", 1, 6);
+            switch (choice){
+                case 1:
+                    int newReleaseDate = io.readInt("Please input new release date in format MMDDYYYY: ");
+                    if (newReleaseDate == 0){
+                        newReleaseDate = 0;
+                        }//THESE ARE TO PREVENT BLANKS IN FILE FOR PERSISTANCE
+                    dvd.setReleaseDate(newReleaseDate);
+                    break;
+                case 2:
+                     String newRating = io.readString("Please enter new MPAA rating: ");
+                     dvd.setRating(newRating);
+                     if (newRating.isBlank()){
+                         newRating = " ";
+                     }
+                     break;
+                case 3:
+                    String newDirector = io.readString("Please enter new director's name: ");
+                    dvd.setDirector(newDirector);
+                    if(newDirector.isBlank()){
+                         newDirector = " ";
+                     }
+                    break;
+                case 4:
+                    String newStudio = io.readString("Please enter new studio: ");
+                    dvd.setStudio(newStudio);
+                    if (newStudio.isBlank()){
+                         newStudio = " ";
+                     }
+                    break;
+                case 5:
+                    String newUserRatingOrNote = io.readString("Please enter new personal rating or other note: ");    
+                    dvd.setUserRatingOrNote(newUserRatingOrNote);
+                    if (newUserRatingOrNote.isBlank()){
+                         newUserRatingOrNote = " ";
+                     }
+                    break;
+                default:
+                    System.out.println("Please enter a valid option");
+                    ///put while loop to repeat if error OR multiple field edits
+            } 
+            if (choice >0 && choice <6) {
             String continueEditing = io.readString("Would you like to update another field? (Y or n)");
             if (continueEditing.equalsIgnoreCase("N")) {
                 keepGoing=false;
-                
-                //WHAT TO DO NEXT?
+                }
             }
         }
-        }
-         //make sure to validate this input
         return dvd;
-        //add step showing updated entry
     
     }
     public void displayAddDVDBanner() {
@@ -171,7 +195,6 @@ public class DvdLibraryView {
     //edit this to be a search
 
     
-    //edit can be search, is this correct?, yes or no to edit
     public void viewDvd(DVD dvd) {
         if (dvd != null) {
             io.print("Title: " + dvd.getTitle());
@@ -182,7 +205,7 @@ public class DvdLibraryView {
             io.print("User Rating/Notes: " + dvd.getUserRatingOrNote());
             io.print("");
         } else {
-            io.print("No such DVD. Please use 'Search' or 'List' to confirm title.");
+            io.print("No such DVD. Please use 'Search' or 'List' to confirm title, and try again.");
         }
         io.readString("Please hit enter to continue.");
     }
@@ -198,10 +221,10 @@ public class DvdLibraryView {
                 
     }
     public void displayRemoveSuccessBanner(){
-        io.readString("DVD successfully removed.  Please hit enter to continue.");
+        io.readString("DVD successfully removed!  Press enter to continue.");
     }
      public void displayEditSuccessBanner(){
-        io.readString("DVD successfully edited.  Please hit enter to continue.");
+        io.readString("DVD successfully edited!  Press enter to continue.");
     }
     public void displayExitBanner() {
         io.print(" ____  _____ ____     _____         _   _         ");
@@ -211,8 +234,8 @@ public class DvdLibraryView {
         io.print("Thank you for using DVD Archive!!!");
     }
 
-    public void displayUnknownCommandBanner() {
-        io.print("Unknown Command!!!");
+    public void displayInvalidInput() {
+        io.print("Invalid Input! Try Again");
     }
     public boolean confirmCorrectSelection(){
        String selection = io.readString("Is this the correct DVD? (Enter 'Y' or 'N')");
