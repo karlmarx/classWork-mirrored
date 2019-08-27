@@ -41,9 +41,9 @@ public class DvdLibraryView {
             while (titleBlank) {
                 if (!(title.equals(""))){
                     titleBlank = false;
-                    } else {
+                } else {
                     title = io.readString("Title is a required field. Please enter DVD title:").toUpperCase().trim();
-                    } 
+                } 
                 for (DVD eachDVD: dvdList){
                     if(eachDVD.getTitle().equalsIgnoreCase(title)) {
                         duplicateCount ++;
@@ -130,8 +130,8 @@ public class DvdLibraryView {
             } 
             if (choice >0 && choice <6) {
                 String continueEditing = io.readString("Would you like to update another field? (Y or N)");
-                if (continueEditing.equalsIgnoreCase("N")) {
-                keepGoing=false;
+                    if (continueEditing.equalsIgnoreCase("N")) {
+                    keepGoing=false;
                 }
             }
         }
