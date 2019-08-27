@@ -111,7 +111,7 @@ public class DvdLibraryController {
             keepRemoving = view.confirmContinueRemoving();
         }
     }
-       private void editDvd() throws DvdLibraryDaoException {
+   private void editDvd() throws DvdLibraryDaoException {
             view.displayEditDvdBanner();
             DVD dvd = null;
             boolean correctSelection = false;

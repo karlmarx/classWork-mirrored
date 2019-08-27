@@ -40,10 +40,10 @@ public class DvdLibraryView {
         while (titleDuplicate){
             while (titleBlank) {
                 if (!(title.equals(""))){
-                titleBlank = false;
-                } else {
+                    titleBlank = false;
+                    } else {
                     title = io.readString("Title is a required field. Please enter DVD title:").toUpperCase().trim();
-                } 
+                    } 
                 for (DVD eachDVD: dvdList){
                     if(eachDVD.getTitle().equalsIgnoreCase(title)) {
                         duplicateCount ++;
