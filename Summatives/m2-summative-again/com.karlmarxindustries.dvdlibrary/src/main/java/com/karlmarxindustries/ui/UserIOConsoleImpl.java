@@ -139,7 +139,7 @@ public class UserIOConsoleImpl implements UserIO {
                     print("Input need to be >= " + min + " or <= " + max + ".");
                 }
            }
-             return result;     
+        return result;     
     }
 
 @Override
