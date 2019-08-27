@@ -13,23 +13,20 @@ import java.util.List;
  *
  * @author karlmarx
  */
-public class DvdLibraryView {
+public class GumballMachineView {
 
     private UserIO io;
-    public DvdLibraryView(UserIO io) {
+    public GumballMachineView(UserIO io) {
         this.io = io;
     }    
 
     public int printMenuAndGetSelection() {
         io.print("Main Menu");
-        io.print("[1] List DVDs");
-        io.print("[2] Add a DVD");
-        io.print("[3] Search for a DVD");
-        io.print("[4] Remove a DVD");
-        io.print("[5] Edit Existing DVD");
-        io.print("[6] View a DVD listing");
-        io.print("[7] Exit");
-        return io.readInt("Please select from the above choices.", 1, 7);
+        io.print("[1] Add coin");
+        io.print("[2] Turn handle");
+        io.print("[3] Check Status");
+        io.print("[4] Exit");
+        return io.readInt("Please select from the above choices.", 1, 4);
     }
     
    public DVD getNewDvdInfo(List<DVD> dvdList){

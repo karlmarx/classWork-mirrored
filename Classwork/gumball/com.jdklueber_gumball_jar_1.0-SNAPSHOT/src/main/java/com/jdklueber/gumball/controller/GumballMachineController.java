@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.karlmarxindustries.dvdlibrary.controller;
+package com.jdklueber.gumball.controller;
 
-import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDao;
-import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoException;
-import com.karlmarxindustries.dvdlibrary.dao.DvdLibraryDaoFileImpl;
+import com.karlmarxindustries.gumballmachine.servicelayer.DvdLibraryDao;
+import com.karlmarxindustries.gumballmachine.servicelayer.DvdLibraryDaoException;
+import com.karlmarxindustries.gumballmachine.servicelayer.ServiceLayer;
 import com.karlmarxindustries.dvdlibrary.dto.DVD;
 import com.karlmarxindustries.ui.DvdLibraryView;
+import com.karlmarxindustries.ui.GumballMachineView;
 import com.karlmarxindustries.ui.UserIO;
 import com.karlmarxindustries.ui.UserIOConsoleImpl;
 import java.util.List;
@@ -18,61 +19,46 @@ import java.util.List;
  *
  * @author karlmarx
  */
-public class DvdLibraryController {
-    DvdLibraryView view;
-    DvdLibraryDao dao;
-    
-    public DvdLibraryController(DvdLibraryDao dao, DvdLibraryView view) {
-        this.dao = dao;
+public class GumballMachineController {
+    GumballMachineView view;
+    ServiceLayer serviceLayer;
+    public GumballMachineController(GumballMachineView view, ServiceLayer serviceLayer) {
         this.view = view;
+        this.serviceLayer = this.serviceLayer; //STOP POINT
     }
 
-    public void run() throws DvdLibraryDaoException {
+    public void run()  {
         boolean keepGoing = true;
         int menuSelection = 0;
         welcomeMessage();
-        dao.loadLibrary();
-        try{
+        
         while (keepGoing) {
             
             menuSelection = getMenuSelection();
 
             switch (menuSelection) {
                 case 1:
-                    listDvds();
+                    addCoin();
                     break;
                 case 2:
-                    addDvd();
+                    turnHandle();
                     break;
                 case 3:
-                    searchDvd();
+                    checkStatus();
                     break;
                 case 4:
-                    removeDvd();
-                    break;
-                case 5: 
-                    editDvd();
-                    break;
-                case 6:
-                    viewDvdTitle();
-                    break;
-                case 7:
                     keepGoing = false;
                     break;
                 default:
                     invalidInput();
             }
         }
-        } catch (DvdLibraryDaoException e){
-            view.displayErrorMessage(e.getMessage());
-
-        }
         exitMessage();
     }
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }
-    private void addDvd() throws DvdLibraryDaoException {
+    private void addCoin() {
         view.displayAddDVDBanner();
         boolean keepAdding = true;
         List<DVD> dvdList = dao.getAllDvds(); //added to make sure that title doesn't already exist

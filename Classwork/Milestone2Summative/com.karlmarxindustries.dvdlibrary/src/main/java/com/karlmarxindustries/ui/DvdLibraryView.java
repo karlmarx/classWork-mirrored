@@ -45,9 +45,9 @@ public class DvdLibraryView {
                     title = io.readString("Title is a required field. Please enter DVD title:").toUpperCase().trim();
                 } 
                 for (DVD eachDVD: dvdList){
-                        if(eachDVD.getTitle().equalsIgnoreCase(title)) {
-                            duplicateCount ++;
-                        }  //this is to make sure unique as to not overwrite iterates through array and counts duplicates
+                    if(eachDVD.getTitle().equalsIgnoreCase(title)) {
+                        duplicateCount ++;
+                    }  //this is to make sure unique as to not overwrite iterates through array and counts duplicates
                 } 
             }
             if (duplicateCount > 0) {
@@ -93,7 +93,7 @@ public class DvdLibraryView {
                     int newReleaseDate = io.readInt("Please input new release date in format MMDDYYYY: ");
                     if (newReleaseDate == 0){
                         newReleaseDate = 0;
-                        }//THESE ARE TO PREVENT BLANKS IN FILE FOR PERSISTANCE
+                    }//THESE ARE TO PREVENT BLANKS IN FILE FOR PERSISTANCE
                     dvd.setReleaseDate(newReleaseDate);
                     break;
                 case 2:
@@ -129,8 +129,8 @@ public class DvdLibraryView {
                     ///put while loop to repeat if error OR multiple field edits
             } 
             if (choice >0 && choice <6) {
-            String continueEditing = io.readString("Would you like to update another field? (Y or N)");
-            if (continueEditing.equalsIgnoreCase("N")) {
+                String continueEditing = io.readString("Would you like to update another field? (Y or N)");
+                if (continueEditing.equalsIgnoreCase("N")) {
                 keepGoing=false;
                 }
             }
@@ -271,17 +271,17 @@ public class DvdLibraryView {
        String selection = io.readString("Would you like to add another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
-     public boolean confirmContinueRemoving(){
+    }
+    public boolean confirmContinueRemoving(){
        String selection = io.readString("Would you like to remove another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
-     public boolean confirmContinueEditing(){
+    }
+    public boolean confirmContinueEditing(){
        String selection = io.readString("Would you like to edit another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
+    }
 }
 
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.karlmarxindustries.dvdlibrary.dao;
+package com.karlmarxindustries.gumballmachine.servicelayer;
 
 /**
  *

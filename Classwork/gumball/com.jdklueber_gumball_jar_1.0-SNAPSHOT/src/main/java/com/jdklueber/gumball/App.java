@@ -18,6 +18,7 @@ public class App {
         app.run();
     }
     
+    //move this to controller
     public void run() {
         GumballMachineTester tests = new GumballMachineTester();
         
