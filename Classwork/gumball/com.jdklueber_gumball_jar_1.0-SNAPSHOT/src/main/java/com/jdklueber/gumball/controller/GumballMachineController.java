@@ -5,14 +5,10 @@
  */
 package com.jdklueber.gumball.controller;
 
-import com.karlmarxindustries.gumballmachine.servicelayer.DvdLibraryDao;
 import com.karlmarxindustries.gumballmachine.servicelayer.DvdLibraryDaoException;
 import com.karlmarxindustries.gumballmachine.servicelayer.ServiceLayer;
 import com.karlmarxindustries.dvdlibrary.dto.DVD;
-import com.karlmarxindustries.ui.DvdLibraryView;
 import com.karlmarxindustries.ui.GumballMachineView;
-import com.karlmarxindustries.ui.UserIO;
-import com.karlmarxindustries.ui.UserIOConsoleImpl;
 import java.util.List;
 
 /**
@@ -59,15 +55,9 @@ public class GumballMachineController {
         return view.printMenuAndGetSelection();
     }
     private void addCoin() {
-        view.displayAddDVDBanner();
-        boolean keepAdding = true;
-        List<DVD> dvdList = dao.getAllDvds(); //added to make sure that title doesn't already exist
-        while (keepAdding) {
-            DVD newDvd = view.getNewDvdInfo(dvdList);
-            dao.addDVD(newDvd.getTitle(), newDvd);
-            view.displayCreateSuccessBanner();
-            keepAdding = view.confirmContinueAdding();
-        } //added this while loop to allow for multiple adds in one session
+        view.displayAddCoinBanner();
+        int outcome = serviceLayer.addCoin();
+        view.displayAddCoinOutcome(outcome);
     }
     
     private void listDvds() throws DvdLibraryDaoException {

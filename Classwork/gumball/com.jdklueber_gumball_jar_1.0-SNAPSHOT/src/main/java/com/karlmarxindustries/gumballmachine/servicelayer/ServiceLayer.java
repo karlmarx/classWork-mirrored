@@ -29,7 +29,7 @@ import java.util.Scanner;
  * @author karlmarx
  */
 public class ServiceLayer  {
-    GumballMachine machine = new GumballMachine();
+    GumballMachine machine = new GumballMachine();  //where should this object actually be created?
 
 
    public int getState() {

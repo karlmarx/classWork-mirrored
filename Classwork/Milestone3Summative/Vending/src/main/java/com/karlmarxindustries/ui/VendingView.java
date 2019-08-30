@@ -5,6 +5,7 @@
  */
 package com.karlmarxindustries.ui;
 
+import com.karlmarxindustries.vending.dto.Snack;
 import java.util.HashSet;
 import java.util.List;
 
@@ -12,20 +13,19 @@ import java.util.List;
  *
  * @author karlmarx
  */
-public class GumballMachineView {
+public class VendingView {
 
     private UserIO io;
-    public GumballMachineView(UserIO io) {
+    public VendingView(UserIO io) {
         this.io = io;
     }    
 
     public int printMenuAndGetSelection() {
         io.print("Main Menu");
-        io.print("[1] Add coin");
-        io.print("[2] Turn handle");
-        io.print("[3] Check Status");
-        io.print("[4] Exit");
-        return io.readInt("Please select from the above choices.", 1, 4);
+        io.print("[1] Insert Coin");
+        io.print("[2] Buy Something");
+        io.print("[3] Exit");
+        return io.readInt("Please select from the above choices.", 1, 3);
     }
     
    public DVD getNewDvdInfo(List<DVD> dvdList){
@@ -36,14 +36,14 @@ public class GumballMachineView {
         while (titleDuplicate){
             while (titleBlank) {
                 if (!(title.equals(""))){
-                titleBlank = false;
-                } else {
+                    titleBlank = false;
+                    } else {
                     title = io.readString("Title is a required field. Please enter DVD title:").toUpperCase().trim();
-                } 
+                    } 
                 for (DVD eachDVD: dvdList){
-                        if(eachDVD.getTitle().equalsIgnoreCase(title)) {
-                            duplicateCount ++;
-                        }  //this is to make sure unique as to not overwrite iterates through array and counts duplicates
+                    if(eachDVD.getTitle().equalsIgnoreCase(title)) {
+                        duplicateCount ++;
+                    }  //this is to make sure unique as to not overwrite iterates through array and counts duplicates
                 } 
             }
             if (duplicateCount > 0) {
@@ -89,7 +89,7 @@ public class GumballMachineView {
                     int newReleaseDate = io.readInt("Please input new release date in format MMDDYYYY: ");
                     if (newReleaseDate == 0){
                         newReleaseDate = 0;
-                        }//THESE ARE TO PREVENT BLANKS IN FILE FOR PERSISTANCE
+                    }//THESE ARE TO PREVENT BLANKS IN FILE FOR PERSISTANCE
                     dvd.setReleaseDate(newReleaseDate);
                     break;
                 case 2:
@@ -125,8 +125,8 @@ public class GumballMachineView {
                     ///put while loop to repeat if error OR multiple field edits
             } 
             if (choice >0 && choice <6) {
-            String continueEditing = io.readString("Would you like to update another field? (Y or N)");
-            if (continueEditing.equalsIgnoreCase("N")) {
+                String continueEditing = io.readString("Would you like to update another field? (Y or N)");
+                if (continueEditing.equalsIgnoreCase("N")) {
                 keepGoing=false;
                 }
             }
@@ -134,19 +134,15 @@ public class GumballMachineView {
         return dvd;
     
     }
-    public void displayAddCoinBanner() {
+    public void displayAddDVDBanner() {
         io.print("=== Add DVD ===");
     }
-   public void displayAddCoinOutcome(int result) {
-        if (result == 1){
-            io.print("The coin has been added successful");
-        } else {
-            io.print("The coin could not be added.  There must be another coin present, or the machine is broken");
-        }
+   public void displayCreateSuccessBanner() {
+        io.readString("Great Success! DVD added.  Please hit enter to continue");
     }
-   public void displayDvdList(List<DVD> dvdList) {
+   public void displayAllSnacks(List<Snack> snackList) {
         int libraryCount = 0;
-        for (DVD currentDvd : dvdList) {
+        for (Snack currentDvd : snackList) {
             io.print("Title: " + currentDvd.getTitle());
             io.print("Release date: " + currentDvd.getReleaseDate());
             io.print("Rating: " + currentDvd.getRating());
@@ -226,7 +222,7 @@ public class GumballMachineView {
     public void displayRemoveDvdBanner () {
         io.print("=== Remove DVD ===");
     }
-    public void displayEditDvdBanner () {
+    public void purchaseSnackBanner () {
         io.print("=== Edit DVD ===");
     }
     public void displayViewDvdBanner () {
@@ -271,17 +267,33 @@ public class GumballMachineView {
        String selection = io.readString("Would you like to add another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
-     public boolean confirmContinueRemoving(){
+    }
+    public boolean confirmContinueRemoving(){
        String selection = io.readString("Would you like to remove another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
-     public boolean confirmContinueEditing(){
+    }
+    public boolean confirmPurchasing(){
        String selection = io.readString("Would you like to edit another DVD? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-     }
+    }
+
+    public void displayPurchaseOutcome() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void viewSnack(Snack snack) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void insertCoin() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void displayMoneyInside() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 
 
