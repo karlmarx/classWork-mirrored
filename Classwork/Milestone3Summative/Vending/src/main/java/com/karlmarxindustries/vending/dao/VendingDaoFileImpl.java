@@ -7,6 +7,7 @@ package com.karlmarxindustries.vending.dao;
 
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
+import com.karlmarxindustries.vending.service.ServiceLayer;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,6 +32,7 @@ public class VendingDaoFileImpl implements VendingDao {
     public static final String LIBRARY_FILE = "inventory.txt";
     public static final String DELIMITER = "::";
     private Map<String, Snack> snacks = new HashMap<>();
+    ServiceLayer service;
 
     
     private Snack unmarshallSnack(String inventoryAsText){
@@ -43,15 +45,16 @@ public class VendingDaoFileImpl implements VendingDao {
         snackFromFile.setQuantity(Integer.valueOf(vendTokens[3]));
         return snackFromFile;
     }
-    
+    //MARSHALLING AND UNMARSHALLING HAS TO CHANGE TO FOR BIG DECIMAL
     private String marshallDvd(Snack aSnack){
-        String dvdAsText = aSnack.getSlot() + DELIMITER;
-        dvdAsText += aSnack.getName() + DELIMITER; 
-        dvdAsText += String.valueOf(aSnack.getPrice()) + DELIMITER;
-        dvdAsText += aSnack.getQuantity();
-        return dvdAsText;
+        String snacksAsText = aSnack.getSlot() + DELIMITER;
+        snacksAsText += aSnack.getName() + DELIMITER; 
+        snacksAsText += String.valueOf(aSnack.getPrice()) + DELIMITER;
+        snacksAsText += String.valueOf(aSnack.getQuantity());
+        return snacksAsText;
     } ///STOPPED HERE
     
+    @Override
     public void loadInventory() throws FilePersistenceException {
         Scanner scanner;
         try{
@@ -69,18 +72,17 @@ public class VendingDaoFileImpl implements VendingDao {
         scanner.close();
     }
     
-    public void writeLibrary() throws FilePersistenceException {
+    public void writeInventory(List<Snack> snackList) throws FilePersistenceException {
         PrintWriter out;
         try{
             out = new PrintWriter(new FileWriter(LIBRARY_FILE));
         } catch (IOException e){
             throw new FilePersistenceException("Could not save Inventory data", e);
         }
-        String dvdAsText;
-        List<DVD> dvdList = this.getAllDvds();
-        for (DVD currentDvd : dvdList){
-            dvdAsText = marshallDvd(currentDvd);
-            out.println(dvdAsText);
+        String snackAsText;
+        for (Snack currentSnack : snackList){
+            snackAsText = marshallDvd(currentSnack);
+            out.println(snackAsText);
             out.flush();
         }
                out.close();
@@ -142,35 +144,68 @@ public class VendingDaoFileImpl implements VendingDao {
     }
 
     @Override
-    public Snack getSnack(Slot slot) throws FilePersistenceException {
+    public Snack getSnack(String slot) throws FilePersistenceException {
         return snacks.get(slot);
     }
 
 //    @Override
-//    public DVD removeDvd(String title) throws FilePersistenceException {
-//        DVD removedDvd = snacks.remove(title);
+//    public Snack removeDvd(String title) throws FilePersistenceException {
+//        Snack removedDvd = snacks.remove(title);
 //        return removedDvd;
 //    }   
     
+//
+//    @Override
+//    public Snack updateQuantity (String slot, Snack dvd) throws FilePersistenceException {
+//        Snack newDvd =snacks.put(title, dvd);
+//        return newDvd;   //put the rest of update in service LAyer
+//    }
+//    
+//    
+//    @Override
+//    public Snack editSnack (String title, Snack dvd) throws DvdLibraryDaoException{
+//        //this needs to be different - find and update in map
+//        Snack editedDvd = snacks.put(title, dvd); //make sure first part is good with updates using an if 
+//        return editedDvd;
+//    }
+//    
+//
+//    private Writer newFileWriter(String LIBRARY_FILE) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Snack getSnack(String slot) throws FilePersistenceException {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void writeInventory() throws FilePersistenceException {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void updateMoneyInside(BigDecimal moneyIn) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void updateMoneyInside() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//    
 
     @Override
-    public DVD updateQuantity (String slot, Snack dvd) throws FilePersistenceException {
-        DVD newDvd =dvds.put(title, dvd);
-        return newDvd;   //put the rest of update in service LAyer
-    }
-    
-    
-    @Override
-    public DVD editDVD (String title, DVD dvd) throws DvdLibraryDaoException{
-        //this needs to be different - find and update in map
-        DVD editedDvd = dvds.put(title, dvd); //make sure first part is good with updates using an if 
-        return editedDvd;
-    }
-    
-
-    private Writer newFileWriter(String LIBRARY_FILE) {
+    public void updateMoneyInside(BigDecimal moneyIn) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void updateQuantity(String slot, Snack snack) throws FilePersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
     
     
 }

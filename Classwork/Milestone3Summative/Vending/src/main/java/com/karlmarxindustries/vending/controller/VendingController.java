@@ -6,18 +6,16 @@
 package com.karlmarxindustries.vending.controller;
 
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
-import com.karlmarxindustries.vending.dao.VendingDaoFileImpl;
-import com.karlmarxindustries.vending.dto.DVD;
 import com.karlmarxindustries.ui.VendingView;
-import com.karlmarxindustries.ui.UserIO;
-import com.karlmarxindustries.ui.UserIOConsoleImpl;
+import com.karlmarxindustries.vending.dao.AuditDao;
 import java.util.List;
-import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
+import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
 import com.karlmarxindustries.vending.exception.ItemSoldOutException;
 import com.karlmarxindustries.vending.service.ServiceLayer;
+import java.math.BigDecimal;
 
 /**
  *
@@ -25,20 +23,22 @@ import com.karlmarxindustries.vending.service.ServiceLayer;
  */
 public class VendingController {
     VendingView view;
-    VendingDao dao;
     ServiceLayer service;
+    AuditDao audit;
+    //CONTROLLER NEEDS TO HANDLE EXCEPTIONS!!!
     
-    public VendingController(VendingDao dao, VendingView view, ServiceLayer service) {
-        this.dao = dao;
+    public VendingController(VendingView view, ServiceLayer service, AuditDao audit) {
         this.view = view;
         this.service = service;
+        this.audit = audit;
     }
 
     public void run() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
         boolean keepGoing = true;
         int menuSelection = 0;
         welcomeMessage();
-        dao.loadInventory();
+        service.loadInventory();
+        
        // try{
         while (keepGoing) {
             
@@ -46,7 +46,7 @@ public class VendingController {
 
             switch (menuSelection) {
                 case 1:
-                    insertCoin();
+                    insertMoney();
                     break;
                 case 2:
                     buySomething();
@@ -87,19 +87,27 @@ public class VendingController {
             boolean insuffFunds = true;
             while(keepPurchasing){
                 while(!correctSelection || soldOut || insuffFunds) {
-                    try{
-                        view.insertCoin();
-                        dao.updateMoneyInside();
-                        slotWanted = view.getTitleChoice();
+                    try{                        
+                        slotWanted = view.getSlotChoice();
                         snack = service.getOneItem(slotWanted); 
                         view.viewSnack(snack); 
                         correctSelection = view.confirmCorrectSelection();
-                        Change change = service.purchaseItem(slotWanted, snack.getPrice()); //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
-                        view.displayPurchaseOutcome();
-                        
-                        if(snack == null) {
+                        ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
+                       
+                        view.displayPurchaseOutcome(changeBack); //what is going on with this getter???? 
+                        /// if SUCCESS ONLY! otherwise 
+                        if (changeBack.getOutcomeSuccess()) {
+                            BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
+                            view.displayChangeBack(changeBack.getChange());
+                            view.displayCurrentBalance(balanceAfterPurchase);
+                            soldOut = false;
+                            insuffFunds = false;
+                            view.displayChangeBack(changeBack.getChange());
+                        } 
+                        view.displayCurrentBalance(service.checkCurrentBalance());
+                        if(snack.getQuantity() == 0) {
                             throw new ItemSoldOutException("asd");
-                        } else if (change == null) { //this is just a placeholder and will not actually work 
+                        } else if (service.getBalance().compareTo(snack.getPrice())== -1) { //this is just a placeholder and will not actually work 
                            throw new InsufficientFundsException("asdasd");
                         }
                         soldOut = false;
@@ -107,7 +115,7 @@ public class VendingController {
                     } catch (ItemSoldOutException e ){
                         continue;
                     } catch (InsufficientFundsException f ){
-                        view.displayMoneyInside();
+                        view.displayMoneyInside(service.getBalance());
                         continue;
                     }
                     
@@ -121,16 +129,23 @@ public class VendingController {
         view.displayInvalidInput();
     }
     private void exitMessage() throws FilePersistenceException {
-        dao.writeInventory();
+        List<Snack> allSnacks = service.getAllSnacksInMachine();
+        service.writeInventory(allSnacks);
         view.displayExitBanner();
     }
     private void welcomeMessage(){
         view.displayWelcomeBanner();
     }
 
-    private void insertCoin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-   
+    private void insertMoney() {
+        boolean keepAdding = true;
+        while (keepAdding){
+            BigDecimal moneyInputFromUser = view.displayAddMoneyBannerGetMoney();
+            service.updateMoneyInside(moneyInputFromUser);
+            view.displayMoneyInside(service.getBalance());
+            audit.stamp(service.getBalance(), "After money was inserted");
+            keepAdding = view.confirmContinueAdding();
+        }
     }
 
     

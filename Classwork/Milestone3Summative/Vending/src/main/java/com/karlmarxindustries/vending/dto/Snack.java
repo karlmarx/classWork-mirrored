@@ -5,7 +5,6 @@
  */
 package com.karlmarxindustries.vending.dto;
 
-import com.karlmarxindustries.vending.dto.EnumValues.Slot;
 import java.math.BigDecimal;
 
 /**
@@ -31,11 +30,11 @@ public class Snack {
     public Snack() {
     }
 
-    public Slot getSlot() {
+    public String getSlot() {
         return slot;
     }
 
-    public void setSlot(Slot slot) {
+    public void setSlot(String slot) {
         this.slot = slot;
     }
 

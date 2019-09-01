@@ -9,8 +9,14 @@ import com.karlmarxindustries.vending.dao.VendingDaoFileImpl;
 import com.karlmarxindustries.ui.UserIO;
 import com.karlmarxindustries.ui.UserIOConsoleImpl;
 import com.karlmarxindustries.ui.VendingView;
+import com.karlmarxindustries.vending.controller.VendingController;
+import com.karlmarxindustries.vending.dao.AuditDao;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
+import com.karlmarxindustries.vending.exception.InsufficientFundsException;
+import com.karlmarxindustries.vending.exception.ItemSoldOutException;
+import com.karlmarxindustries.vending.service.ServiceLayer;
+import com.karlmarxindustries.vending.service.ServiceLayerImpl;
 
 /**
  *
@@ -18,11 +24,13 @@ import com.karlmarxindustries.vending.exception.FilePersistenceException;
  */
 public class App {
     
-        public static void main(String[] args) throws FilePersistenceException  {
+        public static void main(String[] args) throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException  {
             UserIO myIO = new UserIOConsoleImpl();
             VendingView myView = new VendingView(myIO);
             VendingDao myDao = new VendingDaoFileImpl();
-            DvdLibraryController controller = new DvdLibraryController(myDao, myView);
+            ServiceLayer myServiceLayer = new ServiceLayerImpl(myDao);
+            AuditDao myAuditDao = new AuditDao();
+            VendingController controller = new VendingController(myView, myServiceLayer, myAuditDao);
             controller.run();
     }   
 }

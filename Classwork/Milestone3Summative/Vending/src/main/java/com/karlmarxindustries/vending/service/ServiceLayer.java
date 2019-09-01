@@ -6,6 +6,7 @@
 package com.karlmarxindustries.vending.service;
 
 import com.karlmarxindustries.vending.dto.Change;
+import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
@@ -19,17 +20,24 @@ import java.util.List;
  */
 public interface ServiceLayer {
    
+    public void updateMoneyInside(BigDecimal moneyIn);
+        
     
-    public void loadMachine() 
-        throws FilePersistenceException;
+    public List<Snack> getAllSnacksInMachine();
+    public Snack  getOneItem(String vendingSlot)  throws FilePersistenceException ;
     
-    public List<Snack> getAllItemsInMachine();
-    public Snack  getOneItem(String vendingSlot);
-    
-    public Change purchaseItem(String vendingSlot, BigDecimal money)
+    public ChangeAndOutcome purchaseItem(String vendingSlot, BigDecimal money)
         throws InsufficientFundsException, 
                ItemSoldOutException, 
                FilePersistenceException;
+    public BigDecimal getBalance();
+
+    public BigDecimal deductPriceFromBalance(BigDecimal moneyOut);
+    public void loadInventory() throws FilePersistenceException;
+
+    public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException;
+
+    public BigDecimal checkCurrentBalance();
     
 
 

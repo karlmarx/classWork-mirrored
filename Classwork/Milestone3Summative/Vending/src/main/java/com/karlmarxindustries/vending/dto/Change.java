@@ -16,13 +16,18 @@ public class Change {
     
     enum Coins {
         PENNY, NICKEL, DIME, QUARTER
-    }
+    }   
     int numPennies;
     int numNickels;
     int numDimes;
     int numQuarters;
-    BigDecimal moneyInside = new BigDecimal("0"); //is this right?
-    BigDecimal moneyInsideScale = moneyInside.setScale(2, RoundingMode.HALF_UP);
+    BigDecimal moneyInside;
+//    BigDecimal moneyInside = new BigDecimal("0"); //is this right?
+ //   BigDecimal moneyInsideScale = moneyInside.setScale(2, RoundingMode.HALF_UP);
+
+    public Change(BigDecimal moneyInside) {
+        this.moneyInside = moneyInside;
+    }
 
     public Change(int numPennies, int numNickels, int numDimes, int numQuarters) {
         this.numPennies = numPennies;
@@ -30,6 +35,7 @@ public class Change {
         this.numDimes = numDimes;
         this.numQuarters = numQuarters;
     }
+    
 
     public Change() {
     }
@@ -74,13 +80,13 @@ public class Change {
         this.moneyInside = moneyInside;
     }
 
-    public BigDecimal getMoneyInsideScale() {
-        return moneyInsideScale;
-    }
-
-    public void setMoneyInsideScale(BigDecimal moneyInsideScale) {
-        this.moneyInsideScale = moneyInsideScale;
-    }
+//    public BigDecimal getMoneyInsideScale() {
+//        return moneyInsideScale;
+//    }
+//
+//    public void setMoneyInsideScale(BigDecimal moneyInsideScale) {
+//        this.moneyInsideScale = moneyInsideScale;
+//    }
     
     
 }

@@ -6,6 +6,7 @@
 package com.karlmarxindustries.vending.dao;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,12 +20,12 @@ public interface VendingDao { //should dao interface be independent of the load 
     
     Snack getSnack (String slot) throws FilePersistenceException;
     
-    
+  void updateMoneyInside(BigDecimal moneyIn);
     void updateQuantity(String slot, Snack snack) throws FilePersistenceException; 
     
     void loadInventory() throws FilePersistenceException;
     
-    void writeInventory() throws FilePersistenceException;
+    void writeInventory(List<Snack> snackList) throws FilePersistenceException;
     
     void print(String msg);
 
@@ -46,6 +47,5 @@ public interface VendingDao { //should dao interface be independent of the load 
 
     String readString(String prompt);
 
-    public void updateMoneyInside();
     
 }

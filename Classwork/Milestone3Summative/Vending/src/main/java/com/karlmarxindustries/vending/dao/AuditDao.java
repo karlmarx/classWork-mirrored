@@ -5,10 +5,16 @@
  */
 package com.karlmarxindustries.vending.dao;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author karlmarx
  */
 public class AuditDao {
+
+    public void stamp(BigDecimal balance, String after_money_was_inserted) {
+        System.out.println("Time Stamped placeholder ");
+    }
     
 }
