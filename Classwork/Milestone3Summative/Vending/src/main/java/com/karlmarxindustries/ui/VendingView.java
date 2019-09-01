@@ -196,7 +196,7 @@ public class VendingView {
             libraryCount++;
             }   
         io.print("Total snacks in vending machine: " + libraryCount);
-        io.readString("Please hit enter to continue.");
+   //     io.readString("Please hit enter to continue.");
     }
     public void displayDisplayAllBanner() {
         io.print("=== Display All Snacks ===");
@@ -260,11 +260,10 @@ public class VendingView {
             io.print("Quantity: " + snack.getQuantity());
            
         } else {
-            io.print("No such Snack. Please use 'Search' or 'List' to confirm title, and try again.");
+            io.print("There is no snack at this slot.");
            
             return;
         }
-        io.readString("Please hit enter to continue.");
     }
     public void displayRemoveSnackBanner () {
         io.print("=== Remove Snack ===");
@@ -330,7 +329,12 @@ public class VendingView {
     }
 
     public void displayPurchaseOutcome(ChangeAndOutcome changeBack) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("Your change: "); //add graphical representation?
+        System.out.println(changeBack.change.getNumQuarters() + "quarters");
+        System.out.println(changeBack.change.getNumQuarters() + "dimes");
+        System.out.println(changeBack.change.getNumQuarters() + "nickels");
+        System.out.println(changeBack.change.getNumQuarters() + "pennies");
+        
     }
 
 }

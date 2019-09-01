@@ -9,4 +9,11 @@ package com.karlmarxindustries.vending.dto;
  *
  * @author karlmarx
  */
-
+public enum EnumValues {
+        PENNY(1), NICKEL(5), DIME(10), QUARTER(25);
+        private int value;
+        
+        private EnumValues(int value) {
+            this.value = value;
+        }
+    }   

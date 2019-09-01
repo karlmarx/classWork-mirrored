@@ -15,6 +15,7 @@ import com.karlmarxindustries.vending.exception.InsufficientFundsException;
 import com.karlmarxindustries.vending.exception.ItemSoldOutException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +26,9 @@ public class ServiceLayerImpl implements ServiceLayer {
     
     VendingDao dao;
     CoinPurse coinPurse = new CoinPurse(convertToBigAndScale("0.00"));
-    ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome();
+ 
     Change change = new Change(convertToBigAndScale("0.00"));
-    
+    ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
 
     public ServiceLayerImpl(VendingDao vendingDao) {
         this.dao = vendingDao;
@@ -38,8 +39,16 @@ public class ServiceLayerImpl implements ServiceLayer {
    }
 
     @Override
-    public List<Snack> getAllSnacksInMachine() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Snack> getAllSnacksInStock() throws FilePersistenceException {
+        List<Snack> allSnacks = dao.getAllSnacks();
+        List<Snack> toRemove = new ArrayList();
+        for (Snack item : allSnacks) {
+            if (item.getQuantity() == 0) {
+                toRemove.add(item);
+            }
+        }
+        allSnacks.removeAll(toRemove);
+        return allSnacks;
     }
 
     @Override
@@ -57,7 +66,7 @@ public class ServiceLayerImpl implements ServiceLayer {
         int numNickels = 0;
         int numPennies = 0;
         int priceInCents = snackPrice.multiply(new BigDecimal("100")).intValue();
-        int balanceInCents = coinPurse.getMoneyInside().multiply(new BigDecimal("100")).intValue();
+        int balanceInCents = changeAndOutcome.change.getMoneyInside().multiply(new BigDecimal("100")).intValue();
         int changeInCents = balanceInCents - priceInCents;
         if (changeInCents < 0) {
             throw new InsufficientFundsException("InsufficientFunds"); ///add loop to do the other stuff
@@ -81,9 +90,12 @@ public class ServiceLayerImpl implements ServiceLayer {
             changeInCents = changeInCents % 1;
         }   
         
-        Change changeBack = new Change(numPennies,  numNickels,  numDimes,  numQuarters); 
-        ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(changeBack, didItSucceed);
-//calculate change in change 
+        changeAndOutcome.change.setNumPennies(numPennies);
+        changeAndOutcome.change.setNumNickels(numNickels);
+        changeAndOutcome.change.setNumDimes(numDimes);
+        changeAndOutcome.change.setNumQuarters(numQuarters);
+        changeAndOutcome.setOutcome(didItSucceed);
+         
          return changeAndOutcome;
     }
 
@@ -95,26 +107,31 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
     @Override
     public void updateMoneyInside(BigDecimal moneyIn) {
-        coinPurse.setMoneyInside(moneyIn.add(coinPurse.getMoneyInside()));
+        changeAndOutcome.change.setMoneyInside(moneyIn.add(changeAndOutcome.change.getMoneyInside()));
         
     }
-     public BigDecimal getBalance() {
-         return coinPurse.getMoneyInside();
-    }
+//     public BigDecimal getBalance() {
+//         return coinPurse.getMoneyInside();
+//    }
 
     @Override
     public BigDecimal deductPriceFromBalance(BigDecimal moneyOut) {
-        coinPurse.setMoneyInside(coinPurse.getMoneyInside().subtract(moneyOut));
+        coinPurse.setMoneyInside(changeAndOutcome.change.getMoneyInside().subtract(moneyOut));
         return coinPurse.getMoneyInside();
     }
 
     @Override
     public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException {
-        dao.writeInventory(getAllSnacksInMachine());
+        dao.writeInventory(getAllSnacksInStock());
     }
 
     @Override
     public BigDecimal checkCurrentBalance() {
-        return Change
+        return changeAndOutcome.change.getMoneyInside();
+    }
+
+    @Override
+    public BigDecimal getBalance() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

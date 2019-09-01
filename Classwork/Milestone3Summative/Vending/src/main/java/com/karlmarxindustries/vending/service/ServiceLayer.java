@@ -23,7 +23,7 @@ public interface ServiceLayer {
     public void updateMoneyInside(BigDecimal moneyIn);
         
     
-    public List<Snack> getAllSnacksInMachine();
+    public List<Snack> getAllSnacksInStock() throws FilePersistenceException;
     public Snack  getOneItem(String vendingSlot)  throws FilePersistenceException ;
     
     public ChangeAndOutcome purchaseItem(String vendingSlot, BigDecimal money)

@@ -10,11 +10,16 @@ package com.karlmarxindustries.vending.dto;
  * @author karlmarx
  */
 public class ChangeAndOutcome {
-    private Change change;
-    private boolean outcomeSuccess;
+    public Change change;
+    public boolean outcomeSuccess;
 
     public ChangeAndOutcome() {
     }
+
+    public ChangeAndOutcome(Change change) {
+        this.change = change;
+    }
+    
 
     public ChangeAndOutcome(Change change, boolean outcome) {
         this.change = change;
