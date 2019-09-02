@@ -48,7 +48,7 @@ public class VendingView {
     }
 
     public void displayMoneyInside(BigDecimal change) {
-        io.print("Current balance: " + change);
+        io.print("Current balance: $" + change);
     }
 
     public BigDecimal displayAddMoneyBannerGetMoney() {
@@ -321,21 +321,14 @@ public class VendingView {
 //    }
 
     public void displayChangeBack(Change changeBack) {
-        System.out.println("Don't forget to take your change!:");
+        System.out.println("Don't forget to take your change!");
         System.out.println(changeBack.getNumQuarters() + " Quarters");
         System.out.println(changeBack.getNumDimes() + " Dimes");
         System.out.println(changeBack.getNumNickels() + " Nickels");
         System.out.println(changeBack.getNumPennies() + " Pennies"); 
     }
 
-    public void displayPurchaseOutcome(ChangeAndOutcome changeBack) {
-        System.out.println("Your change: "); //add graphical representation?
-        System.out.println(changeBack.change.getNumQuarters() + "quarters");
-        System.out.println(changeBack.change.getNumQuarters() + "dimes");
-        System.out.println(changeBack.change.getNumQuarters() + "nickels");
-        System.out.println(changeBack.change.getNumQuarters() + "pennies");
-        
-    }
+    
 
 }
 

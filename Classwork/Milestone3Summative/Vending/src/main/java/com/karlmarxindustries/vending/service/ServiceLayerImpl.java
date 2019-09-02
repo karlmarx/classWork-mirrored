@@ -9,6 +9,7 @@ import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.CoinPurse;
+import com.karlmarxindustries.vending.dto.EnumValues;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
@@ -68,12 +69,16 @@ public class ServiceLayerImpl implements ServiceLayer {
         int priceInCents = snackPrice.multiply(new BigDecimal("100")).intValue();
         int balanceInCents = changeAndOutcome.change.getMoneyInside().multiply(new BigDecimal("100")).intValue();
         int changeInCents = balanceInCents - priceInCents;
-        if (changeInCents < 0) {
-            throw new InsufficientFundsException("InsufficientFunds"); ///add loop to do the other stuff
+        if (dao.getSnack(vendingSlot).getQuantity() < 1){
+            throw new ItemSoldOutException("That item is sold out.  Please choose something else.");
+        }
+        else if (changeInCents < 0) {
+            throw new InsufficientFundsException("Insufficient Funds.  Please add more money, and try again."); ///add loop to do the other stuff
         } else {
             didItSucceed = true;
+            dao.getSnack(vendingSlot).setQuantity(dao.getSnack(vendingSlot).getQuantity() - 1);
         }
-        if (changeInCents >= 25) {//need to scale this? 
+        if (changeInCents >= 25) {//need to scale this? ///ENUM THIS?
             numQuarters = changeInCents / 25;
             changeInCents = changeInCents % 25;
         }   
@@ -107,7 +112,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
     @Override
     public void updateMoneyInside(BigDecimal moneyIn) {
-        changeAndOutcome.change.setMoneyInside(moneyIn.add(changeAndOutcome.change.getMoneyInside()));
+        changeAndOutcome.change.setMoneyInside(moneyIn);
         
     }
 //     public BigDecimal getBalance() {

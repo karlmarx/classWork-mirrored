@@ -80,16 +80,18 @@ public class VendingController {
     
     
    private void buySomething() throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
-            displayInventory();
-            view.purchaseSnackBanner();
-            Snack snack = null;
+           
+            Snack snack;
             String slotWanted = null;
-            boolean correctSelection = false;
+            
             boolean soldOut = true;
             boolean keepPurchasing = true;
             boolean insuffFunds = true;
             while(keepPurchasing){
-                while(!correctSelection || soldOut || insuffFunds) {
+                 displayInventory();
+                view.purchaseSnackBanner();
+                boolean correctSelection = false;
+                while(!correctSelection) {
                     try{                        
                         slotWanted = view.getSlotChoice();
                         snack = service.getOneItem(slotWanted); 
@@ -100,31 +102,33 @@ public class VendingController {
                         }
                          ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
                        
-                        view.displayPurchaseOutcome(changeBack); 
                         //what is going on with this getter???? 
                         /// if SUCCESS ONLY! otherwise 
                         if (changeBack.getOutcomeSuccess()) {
                             BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
+                            service.updateMoneyInside(balanceAfterPurchase);
                             view.displayChangeBack(changeBack.getChange());
                             view.displayCurrentBalance(balanceAfterPurchase);
                             soldOut = false;
                             insuffFunds = false;
-                            view.displayChangeBack(changeBack.getChange());
                         } 
                         view.displayCurrentBalance(service.checkCurrentBalance());
-                        if(snack.getQuantity() == 0) {
-                            throw new ItemSoldOutException("Sold out");
-                        } else if (service.checkCurrentBalance().compareTo(snack.getPrice())== -1) { //this is just a placeholder and will not actually work 
-                           throw new InsufficientFundsException("Insufficient Funds");
-                        }
+//                        if(snack.getQuantity() == 0) {
+//                            soldOut = true;
+//                            throw new ItemSoldOutException("Sold out");
+//                            
+//                        } else if (service.checkCurrentBalance().compareTo(snack.getPrice())== -1) { //this is just a placeholder and will not actually work 
+//                               insuffFunds = true;
+//                            throw new InsufficientFundsException("Insufficient Funds"); 
+//                       
+//                        }
                         
                     } catch (ItemSoldOutException e ){
-                        System.out.println("Sold OUt. Returning to main menu");
+                        view.displayErrorMessage(e.getMessage());
                         return;
                     } catch (InsufficientFundsException f ){
-                        System.out.println("insufficient funds:");
+                        view.displayErrorMessage(f.getMessage());
                         view.displayMoneyInside(service.checkCurrentBalance());
-                        System.out.println("Please insert more funds or select a different item.");
                         return;
                     }
                     
@@ -145,7 +149,6 @@ public class VendingController {
     private void welcomeMessage(){
         view.displayWelcomeBanner();
     }
-
     private void insertMoney() {
         boolean keepAdding = true;
         while (keepAdding){
