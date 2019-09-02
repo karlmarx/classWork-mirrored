@@ -35,7 +35,7 @@ public class VendingDaoFileImpl implements VendingDao {
     ServiceLayer service;
 
     
-    private Snack unmarshallSnack(String inventoryAsText){
+    public Snack unmarshallSnack(String inventoryAsText){
         String[] vendTokens = inventoryAsText.split(DELIMITER);
         String slot = vendTokens[0];
         Snack snackFromFile = new Snack();
@@ -46,7 +46,7 @@ public class VendingDaoFileImpl implements VendingDao {
         return snackFromFile;
     }
     //MARSHALLING AND UNMARSHALLING HAS TO CHANGE TO FOR BIG DECIMAL
-    private String marshallDvd(Snack aSnack){
+    public String marshallSnack(Snack aSnack){
         String snacksAsText = aSnack.getSlot() + DELIMITER;
         snacksAsText += aSnack.getName() + DELIMITER; 
         snacksAsText += String.valueOf(aSnack.getPrice()) + DELIMITER;
@@ -81,7 +81,7 @@ public class VendingDaoFileImpl implements VendingDao {
         }
         String snackAsText;
         for (Snack currentSnack : snackList){
-            snackAsText = marshallDvd(currentSnack);
+            snackAsText = marshallSnack(currentSnack);
             out.println(snackAsText);
             out.flush();
         }

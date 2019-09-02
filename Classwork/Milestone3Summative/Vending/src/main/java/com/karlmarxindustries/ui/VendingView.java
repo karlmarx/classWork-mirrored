@@ -20,7 +20,6 @@ import java.util.List;
  * @author karlmarx
  */
 public class VendingView {
-
     private UserIO io;
     public VendingView(UserIO io) {
         this.io = io;
@@ -69,9 +68,11 @@ public class VendingView {
         int nickelsIn = io.readInt("How many nickels would you like to insert?");
         int penniesIn = io.readInt("How many pennies would you like to insert?");
         //Should i move the following to the service Layer?
-        BigDecimal moneyInserted = Coins.QUARTER.multiply(new BigDecimal(quartersIn)); 
-        BigDecimal moneyIn = new BigDecimal(String.valueOf(dollarsIn) + "." + stringCentsIn); 
-        BigDecimal moneyInScale = moneyIn.setScale(2, RoundingMode.HALF_UP);
+        BigDecimal moneyInserted = Coins.QUARTER.value.multiply(new BigDecimal(quartersIn)); 
+        moneyInserted = moneyInserted.add(Coins.DIME.value.multiply(new BigDecimal(dimesIn)));
+        moneyInserted = moneyInserted.add(Coins.NICKEL.value.multiply(new BigDecimal(nickelsIn)));
+        moneyInserted = moneyInserted.add(Coins.PENNY.value.multiply(new BigDecimal(penniesIn)));
+        BigDecimal moneyInScale = moneyInserted.setScale(2, RoundingMode.HALF_UP); //am I scaling at right time?
         
         return moneyInScale;
     }
@@ -197,10 +198,10 @@ public class VendingView {
    public void displayAllSnacks(List<Snack> snackList) {
         int libraryCount = 0;
         for (Snack currentSnack : snackList) {
-            io.print("===Slot: " + currentSnack.getSlot() + "====");
+            io.print("=======Slot: " + currentSnack.getSlot() + "=======");
             io.print("Name: " + currentSnack.getName());
             io.print("Price: " + currentSnack.getPrice());
-            io.print("Quantity Remaining: " + currentSnack.getQuantity());
+            io.print("Quantity Remaining: " + currentSnack.getQuantity()); //maybe comcin lines
             io.print("======================");
             libraryCount++;
             }   
@@ -331,10 +332,25 @@ public class VendingView {
 
     public void displayChangeBack(Change changeBack) {
         System.out.println("Don't forget to take your change!");
-        System.out.println(changeBack.getNumQuarters() + " Quarters");
-        System.out.println(changeBack.getNumDimes() + " Dimes");
-        System.out.println(changeBack.getNumNickels() + " Nickels");
-        System.out.println(changeBack.getNumPennies() + " Pennies"); 
+        for (int i = 0; i < changeBack.getNumQuarters(); i++) {
+            System.out.print("Q");
+        }
+        io.print(" ");
+        for (int i = 0; i < changeBack.getNumDimes(); i++) {
+            System.out.print("D");
+        }
+        io.print(" ");
+        for (int i = 0; i < changeBack.getNumQuarters(); i++) {
+            System.out.print("N");
+        }
+        io.print(" ");
+        for (int i = 0; i < changeBack.getNumPennies(); i++) {
+            System.out.print("P");
+        }
+        io.print(changeBack.getNumQuarters() + " Quarters");
+        io.print(changeBack.getNumDimes() + " Dimes");
+        io.print(changeBack.getNumNickels() + " Nickels");
+        io.print(changeBack.getNumPennies() + " Pennies"); 
     }
 
     

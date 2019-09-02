@@ -104,7 +104,7 @@ public class ServiceLayerImpl implements ServiceLayer {
         changeAndOutcome.change.setNumQuarters(numQuarters);
         changeAndOutcome.setOutcomeSuccess(didItSucceed);
          if (changeAndOutcome.getOutcomeSuccess()) {
-             auditDao.writeAuditEntry(dao.getSnack(vendingSlot).getName() + " was purchased for $" + snackPrice + " with change dispensed: $" + String.valueOf(balanceInCents - priceInCents));
+             auditDao.writeAuditEntry(dao.getSnack(vendingSlot).getName() + " was purchased for $" + snackPrice);
          }
          return changeAndOutcome;
     }
@@ -116,10 +116,8 @@ public class ServiceLayerImpl implements ServiceLayer {
         return scaledBigDecimal;
     }
     @Override
-    public void updateMoneyInside(BigDecimal moneyIn) throws FilePersistenceException {
-        
-        changeAndOutcome.change.setMoneyInside(moneyIn.add(changeAndOutcome.change.getMoneyInside()));
-      
+    public void updateMoneyInside(BigDecimal amount) throws FilePersistenceException {
+        changeAndOutcome.change.setMoneyInside(amount);
     }
     
 //     public BigDecimal getBalance() {
@@ -149,6 +147,7 @@ public class ServiceLayerImpl implements ServiceLayer {
 
     @Override
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
+        changeAndOutcome.change.setMoneyInside(moneyInputFromUser.add(changeAndOutcome.change.getMoneyInside()));
         auditDao.writeAuditEntry("The user inserted $" + String.valueOf(moneyInputFromUser) + " into the machine."); 
     }
 }
