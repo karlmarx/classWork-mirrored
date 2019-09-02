@@ -30,8 +30,9 @@ import java.util.Scanner;
 public class VendingDaoFileImpl implements VendingDao {
     
     public static final String LIBRARY_FILE = "inventory.txt";
+    public static final String TEST_FILE = "inventorytest.txt";
     public static final String DELIMITER = "::";
-    private Map<String, Snack> snacks = new HashMap<>();
+    public Map<String, Snack> snacks = new HashMap<>();
     ServiceLayer service;
 
     
@@ -86,6 +87,39 @@ public class VendingDaoFileImpl implements VendingDao {
             out.flush();
         }
                out.close();
+    }
+    @Override
+    public void loadInventoryTest() throws FilePersistenceException {
+        Scanner scanner;
+        try{
+            scanner = new Scanner(new BufferedReader(new FileReader(TEST_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new FilePersistenceException("Uh-oh! Could not load inventory data into memory", e);
+        }
+        String currentLine;
+        Snack currentSnack;
+        while (scanner.hasNextLine()){
+            currentLine = scanner.nextLine();
+            currentSnack = unmarshallSnack(currentLine);
+            snacks.put(currentSnack.getSlot(), currentSnack);
+        }
+        scanner.close();
+    }
+    @Override
+    public void writeInventoryTest(List<Snack> snackList) throws FilePersistenceException {
+        PrintWriter out;
+        try{
+            out = new PrintWriter(new FileWriter(TEST_FILE));
+        } catch (IOException e){
+            throw new FilePersistenceException("Could not save Inventory data", e);
+        }
+        String snackAsText;
+        for (Snack currentSnack : snackList){
+            snackAsText = marshallSnack(currentSnack);
+            out.println(snackAsText);
+            out.flush();
+        }
+        out.close();
     }
     
     @Override
@@ -204,6 +238,8 @@ public class VendingDaoFileImpl implements VendingDao {
     public void updateQuantity(String slot, Snack snack) throws FilePersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 
     
     
