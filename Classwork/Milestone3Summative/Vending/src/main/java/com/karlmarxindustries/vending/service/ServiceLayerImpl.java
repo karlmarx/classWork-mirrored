@@ -9,7 +9,6 @@ import com.karlmarxindustries.vending.dao.AuditDao;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
-import com.karlmarxindustries.vending.dto.CoinPurse;
 import com.karlmarxindustries.vending.dto.Coins;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
@@ -28,11 +27,8 @@ public class ServiceLayerImpl implements ServiceLayer {
     
     private VendingDao dao;
     private AuditDao auditDao;
-    CoinPurse coinPurse = new CoinPurse(convertToBigAndScale("0.00"));
- 
     Change change = new Change(convertToBigAndScale("0.00"));
     ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
-
     public ServiceLayerImpl(VendingDao vendingDao, AuditDao auditDao) {
         this.dao = vendingDao;
         this.auditDao = auditDao;
@@ -41,7 +37,6 @@ public class ServiceLayerImpl implements ServiceLayer {
     public void loadInventory() throws FilePersistenceException {
         dao.loadInventory();
    }
-
     @Override
     public List<Snack> getAllSnacksInStock() throws FilePersistenceException {
         List<Snack> allSnacks = dao.getAllSnacks();
@@ -54,16 +49,12 @@ public class ServiceLayerImpl implements ServiceLayer {
         allSnacks.removeAll(toRemove);
         return allSnacks;
     }
-
     @Override
     public Snack getOneItem(String vendingSlot) throws FilePersistenceException {
         return dao.getSnack(vendingSlot);
-        //this is in dao, does it need to move here?
     }
-
     @Override
     public ChangeAndOutcome purchaseItem(String vendingSlot, BigDecimal snackPrice) throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
-        //use if statement to make sure it's enough or do that in contoller with exception
         boolean didItSucceed = false;
         int numQuarters = 0;
         int numDimes = 0;
@@ -97,7 +88,6 @@ public class ServiceLayerImpl implements ServiceLayer {
             numPennies = changeInCents / 1;
             changeInCents = changeInCents % 1;
         }   
-        
         changeAndOutcome.change.setNumPennies(numPennies);
         changeAndOutcome.change.setNumNickels(numNickels);
         changeAndOutcome.change.setNumDimes(numDimes);
@@ -108,8 +98,6 @@ public class ServiceLayerImpl implements ServiceLayer {
          }
          return changeAndOutcome;
     }
-
-   
     public static BigDecimal convertToBigAndScale(String toConvert) {
         BigDecimal converted = new BigDecimal(toConvert);
         BigDecimal scaledBigDecimal = converted.setScale(2, RoundingMode.HALF_UP);
@@ -119,32 +107,23 @@ public class ServiceLayerImpl implements ServiceLayer {
     public void updateMoneyInside(BigDecimal amount) throws FilePersistenceException {
         changeAndOutcome.change.setMoneyInside(amount);
     }
-    
-//     public BigDecimal getBalance() {
-//         return coinPurse.getMoneyInside();
-//    }
-
     @Override
     public BigDecimal deductPriceFromBalance(BigDecimal moneyOut) {
-        coinPurse.setMoneyInside(changeAndOutcome.change.getMoneyInside().subtract(moneyOut));
-        return coinPurse.getMoneyInside();
+        changeAndOutcome.change.setMoneyInside(changeAndOutcome.change.getMoneyInside().subtract(moneyOut));
+        return changeAndOutcome.change.getMoneyInside();
     }
-
     @Override
     public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException {
         dao.writeInventory(getAllSnacksInStock());
     }
-
     @Override
     public BigDecimal checkCurrentBalance() {
         return changeAndOutcome.change.getMoneyInside();
     }
-
     @Override
     public BigDecimal getBalance() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     @Override
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
         changeAndOutcome.change.setMoneyInside(moneyInputFromUser.add(changeAndOutcome.change.getMoneyInside()));

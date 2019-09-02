@@ -22,3 +22,7 @@ Time <2019-09-02T12:22:39.161078> : Event = <Freixenet was purchased for $10.24>
 Time <2019-09-02T12:23:17.903523> : Event = <The user inserted $125.00 into the machine.>
 Time <2019-09-02T12:24:33.968761> : Event = <Martinelli's Sparkling Cider was purchased for $8.00>
 Time <2019-09-02T12:25:21.264316> : Event = <Martinelli's Sparkling Cider was purchased for $8.00>
+Time <2019-09-02T18:35:26.514517> : Event = <The user inserted $250.00 into the machine.>
+Time <2019-09-02T18:35:35.786896> : Event = <Consciousness was purchased for $59.99>
+Time <2019-09-02T18:41:31.645401> : Event = <The user inserted $249.51 into the machine.>
+Time <2019-09-02T18:55:02.328378> : Event = <The user inserted $16.82 into the machine.>

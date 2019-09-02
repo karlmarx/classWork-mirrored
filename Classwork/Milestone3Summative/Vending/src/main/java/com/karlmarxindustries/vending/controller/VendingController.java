@@ -97,16 +97,11 @@ public class VendingController {
                         if (snack != null){
                             correctSelection = view.confirmCorrectSelection();
                             ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); 
-                         //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
-                        
-                        
-                        //what is going on with this getter???? 
-                        /// if SUCCESS ONLY! otherwise 
                             if (changeBack.getOutcomeSuccess()) {
                                 BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
                                 service.updateMoneyInside(balanceAfterPurchase);
                                 view.displayChangeBack(changeBack.getChange());
-                                view.displayCurrentBalance(balanceAfterPurchase);
+                            //redundant    view.displayCurrentBalance(balanceAfterPurchase);
                                 soldOut = false;
                                 insuffFunds = false;
                             } 
@@ -145,7 +140,6 @@ public class VendingController {
             BigDecimal moneyInputFromUser = view.displayAddMoneyBannerGetMoney();
             service.addToMoneyInside(moneyInputFromUser);
             view.displayMoneyInside(service.checkCurrentBalance());
-      // not needed      audit.writeAuditEntry( "money was inserted reaching a balance of " + service.checkCurrentBalance());
             keepAdding = view.confirmContinueAdding();
         }
     }
