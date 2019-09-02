@@ -7,6 +7,8 @@ package com.karlmarxindustries.ui;
 
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
+import com.karlmarxindustries.vending.dto.Coins;
+import static com.karlmarxindustries.vending.dto.Coins.QUARTER;
 import com.karlmarxindustries.vending.dto.Snack;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -53,14 +55,21 @@ public class VendingView {
 
     public BigDecimal displayAddMoneyBannerGetMoney() {
         io.print("=== Add Funds ===");
-        int centsIn = io.readInt("How many cents would you like to add? 0-99", 0, 99);
-        int dollarsIn = io.readInt("How many dollars would you like to add?");
-        String stringCentsIn = null;
-        if (centsIn < 10) {
-            stringCentsIn = "0" + String.valueOf(centsIn);
-        } else {
-            stringCentsIn = String.valueOf(centsIn);
-        }
+        //this was original code for use just dollars and cents as input
+//        int centsIn = io.readInt("How many cents would you like to add? 0-99", 0, 99);
+//        int dollarsIn = io.readInt("How many dollars would you like to add?");
+//        String stringCentsIn = null;
+//        if (centsIn < 10) {
+//            stringCentsIn = "0" + String.valueOf(centsIn);
+//        } else {
+//            stringCentsIn = String.valueOf(centsIn);
+//        }
+        int quartersIn = io.readInt("How many quarters would you like to insert?");
+        int dimesIn = io.readInt("How many dimes would you like to insert?"); 
+        int nickelsIn = io.readInt("How many nickels would you like to insert?");
+        int penniesIn = io.readInt("How many pennies would you like to insert?");
+        //Should i move the following to the service Layer?
+        BigDecimal moneyInserted = Coins.QUARTER.multiply(new BigDecimal(quartersIn)); 
         BigDecimal moneyIn = new BigDecimal(String.valueOf(dollarsIn) + "." + stringCentsIn); 
         BigDecimal moneyInScale = moneyIn.setScale(2, RoundingMode.HALF_UP);
         
@@ -261,7 +270,7 @@ public class VendingView {
            
         } else {
             io.print("There is no snack at this slot.");
-           
+    
             return;
         }
     }

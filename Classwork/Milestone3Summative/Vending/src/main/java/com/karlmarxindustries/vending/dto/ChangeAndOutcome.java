@@ -38,7 +38,7 @@ public class ChangeAndOutcome {
         return outcomeSuccess;
     }
 
-    public void setOutcome(boolean outcome) {
+    public void setOutcomeSuccess(boolean outcome) {
         this.outcomeSuccess = outcome;
     }
 

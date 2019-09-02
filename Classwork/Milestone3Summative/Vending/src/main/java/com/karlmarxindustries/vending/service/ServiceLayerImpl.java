@@ -5,11 +5,12 @@
  */
 package com.karlmarxindustries.vending.service;
 
+import com.karlmarxindustries.vending.dao.AuditDao;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.CoinPurse;
-import com.karlmarxindustries.vending.dto.EnumValues;
+import com.karlmarxindustries.vending.dto.Coins;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
@@ -25,14 +26,16 @@ import java.util.List;
  */
 public class ServiceLayerImpl implements ServiceLayer {
     
-    VendingDao dao;
+    private VendingDao dao;
+    private AuditDao auditDao;
     CoinPurse coinPurse = new CoinPurse(convertToBigAndScale("0.00"));
  
     Change change = new Change(convertToBigAndScale("0.00"));
     ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
 
-    public ServiceLayerImpl(VendingDao vendingDao) {
+    public ServiceLayerImpl(VendingDao vendingDao, AuditDao auditDao) {
         this.dao = vendingDao;
+        this.auditDao = auditDao;
     }
     @Override
     public void loadInventory() throws FilePersistenceException {
@@ -99,8 +102,10 @@ public class ServiceLayerImpl implements ServiceLayer {
         changeAndOutcome.change.setNumNickels(numNickels);
         changeAndOutcome.change.setNumDimes(numDimes);
         changeAndOutcome.change.setNumQuarters(numQuarters);
-        changeAndOutcome.setOutcome(didItSucceed);
-         
+        changeAndOutcome.setOutcomeSuccess(didItSucceed);
+         if (changeAndOutcome.getOutcomeSuccess()) {
+             auditDao.writeAuditEntry(dao.getSnack(vendingSlot).getName() + " was purchased for $" + snackPrice + " with change dispensed: $" + String.valueOf(balanceInCents - priceInCents));
+         }
          return changeAndOutcome;
     }
 
@@ -111,10 +116,12 @@ public class ServiceLayerImpl implements ServiceLayer {
         return scaledBigDecimal;
     }
     @Override
-    public void updateMoneyInside(BigDecimal moneyIn) {
-        changeAndOutcome.change.setMoneyInside(moneyIn);
+    public void updateMoneyInside(BigDecimal moneyIn) throws FilePersistenceException {
         
+        changeAndOutcome.change.setMoneyInside(moneyIn.add(changeAndOutcome.change.getMoneyInside()));
+      
     }
+    
 //     public BigDecimal getBalance() {
 //         return coinPurse.getMoneyInside();
 //    }
@@ -138,5 +145,10 @@ public class ServiceLayerImpl implements ServiceLayer {
     @Override
     public BigDecimal getBalance() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
+        auditDao.writeAuditEntry("The user inserted $" + String.valueOf(moneyInputFromUser) + " into the machine."); 
     }
 }

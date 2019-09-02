@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface ServiceLayer {
    
-    public void updateMoneyInside(BigDecimal moneyIn);
+    public void updateMoneyInside(BigDecimal moneyIn) throws FilePersistenceException;
         
     
     public List<Snack> getAllSnacksInStock() throws FilePersistenceException;
@@ -38,6 +38,8 @@ public interface ServiceLayer {
     public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException;
 
     public BigDecimal checkCurrentBalance();
+
+    public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException;
     
 
 

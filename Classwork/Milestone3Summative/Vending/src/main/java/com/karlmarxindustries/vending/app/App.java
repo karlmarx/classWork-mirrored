@@ -11,6 +11,7 @@ import com.karlmarxindustries.ui.UserIOConsoleImpl;
 import com.karlmarxindustries.ui.VendingView;
 import com.karlmarxindustries.vending.controller.VendingController;
 import com.karlmarxindustries.vending.dao.AuditDao;
+import com.karlmarxindustries.vending.dao.AuditDaoImpl;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
@@ -28,9 +29,9 @@ public class App {
             UserIO myIO = new UserIOConsoleImpl();
             VendingView myView = new VendingView(myIO);
             VendingDao myDao = new VendingDaoFileImpl();
-            ServiceLayer myServiceLayer = new ServiceLayerImpl(myDao);
-            AuditDao myAuditDao = new AuditDao();
-            VendingController controller = new VendingController(myView, myServiceLayer, myAuditDao);
+            AuditDao myAuditDao = new AuditDaoImpl();
+            ServiceLayer myServiceLayer = new ServiceLayerImpl(myDao, myAuditDao);
+            VendingController controller = new VendingController(myView, myServiceLayer);
             controller.run();
     }   
 }

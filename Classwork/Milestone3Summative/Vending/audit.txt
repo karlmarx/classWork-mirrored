@@ -1,0 +1,9 @@
+AuditFileTime [2019-09-02T10:59:11.386403] : Event = The user inserted $10.10into the machine.]
+Time [2019-09-02T10:59:53.841438] : Event = com.karlmarxindustries.vending.dto.Snack@2dda6444 was purchased for $8.00 with change dispensed: $210]
+Time [2019-09-02T10:59:53.841730] : Event = The user inserted $2.10into the machine.]
+Time <2019-09-02T11:03:06.092898> : Event = <The user inserted $8.20 into the machine.>
+Time <2019-09-02T11:03:22.782519> : Event = <The user inserted $0.00 into the machine.>
+Time <2019-09-02T11:07:02.714042> : Event = <The user inserted $40.50 into the machine.>
+Time <2019-09-02T11:07:17.820140> : Event = <Martinelli's Sparkling Cider was purchased for $8.00 with change dispensed: $3250>
+Time <2019-09-02T11:07:17.820674> : Event = <The user inserted $32.50 into the machine.>
+Time <2019-09-02T11:08:14.997593> : Event = <The user inserted $1.01 into the machine.>

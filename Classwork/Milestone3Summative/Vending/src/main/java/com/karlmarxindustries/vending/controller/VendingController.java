@@ -24,13 +24,11 @@ import java.math.BigDecimal;
 public class VendingController {
     VendingView view;
     ServiceLayer service;
-    AuditDao audit;
     //CONTROLLER NEEDS TO HANDLE EXCEPTIONS!!!
     
-    public VendingController(VendingView view, ServiceLayer service, AuditDao audit) {
+    public VendingController(VendingView view, ServiceLayer service) {
         this.view = view;
         this.service = service;
-        this.audit = audit;
     }
 
     public void run() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
@@ -95,35 +93,29 @@ public class VendingController {
                     try{                        
                         slotWanted = view.getSlotChoice();
                         snack = service.getOneItem(slotWanted); 
-                        view.viewSnack(snack); 
+                        view.viewSnack(snack);
                         if (snack != null){
                             correctSelection = view.confirmCorrectSelection();
-                       
-                        }
-                         ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
-                       
+                            ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); 
+                         //HOW TO LOOP IF SOLD OUT OR INSUFFICIENT FUNDS??
+                        
+                        
                         //what is going on with this getter???? 
                         /// if SUCCESS ONLY! otherwise 
-                        if (changeBack.getOutcomeSuccess()) {
-                            BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
-                            service.updateMoneyInside(balanceAfterPurchase);
-                            view.displayChangeBack(changeBack.getChange());
-                            view.displayCurrentBalance(balanceAfterPurchase);
-                            soldOut = false;
-                            insuffFunds = false;
-                        } 
-                        view.displayCurrentBalance(service.checkCurrentBalance());
-//                        if(snack.getQuantity() == 0) {
-//                            soldOut = true;
-//                            throw new ItemSoldOutException("Sold out");
-//                            
-//                        } else if (service.checkCurrentBalance().compareTo(snack.getPrice())== -1) { //this is just a placeholder and will not actually work 
-//                               insuffFunds = true;
-//                            throw new InsufficientFundsException("Insufficient Funds"); 
-//                       
-//                        }
-                        
-                    } catch (ItemSoldOutException e ){
+                            if (changeBack.getOutcomeSuccess()) {
+                                BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
+                                service.updateMoneyInside(balanceAfterPurchase);
+                                view.displayChangeBack(changeBack.getChange());
+                                view.displayCurrentBalance(balanceAfterPurchase);
+                                soldOut = false;
+                                insuffFunds = false;
+                            } 
+                            view.displayCurrentBalance(service.checkCurrentBalance());
+                        } else {
+                            return;
+                        }
+                    }
+                    catch (ItemSoldOutException e ){
                         view.displayErrorMessage(e.getMessage());
                         return;
                     } catch (InsufficientFundsException f ){
@@ -131,9 +123,7 @@ public class VendingController {
                         view.displayMoneyInside(service.checkCurrentBalance());
                         return;
                     }
-                    
                 }
-                
                 keepPurchasing = view.confirmPurchasing();
             }
 ///display balance?            view.displayEditSuccessBanner(); 
@@ -149,13 +139,13 @@ public class VendingController {
     private void welcomeMessage(){
         view.displayWelcomeBanner();
     }
-    private void insertMoney() {
+    private void insertMoney() throws FilePersistenceException {
         boolean keepAdding = true;
         while (keepAdding){
             BigDecimal moneyInputFromUser = view.displayAddMoneyBannerGetMoney();
-            service.updateMoneyInside(moneyInputFromUser);
+            service.addToMoneyInside(moneyInputFromUser);
             view.displayMoneyInside(service.checkCurrentBalance());
-            audit.stamp(service.checkCurrentBalance(), "After money was inserted");
+      // not needed      audit.writeAuditEntry( "money was inserted reaching a balance of " + service.checkCurrentBalance());
             keepAdding = view.confirmContinueAdding();
         }
     }

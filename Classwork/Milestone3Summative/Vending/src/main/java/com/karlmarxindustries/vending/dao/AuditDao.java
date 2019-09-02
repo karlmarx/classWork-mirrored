@@ -5,16 +5,12 @@
  */
 package com.karlmarxindustries.vending.dao;
 
-import java.math.BigDecimal;
+import com.karlmarxindustries.vending.exception.FilePersistenceException;
 
 /**
  *
  * @author karlmarx
  */
-public class AuditDao {
-
-    public void stamp(BigDecimal balance, String after_money_was_inserted) {
-        System.out.println("Time Stamped placeholder ");
-    }
-    
+public interface AuditDao {
+    public void writeAuditEntry(String entry) throws FilePersistenceException;
 }
