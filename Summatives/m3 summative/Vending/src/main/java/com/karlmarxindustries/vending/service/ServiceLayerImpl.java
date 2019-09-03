@@ -9,7 +9,6 @@ import com.karlmarxindustries.vending.dao.AuditDao;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
-import com.karlmarxindustries.vending.dto.Coins;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
@@ -120,10 +119,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     public BigDecimal checkCurrentBalance() {
         return changeAndOutcome.change.getMoneyInside();
     }
-    @Override
-    public BigDecimal getBalance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
     @Override
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
         moneyInputFromUser.setScale(2, RoundingMode.HALF_UP);
