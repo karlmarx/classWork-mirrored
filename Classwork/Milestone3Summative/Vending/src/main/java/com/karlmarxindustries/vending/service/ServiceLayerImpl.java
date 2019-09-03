@@ -126,6 +126,7 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
     @Override
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
+        moneyInputFromUser.setScale(2, RoundingMode.HALF_UP);
         changeAndOutcome.change.setMoneyInside(moneyInputFromUser.add(changeAndOutcome.change.getMoneyInside()));
         auditDao.writeAuditEntry("The user inserted $" + String.valueOf(moneyInputFromUser) + " into the machine."); 
     }
