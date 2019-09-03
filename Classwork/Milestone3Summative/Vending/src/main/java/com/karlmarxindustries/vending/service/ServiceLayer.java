@@ -28,7 +28,7 @@ public interface ServiceLayer {
                FilePersistenceException;
     public BigDecimal deductPriceFromBalance(BigDecimal moneyOut);
     public void loadInventory() throws FilePersistenceException;
-    public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException;
+    public void writeInventoryOnExit(List<Snack> allSnacks) throws FilePersistenceException;
     public BigDecimal checkCurrentBalance();
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException;
 }

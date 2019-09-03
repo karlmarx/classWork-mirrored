@@ -1,33 +1,15 @@
-Time [2019-09-02T10:59:11.386403] : Event = The user inserted $10.10into the machine.]
-Time [2019-09-02T10:59:53.841438] : Event = com.karlmarxindustries.vending.dto.Snack@2dda6444 was purchased for $8.00 with change dispensed: $210]
-Time [2019-09-02T10:59:53.841730] : Event = The user inserted $2.10into the machine.]
-Time <2019-09-02T11:03:06.092898> : Event = <The user inserted $8.20 into the machine.>
-Time <2019-09-02T11:03:22.782519> : Event = <The user inserted $0.00 into the machine.>
-Time <2019-09-02T11:07:02.714042> : Event = <The user inserted $40.50 into the machine.>
-Time <2019-09-02T11:07:17.820140> : Event = <Martinelli's Sparkling Cider was purchased for $8.00 with change dispensed: $3250>
-Time <2019-09-02T11:07:17.820674> : Event = <The user inserted $32.50 into the machine.>
-Time <2019-09-02T11:08:14.997593> : Event = <The user inserted $1.01 into the machine.>
-Time <2019-09-02T11:56:43.549211> : Event = <The user inserted $0.86 into the machine.>
-Time <2019-09-02T12:03:02.304383> : Event = <The user inserted $0.98 into the machine.>
-Time <2019-09-02T12:03:24.010541> : Event = <The user inserted $5.61 into the machine.>
-Time <2019-09-02T12:03:32.206761> : Event = <The user inserted $0.25 into the machine.>
-Time <2019-09-02T12:03:47.275267> : Event = <Cook's was purchased for $0.99 with change dispensed: $585>
-Time <2019-09-02T12:03:55.947070> : Event = <Cook's was purchased for $0.99 with change dispensed: $486>
-Time <2019-09-02T12:07:04.582782> : Event = <The user inserted $1.46 into the machine.>
-Time <2019-09-02T12:07:58.883508> : Event = <The user inserted $1010.50 into the machine.>
-Time <2019-09-02T12:08:09.041996> : Event = <Martinelli's Sparkling Cider was purchased for $8.00 with change dispensed: $1003>
-Time <2019-09-02T12:22:08.948128> : Event = <The user inserted $53.02 into the machine.>
-Time <2019-09-02T12:22:16.257611> : Event = <The user inserted $0.25 into the machine.>
-Time <2019-09-02T12:22:39.161078> : Event = <Freixenet was purchased for $10.24>
-Time <2019-09-02T12:23:17.903523> : Event = <The user inserted $125.00 into the machine.>
-Time <2019-09-02T12:24:33.968761> : Event = <Martinelli's Sparkling Cider was purchased for $8.00>
-Time <2019-09-02T12:25:21.264316> : Event = <Martinelli's Sparkling Cider was purchased for $8.00>
-Time <2019-09-02T18:35:26.514517> : Event = <The user inserted $250.00 into the machine.>
-Time <2019-09-02T18:35:35.786896> : Event = <Consciousness was purchased for $59.99>
-Time <2019-09-02T18:41:31.645401> : Event = <The user inserted $249.51 into the machine.>
-Time <2019-09-02T18:55:02.328378> : Event = <The user inserted $16.82 into the machine.>
-Time <2019-09-02T20:05:22.412117> : Event = <The user inserted $62.75 into the machine.>
-Time <2019-09-02T20:05:45.504673> : Event = <A Unicorn was purchased for $60.25>
-Time <2019-09-03T08:56:41.216107> : Event = <The user inserted $0.50 into the machine.>
-Time <2019-09-03T09:13:16.293773> : Event = <The user inserted $55.00 into the machine.>
-Time <2019-09-03T09:13:33.730571> : Event = <Bachelor Chow was purchased for $8.02>
+Time <2019-09-03T14:19:25.738063> : Event = <User exited and inventory file was saved.>
+2019.09.03 14:50:33 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item= Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Consciousness , Quantity=6>]
+2019.09.03 14:50:45 : [The user inserted $25000001.21 into the machine.]
+2019.09.03 14:50:56 : [Exception thrown: Insufficient funds. User attempted to purchase Unicorn(Price: $60.25), but they only had $25000001.21.]
+2019.09.03 14:52:47 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item= Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Consciousness , Quantity=6>]
+2019.09.03 14:53:05 : [The user inserted $50000001.00 into the machine.]
+2019.09.03 14:55:55 : [Unicorn was purchased for $60.25.]
+2019.09.03 14:55:55 : [The following amount of change was dispensed: $50000001.00.]
+2019.09.03 15:02:03 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item= Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Consciousness , Quantity=6>]
+2019.09.03 15:16:04 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item=Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Bachelor Chow , Quantity=6>.]
+2019.09.03 15:16:17 : [The user inserted $250000.75 into the machine.]
+2019.09.03 15:16:27 : [Consciousness was purchased for $59.99.]
+2019.09.03 15:16:27 : [The following amount of change was dispensed: $250000.75.]
+2019.09.03 15:16:50 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item=Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Bachelor Chow , Quantity=6>.]
+2019.09.03 15:18:39 : [Loaded Inventory: <Item=Consciousness , Quantity=10>; <Item=Unicorn , Quantity=9>; <Item=Time , Quantity=10>; <Item=Fear , Quantity=10>; <Item=Twinkie , Quantity=9>; <Item=Bachelor Chow , Quantity=6>.]

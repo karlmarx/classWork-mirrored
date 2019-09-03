@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 
 public enum Coins {
-        PENNY(new BigDecimal("0.01")), NICKEL(new BigDecimal("0.5")), DIME(new BigDecimal("0.10")), QUARTER(new BigDecimal("0.25"));
+        PENNY(new BigDecimal("0.01")), NICKEL(new BigDecimal("0.05")), DIME(new BigDecimal("0.10")), QUARTER(new BigDecimal("0.25"));
         public BigDecimal value;
         
         

@@ -27,9 +27,7 @@ public class VendingDaoFileImplTest {
     @Test
     public void testUnmarshallSnack() {
         String snackLine =  "T1::Name1::1.00::1";
-        
         Snack fromLine = testDao.unmarshallSnack(snackLine);
-        
         Assertions.assertEquals("T1", fromLine.getSlot(), "Slot should be T1");
         Assertions.assertEquals("Name1", fromLine.getName(), "Name should be Name1");
         Assertions.assertEquals(new BigDecimal("1.00"), fromLine.getPrice(), "Price should be 1.00");
@@ -50,7 +48,7 @@ public class VendingDaoFileImplTest {
     }
     @Test
     public void testGetAllSnacksWithInventory() throws FilePersistenceException {
-        testDao.loadInventory(); //the inventory from file has exactly six items at all times.
+        testDao.loadInventory(testDao.getProductionFile()); //the inventory from file has exactly six items at all times.
         List<Snack> allSnacks = testDao.getAllSnacks();
         Assertions.assertEquals(6, allSnacks.size(), "There should be 6 snacks in array list as there are six snacks in inventory file.");
         
@@ -62,7 +60,7 @@ public class VendingDaoFileImplTest {
     }
     @Test
     public void testGetSnack() throws FilePersistenceException {
-        testDao.loadInventory(); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
+        testDao.loadInventory(testDao.getProductionFile()); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
         Snack gottenSnack = testDao.getSnack("A6");  
         Snack secondGottenSnack = testDao.getSnack("A4");
         Assertions.assertEquals("A6", gottenSnack.getSlot(), "Slot should be A6");
@@ -75,7 +73,7 @@ public class VendingDaoFileImplTest {
     }
     @Test
     public void testGetAllSnacksAfterRemovingGottenSnack() throws FilePersistenceException {
-        testDao.loadInventory();
+        testDao.loadInventory(testDao.getProductionFile());
         List<Snack> initialSnacks = testDao.getAllSnacks();
         Snack snackToRemove = testDao.getSnack("A1");  
         List<Snack> snacksToEdit = initialSnacks;
@@ -92,13 +90,13 @@ public class VendingDaoFileImplTest {
     
     @Test
     public void testGetSnackInvalidSlot() throws FilePersistenceException {
-        testDao.loadInventory(); //Snacks are located at slots A1. A2, A3, A4, A5, A6
+        testDao.loadInventory(testDao.getProductionFile()); //Snacks are located at slots A1. A2, A3, A4, A5, A6
         Snack shouldBeNull = testDao.getSnack("A7");
         Assertions.assertNull(shouldBeNull, "Should be null");
     }
     @Test 
     public void testFilePersistenceGetAll() throws FilePersistenceException {
-        testDao.loadInventoryTest();
+        testDao.loadInventory(testDao.getTestFile());
         List<Snack> snacksEdit1 = testDao.getAllSnacks();
         for (Snack eachSnack: snacksEdit1) {
             eachSnack.setQuantity(20);
@@ -107,8 +105,8 @@ public class VendingDaoFileImplTest {
          for (Snack eachSnack: snacksEdit2) {
             eachSnack.setQuantity(10);
         }
-        testDao.writeInventoryTest(snacksEdit2);
-        testDao.loadInventoryTest();
+        testDao.writeInventory(snacksEdit2, testDao.getTestFile());
+        testDao.loadInventory(testDao.getTestFile());
         List<Snack> snacksAfterReloadingFile = testDao.getAllSnacks();
         Assertions.assertEquals(snacksEdit2, snacksAfterReloadingFile, "Snacks should be the same after writing and reading file.");
         Assertions.assertEquals(snacksAfterReloadingFile.get(0).getName(), snacksEdit2.get(0).getName(), "Name at index 0 should be the same after writing and reading file.");
