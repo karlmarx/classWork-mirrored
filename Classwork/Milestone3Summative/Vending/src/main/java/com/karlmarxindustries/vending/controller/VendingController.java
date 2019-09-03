@@ -71,12 +71,7 @@ public class VendingController {
         view.displayDisplayAllBanner();
         List<Snack> snackList = service.getAllSnacksInStock();
         view.displayAllSnacks(snackList);
-        
     }
-   
-    
-    
-    
    private void buySomething() throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
            
             Snack snack;
@@ -100,6 +95,7 @@ public class VendingController {
                             if (changeBack.getOutcomeSuccess()) {
                                 BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
                                 service.updateMoneyInside(balanceAfterPurchase);
+                                view.displaySuccessBanner(snack);
                                 view.displayChangeBack(changeBack.getChange());
                             //redundant    view.displayCurrentBalance(balanceAfterPurchase);
                                 soldOut = false;

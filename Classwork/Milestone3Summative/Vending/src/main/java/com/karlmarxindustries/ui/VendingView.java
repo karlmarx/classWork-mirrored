@@ -73,7 +73,7 @@ public class VendingView {
         io.print("Total snacks in THE MACHINE: " + libraryCount);
     }
     public void displayDisplayAllBanner() {
-        io.print("==== Display All Snacks ==+=");
+        io.print("==== Display All Snacks ====");
     }
     public String getSlotChoice() {
         String selection =  io.readString("Please enter the snack slot.(A1-A6)").toUpperCase();
@@ -112,7 +112,7 @@ public class VendingView {
         io.print("   #   #    # #         #    # ###### #      #    # # #  # # #      ");
         io.print("   #   #    # #         #    # #    # #    # #    # # #   ## #      ");
         io.print("   #   #    # ######    #    # #    #  ####  #    # # #    # ###### ");
-        io.print("Thank you for using and being used by THE MACHINE!!!");
+        io.print("-----Thank you for using and being used by THE MACHINE!!!-----");
     }
     public void displayInvalidInput() {
         io.print("Invalid Input! Try Again");
@@ -150,7 +150,7 @@ public class VendingView {
             System.out.print("D");
         }
         io.print(" ");
-        for (int i = 0; i < changeBack.getNumQuarters(); i++) {
+        for (int i = 0; i < changeBack.getNumNickels(); i++) {
             System.out.print("N");
         }
         io.print(" ");
@@ -162,6 +162,12 @@ public class VendingView {
         io.print(changeBack.getNumDimes() + " Dimes");
         io.print(changeBack.getNumNickels() + " Nickels");
         io.print(changeBack.getNumPennies() + " Pennies"); 
+    }
+
+    public void displaySuccessBanner(Snack snack) {
+        io.print("+++++++Success+++++++");
+        io.print("Take your " + snack.getName());
+        io.print("++++++++++++++++++++");
     }
 }
 

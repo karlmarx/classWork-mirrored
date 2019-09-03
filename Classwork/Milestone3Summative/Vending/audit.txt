@@ -29,3 +29,5 @@ Time <2019-09-02T18:55:02.328378> : Event = <The user inserted $16.82 into the m
 Time <2019-09-02T20:05:22.412117> : Event = <The user inserted $62.75 into the machine.>
 Time <2019-09-02T20:05:45.504673> : Event = <A Unicorn was purchased for $60.25>
 Time <2019-09-03T08:56:41.216107> : Event = <The user inserted $0.50 into the machine.>
+Time <2019-09-03T09:13:16.293773> : Event = <The user inserted $55.00 into the machine.>
+Time <2019-09-03T09:13:33.730571> : Event = <Bachelor Chow was purchased for $8.02>
