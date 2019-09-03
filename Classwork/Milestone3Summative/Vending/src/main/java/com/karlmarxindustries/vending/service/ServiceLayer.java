@@ -19,28 +19,16 @@ import java.util.List;
  * @author karlmarx
  */
 public interface ServiceLayer {
-   
     public void updateMoneyInside(BigDecimal moneyIn) throws FilePersistenceException;
-        
-    
     public List<Snack> getAllSnacksInStock() throws FilePersistenceException;
     public Snack  getOneItem(String vendingSlot)  throws FilePersistenceException ;
-    
     public ChangeAndOutcome purchaseItem(String vendingSlot, BigDecimal money)
         throws InsufficientFundsException, 
                ItemSoldOutException, 
                FilePersistenceException;
-    public BigDecimal getBalance();
-
     public BigDecimal deductPriceFromBalance(BigDecimal moneyOut);
     public void loadInventory() throws FilePersistenceException;
-
     public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException;
-
     public BigDecimal checkCurrentBalance();
-
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException;
-    
-
-
 }

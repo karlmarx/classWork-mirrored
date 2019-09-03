@@ -65,18 +65,14 @@ public class VendingController {
     private int getMenuSelection(){
         return view.printMenuAndGetSelection();
     }
-    
-    
     private void displayInventory() throws FilePersistenceException {
         view.displayDisplayAllBanner();
         List<Snack> snackList = service.getAllSnacksInStock();
         view.displayAllSnacks(snackList);
     }
    private void buySomething() throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
-           
             Snack snack;
             String slotWanted = null;
-            
             boolean soldOut = true;
             boolean keepPurchasing = true;
             boolean insuffFunds = true;
@@ -139,7 +135,4 @@ public class VendingController {
             keepAdding = view.confirmContinueAdding();
         }
     }
-
-    
-    
 }
