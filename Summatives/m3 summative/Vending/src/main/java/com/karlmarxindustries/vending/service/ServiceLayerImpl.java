@@ -34,7 +34,22 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
     @Override
     public void loadInventory() throws FilePersistenceException {
-        dao.loadInventory();
+        try { 
+                dao.loadInventory(dao.getProductionFile());
+        } catch (FilePersistenceException e) {
+                auditDao.writeAuditEntry("The inventory could not be loaded due to an exception in File Persistence."); 
+                return;
+        }
+        List<Snack> allSnacks = dao.getAllSnacks();
+        StringBuilder str = new StringBuilder();
+        str.append("Loaded Inventory: <Item=").append(allSnacks.get(0).getName()).append(" , Quantity=").append(allSnacks.get(0).getQuantity());
+        str.append(">; <Item=").append(allSnacks.get(1).getName()).append(" , Quantity=").append(allSnacks.get(1).getQuantity());
+        str.append(">; <Item=").append(allSnacks.get(2).getName()).append(" , Quantity=").append(allSnacks.get(2).getQuantity());
+        str.append(">; <Item=").append(allSnacks.get(3).getName()).append(" , Quantity=").append(allSnacks.get(3).getQuantity());
+        str.append(">; <Item=").append(allSnacks.get(4).getName()).append(" , Quantity=").append(allSnacks.get(4).getQuantity());
+        str.append(">; <Item=").append(allSnacks.get(5).getName()).append(" , Quantity=").append(allSnacks.get(5).getQuantity()).append(">.");
+        String auditLog = str.toString();
+        auditDao.writeAuditEntry(auditLog);
    }
     @Override
     public List<Snack> getAllSnacksInStock() throws FilePersistenceException {
@@ -60,40 +75,43 @@ public class ServiceLayerImpl implements ServiceLayer {
         int numNickels = 0;
         int numPennies = 0;
         int priceInCents = snackPrice.multiply(new BigDecimal("100")).intValue();
-        int balanceInCents = changeAndOutcome.change.getMoneyInside().multiply(new BigDecimal("100")).intValue();
+        int balanceInCents = changeAndOutcome.getChange().getMoneyInside().multiply(new BigDecimal("100")).intValue();
         int changeInCents = balanceInCents - priceInCents;
         if (dao.getSnack(vendingSlot).getQuantity() < 1){
+            auditDao.writeAuditEntry("Exception thrown: Item sold out. User attempted to purchase " + dao.getSnack(vendingSlot) + ", but the remaining quantity was zero.");
             throw new ItemSoldOutException("That item is sold out.  Please choose something else.");
         }
         else if (changeInCents < 0) {
+            auditDao.writeAuditEntry("Exception thrown: Insufficient funds. User attempted to purchase " + dao.getSnack(vendingSlot).getName() + "(Price: $" + dao.getSnack(vendingSlot).getPrice() + "), but they only had $" + checkCurrentBalance() +".");
             throw new InsufficientFundsException("Insufficient Funds.  Please add more money, and try again."); ///add loop to do the other stuff
         } else {
             didItSucceed = true;
             dao.getSnack(vendingSlot).setQuantity(dao.getSnack(vendingSlot).getQuantity() - 1);
         }
-        if (changeInCents >= 25) {//need to scale this? ///ENUM THIS?
+        if (changeInCents >= 25) {
             numQuarters = changeInCents / 25;
             changeInCents = changeInCents % 25;
         }   
-        if (changeInCents >= 10) {//need to scale this? 
+        if (changeInCents >= 10) {
             numDimes = changeInCents / 10;
             changeInCents = changeInCents % 10;
         }   
-        if (changeInCents >= 5) {//need to scale this? 
+        if (changeInCents >= 5) {
             numNickels = changeInCents / 5;
             changeInCents = changeInCents % 5;
         }   
-        if (changeInCents >= 1) {//need to scale this? 
+        if (changeInCents >= 1) {
             numPennies = changeInCents / 1;
             changeInCents = changeInCents % 1;
         }   
-        changeAndOutcome.change.setNumPennies(numPennies);
-        changeAndOutcome.change.setNumNickels(numNickels);
-        changeAndOutcome.change.setNumDimes(numDimes);
-        changeAndOutcome.change.setNumQuarters(numQuarters);
+        changeAndOutcome.getChange().setNumPennies(numPennies);
+        changeAndOutcome.getChange().setNumNickels(numNickels);
+        changeAndOutcome.getChange().setNumDimes(numDimes);
+        changeAndOutcome.getChange().setNumQuarters(numQuarters);
         changeAndOutcome.setOutcomeSuccess(didItSucceed);
          if (changeAndOutcome.getOutcomeSuccess()) {
-             auditDao.writeAuditEntry(dao.getSnack(vendingSlot).getName() + " was purchased for $" + snackPrice);
+             auditDao.writeAuditEntry(dao.getSnack(vendingSlot).getName() + " was purchased for $" + snackPrice + ".");
+             auditDao.writeAuditEntry("The following amount of change was dispensed: $" + checkCurrentBalance() + "."); //convert to string?
          }
          return changeAndOutcome;
     }
@@ -104,26 +122,32 @@ public class ServiceLayerImpl implements ServiceLayer {
     }
     @Override
     public void updateMoneyInside(BigDecimal amount) throws FilePersistenceException {
-        changeAndOutcome.change.setMoneyInside(amount);
+        changeAndOutcome.getChange().setMoneyInside(amount);
     }
     @Override
     public BigDecimal deductPriceFromBalance(BigDecimal moneyOut) {
-        changeAndOutcome.change.setMoneyInside(changeAndOutcome.change.getMoneyInside().subtract(moneyOut));
-        return changeAndOutcome.change.getMoneyInside();
+        changeAndOutcome.getChange().setMoneyInside(changeAndOutcome.getChange().getMoneyInside().subtract(moneyOut));
+        return changeAndOutcome.getChange().getMoneyInside();
     }
     @Override
-    public void writeInventory(List<Snack> allSnacks) throws FilePersistenceException {
-        dao.writeInventory(getAllSnacksInStock());
+    public void writeInventoryOnExit(List<Snack> allSnacks) throws FilePersistenceException {
+        try { 
+                dao.writeInventory(getAllSnacksInStock(), dao.getProductionFile());
+        } catch (FilePersistenceException e) {
+                auditDao.writeAuditEntry("The inventory could not be written due to an exception in File Persistence."); 
+                return;
+        }
+        auditDao.writeAuditEntry("User exited and inventory file was saved.");
     }
     @Override
     public BigDecimal checkCurrentBalance() {
-        return changeAndOutcome.change.getMoneyInside();
+        return changeAndOutcome.getChange().getMoneyInside();
     }
    
     @Override
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException {
         moneyInputFromUser.setScale(2, RoundingMode.HALF_UP);
-        changeAndOutcome.change.setMoneyInside(moneyInputFromUser.add(changeAndOutcome.change.getMoneyInside()));
+        changeAndOutcome.getChange().setMoneyInside(moneyInputFromUser.add(changeAndOutcome.getChange().getMoneyInside()));
         auditDao.writeAuditEntry("The user inserted $" + String.valueOf(moneyInputFromUser) + " into the machine."); 
     }
 }

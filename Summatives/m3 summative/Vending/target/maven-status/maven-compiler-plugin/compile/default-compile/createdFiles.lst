@@ -1,10 +1,8 @@
-com/karlmarxindustries/vending/dto/CoinPurse.class
 com/karlmarxindustries/vending/dao/AuditDaoImpl.class
 com/karlmarxindustries/vending/exception/ItemSoldOutException.class
 com/karlmarxindustries/vending/app/App.class
 com/karlmarxindustries/vending/controller/VendingController.class
 com/karlmarxindustries/ui/VendingView.class
-com/karlmarxindustries/vending/dto/Change$Coins.class
 com/karlmarxindustries/vending/exception/FilePersistenceException.class
 com/karlmarxindustries/vending/dao/VendingDao.class
 com/karlmarxindustries/vending/service/ServiceLayer.class

@@ -6,13 +6,10 @@
 package com.karlmarxindustries.ui;
 
 import com.karlmarxindustries.vending.dto.Change;
-import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.Coins;
-import static com.karlmarxindustries.vending.dto.Coins.QUARTER;
 import com.karlmarxindustries.vending.dto.Snack;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,15 +29,9 @@ public class VendingView {
         return io.readInt("Please select from the above choices.", 1, 3);
     }
     public boolean confirmPurchasing(){
-       String selection = io.readString("Would you like to purchase another Snack? (Enter 'Y' or 'N')");
+       String selection = io.readString("Would you like to purchase another \"Snack\"? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-    }
-    public void displayPurchaseOutcome() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    public void insertCoin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public void displayMoneyInside(BigDecimal change) {
         io.print("Current balance: $" + change);
@@ -73,7 +64,7 @@ public class VendingView {
         io.print("Total snacks in THE MACHINE: " + libraryCount);
     }
     public void displayDisplayAllBanner() {
-        io.print("==== Display All Snacks ====");
+        io.print("==== Display All \"Snacks\" ====");
     }
     public String getSlotChoice() {
         String selection =  io.readString("Please enter the snack slot.(A1-A6)").toUpperCase();
@@ -95,15 +86,12 @@ public class VendingView {
             io.print("Quantity: " + snack.getQuantity());
            
         } else {
-            io.print("There is no snack at this slot.");
+            io.print("There is no \"snack\" at this slot.");
             return;
         }
     }
-    public void displayRemoveSnackBanner () {
-        io.print("=== Remove Snack ===");
-    }
     public void purchaseSnackBanner () {
-        io.print("=== Purchase Snack ===");
+        io.print("=== Purchase \"Snack\" ===");
     }
     public void displayExitBanner() {
         io.print(" ##### #    # ######    #    #   ##    ####  #    # # #    # ###### ");
@@ -118,7 +106,7 @@ public class VendingView {
         io.print("Invalid Input! Try Again");
     }
     public boolean confirmCorrectSelection(){
-       String selection = io.readString("Is this the correct snack? (Enter 'Y' or 'N')");
+       String selection = io.readString("Is this the correct \"snack\"? (Enter 'Y' or 'N')");
        boolean correctSelection = selection.equalsIgnoreCase("Y");
        return correctSelection;
      }
@@ -142,32 +130,42 @@ public class VendingView {
     }
     public void displayChangeBack(Change changeBack) {
         System.out.println("Don't forget to take your change!");
-        for (int i = 0; i < changeBack.getNumQuarters(); i++) {
+        if (changeBack.getNumQuarters() > 0){
+            for (int i = 0; i < changeBack.getNumQuarters(); i++) {
             System.out.print("Q");
+            }
+            io.print(" ");
         }
-        io.print(" ");
-        for (int i = 0; i < changeBack.getNumDimes(); i++) {
-            System.out.print("D");
+        io.print(changeBack.getNumQuarters() + " Quarters!");
+        if (changeBack.getNumDimes() > 0){
+            for (int i = 0; i < changeBack.getNumDimes(); i++) {
+                System.out.print("D");
+            }
+            io.print(" ");
         }
-        io.print(" ");
-        for (int i = 0; i < changeBack.getNumNickels(); i++) {
-            System.out.print("N");
+        io.print(changeBack.getNumDimes() + " Dimes!");
+        if (changeBack.getNumNickels() > 0){
+            for (int i = 0; i < changeBack.getNumNickels(); i++) {
+                System.out.print("N");
+            }
+            io.print(" ");
         }
-        io.print(" ");
-        for (int i = 0; i < changeBack.getNumPennies(); i++) {
-            System.out.print("P");
+        io.print(changeBack.getNumNickels() + " Nickels!");
+        if (changeBack.getNumPennies() > 0) {
+            for (int i = 0; i < changeBack.getNumPennies(); i++) {
+                System.out.print("P");
+            }
+            io.print(" ");
         }
-        io.print(" ");
-        io.print(changeBack.getNumQuarters() + " Quarters");
-        io.print(changeBack.getNumDimes() + " Dimes");
-        io.print(changeBack.getNumNickels() + " Nickels");
-        io.print(changeBack.getNumPennies() + " Pennies"); 
+        io.print(changeBack.getNumPennies() + " Pennies!");
     }
-
     public void displaySuccessBanner(Snack snack) {
         io.print("+++++++Success+++++++");
         io.print("Take your " + snack.getName());
         io.print("++++++++++++++++++++");
+    }
+    public void displayBeginningBalance(BigDecimal checkCurrentBalance) {
+        io.print("Current Balance: $" + checkCurrentBalance);
     }
 }
 

@@ -10,8 +10,8 @@ package com.karlmarxindustries.vending.dto;
  * @author karlmarx
  */
 public class ChangeAndOutcome {
-    public Change change;
-    public boolean outcomeSuccess;
+    private Change change; //private and uuse g and s 
+    private boolean outcomeSuccess;
 
     public ChangeAndOutcome() {
     }

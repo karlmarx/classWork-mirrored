@@ -38,28 +38,28 @@ public class VendingController {
         service.loadInventory();
         displayInventory();
         
-       // try{
-        while (keepGoing) {
-            
-            menuSelection = getMenuSelection();
+        try{
+            while (keepGoing) {
 
-            switch (menuSelection) {
-                case 1:
-                    insertMoney();
-                    break;
-                case 2:
-                    buySomething();
-                    break;
-                case 3:
-                    keepGoing = false;
-                    break;
-                default:
-                    invalidInput();
+                menuSelection = getMenuSelection();
+
+                switch (menuSelection) {
+                    case 1:
+                        insertMoney();
+                        break;
+                    case 2:
+                        buySomething();
+                        break;
+                    case 3:
+                        keepGoing = false;
+                        break;
+                    default:
+                        invalidInput();
+                }
             }
+        } catch (FilePersistenceException e){
+            view.displayErrorMessage(e.getMessage());
         }
-//        } catch (FilePersistenceException e){
-//            view.displayErrorMessage(e.getMessage());
-//        } - WHY??????????
         exitMessage();
     }
     private int getMenuSelection(){
@@ -71,56 +71,54 @@ public class VendingController {
         view.displayAllSnacks(snackList);
     }
    private void buySomething() throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
-            Snack snack;
-            String slotWanted = null;
-            boolean soldOut = true;
-            boolean keepPurchasing = true;
-            boolean insuffFunds = true;
-            while(keepPurchasing){
-                 displayInventory();
-                view.purchaseSnackBanner();
-                boolean correctSelection = false;
-                while(!correctSelection) {
-                    try{                        
-                        slotWanted = view.getSlotChoice();
-                        snack = service.getOneItem(slotWanted); 
-                        view.viewSnack(snack);
-                        if (snack != null){
-                            correctSelection = view.confirmCorrectSelection();
-                            ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); 
-                            if (changeBack.getOutcomeSuccess()) {
-                                BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
-                                service.updateMoneyInside(balanceAfterPurchase);
-                                view.displaySuccessBanner(snack);
-                                view.displayChangeBack(changeBack.getChange());
-                            //redundant    view.displayCurrentBalance(balanceAfterPurchase);
-                                soldOut = false;
-                                insuffFunds = false;
-                            } 
-                            view.displayCurrentBalance(service.checkCurrentBalance());
-                        } else {
-                            return;
-                        }
-                    }
-                    catch (ItemSoldOutException e ){
-                        view.displayErrorMessage(e.getMessage());
-                        return;
-                    } catch (InsufficientFundsException f ){
-                        view.displayErrorMessage(f.getMessage());
-                        view.displayMoneyInside(service.checkCurrentBalance());
-                        return;
-                    }
+        Snack snack;
+        String slotWanted = null;
+//        boolean soldOut = true;
+//        boolean insuffFunds = true;
+
+        displayInventory();
+        view.purchaseSnackBanner();
+        boolean correctSelection = false;
+        while(!correctSelection) {
+            try{                        
+                slotWanted = view.getSlotChoice();
+                snack = service.getOneItem(slotWanted); 
+                view.viewSnack(snack);
+                if (snack != null){
+                    correctSelection = view.confirmCorrectSelection();
+                    view.displayBeginningBalance(service.checkCurrentBalance());
+                    ChangeAndOutcome changeBack = service.purchaseItem(slotWanted, snack.getPrice()); 
+                    if (changeBack.getOutcomeSuccess()) {
+                        BigDecimal balanceAfterPurchase = service.deductPriceFromBalance(snack.getPrice());
+                        service.updateMoneyInside(balanceAfterPurchase);
+                        view.displaySuccessBanner(snack);
+                        view.displayChangeBack(changeBack.getChange());
+                        service.updateMoneyInside(new BigDecimal("0.00")); 
+                    //redundant    view.displayCurrentBalance(balanceAfterPurchase);
+//                        soldOut = false;
+//                        insuffFunds = false;
+                    } 
+                    
+                } else {
+                    return;
                 }
-                keepPurchasing = view.confirmPurchasing();
             }
-///display balance?            view.displayEditSuccessBanner(); 
+            catch (ItemSoldOutException e) {
+                view.displayErrorMessage(e.getMessage());
+                return;
+            } catch (InsufficientFundsException f) {
+                view.displayErrorMessage(f.getMessage());
+                view.displayMoneyInside(service.checkCurrentBalance());
+                return;
+            }
+        }
     } 
     private void invalidInput() {
         view.displayInvalidInput();
     }
     private void exitMessage() throws FilePersistenceException {
         List<Snack> allSnacks = service.getAllSnacksInStock();
-        service.writeInventory(allSnacks);
+        service.writeInventoryOnExit(allSnacks);
         view.displayExitBanner();
     }
     private void welcomeMessage(){

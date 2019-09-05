@@ -20,16 +20,13 @@ public interface VendingDao { //should dao interface be independent of the load 
     
     Snack getSnack (String slot) throws FilePersistenceException;
     
-  void updateMoneyInside(BigDecimal moneyIn);
+    void updateMoneyInside(BigDecimal moneyIn);
     void updateQuantity(String slot, Snack snack) throws FilePersistenceException; 
     
-    void loadInventory() throws FilePersistenceException;
-    
-    void writeInventory(List<Snack> snackList) throws FilePersistenceException;
-    
-    void loadInventoryTest() throws FilePersistenceException;
-    
-    void writeInventoryTest(List<Snack> snackList) throws FilePersistenceException;
+    void loadInventory(String libraryFile) throws FilePersistenceException;
+    public String getProductionFile();
+    public String getTestFile() ;
+    void writeInventory(List<Snack> snackList, String libraryFile) throws FilePersistenceException;
     
     void print(String msg);
 

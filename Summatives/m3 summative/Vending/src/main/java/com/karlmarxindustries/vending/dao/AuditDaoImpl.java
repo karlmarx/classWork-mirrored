@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  */
 public class AuditDaoImpl implements AuditDao {
     public static final String AUDIT_FILE = "audit.txt";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
     public void stamp(BigDecimal balance, String after_money_was_inserted) {
         System.out.println("Time Stamped placeholder ");
     }
@@ -31,7 +33,7 @@ public class AuditDaoImpl implements AuditDao {
                 throw new FilePersistenceException("Could not persist audit information.", e);
             }
             LocalDateTime timeStamp = LocalDateTime.now();
-            out.println("Time <" + timeStamp.toString() + "> : Event = <" + entry + ">");
+            out.println(timeStamp.format(formatter)+ " : [" + entry + "]");
             out.flush();
     }
     

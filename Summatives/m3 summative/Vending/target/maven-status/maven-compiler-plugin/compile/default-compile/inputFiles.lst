@@ -7,7 +7,6 @@
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/ui/VendingView.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/service/ServiceLayer.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/dao/AuditDao.java
-/Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/dto/CoinPurse.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/dao/VendingDao.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/controller/VendingController.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone3Summative/Vending/src/main/java/com/karlmarxindustries/vending/dto/Snack.java
