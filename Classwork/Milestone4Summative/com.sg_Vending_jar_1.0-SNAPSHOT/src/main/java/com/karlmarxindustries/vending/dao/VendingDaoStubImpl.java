@@ -8,6 +8,7 @@ package com.karlmarxindustries.vending.dao;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,13 @@ import java.util.Map;
  * @author karlmarx
  */
 public class VendingDaoStubImpl implements VendingDao {
-    private Snack onlySnack;
-    private Map<String, Snack> snacksArray = new HashMap<>();
+        private Snack onlySnack;
+        private Map<String, Snack> snacks = new HashMap<>();
+
+    public VendingDaoStubImpl() {
+        onlySnack = new Snack("T1", "Generic", new BigDecimal("1.00"), 10);
+    }
+
 
     public Snack getOnlySnack() {
         return onlySnack;
@@ -31,19 +37,19 @@ public class VendingDaoStubImpl implements VendingDao {
     
 
     public void setSnacks(Map<String, Snack> snacks) {
-        this.snacksArray = snacks;
+        this.snacks = snacks;
     }
 
     public VendingDaoStubImpl(Snack onlySnack) {
         onlySnack = new Snack("T1", "Name", new BigDecimal("1.50"), 10);
-        snacksArray.put(onlySnack.getSlot(),onlySnack);
+        snacks.put(onlySnack.getSlot(),onlySnack);
     }
     
     
     
     @Override
     public List<Snack> getAllSnacks() throws FilePersistenceException {
-        return snacksArray;
+        return new ArrayList<Snack>(snacks.values());
     }
 
     @Override
@@ -139,6 +145,16 @@ public class VendingDaoStubImpl implements VendingDao {
     public Map<String, Snack> getSnacks() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+//    @Override
+//    public Snack unmarshallSnack(String inventoryAsText) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Snack marshallSnack(String inventoryAsText) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 
     

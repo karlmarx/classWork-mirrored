@@ -7,11 +7,14 @@ package com.karlmarxindustries.vending.dao;
 
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
+import com.karlmarxindustries.vending.service.VendingServiceLayer;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -20,8 +23,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class VendingDaoFileImplTest {
     
     VendingDaoFileImpl testDao;
+    
     public VendingDaoFileImplTest() {
-        testDao = new VendingDaoFileImpl();
+        ApplicationContext ctx = 
+        new ClassPathXmlApplicationContext("applicationContext.xml");
+        testDao = ctx.getBean("vendingDao", VendingDaoFileImpl.class);
+    
     }
 
     @Test
@@ -47,17 +54,18 @@ public class VendingDaoFileImplTest {
         Assertions.assertEquals(toTextify, snackFromText, "Input and output of marshalling/unmarshalling should be the same.");
     }
     @Test
+    public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
+        List<Snack> allSnacks = testDao.getAllSnacks();
+        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
+    }
+    @Test
     public void testGetAllSnacksWithInventory() throws FilePersistenceException {
         testDao.loadInventory(testDao.getProductionFile()); //the inventory from file has exactly six items at all times.
         List<Snack> allSnacks = testDao.getAllSnacks();
         Assertions.assertEquals(6, allSnacks.size(), "There should be 6 snacks in array list as there are six snacks in inventory file.");
         
     }
-        @Test
-    public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
-        List<Snack> allSnacks = testDao.getAllSnacks();
-        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
-    }
+    
     @Test
     public void testGetSnack() throws FilePersistenceException {
         testDao.loadInventory(testDao.getProductionFile()); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
@@ -77,7 +85,7 @@ public class VendingDaoFileImplTest {
         List<Snack> initialSnacks = testDao.getAllSnacks();
         Snack snackToRemove = testDao.getSnack("A1");  
         List<Snack> snacksToEdit = initialSnacks;
-        testDao.snacks.remove("A1"); //made public to work. is that ok??
+        testDao.getSnacks().remove("A1"); //made public to work. is that ok??
         List<Snack> snacksAfterRemoval = testDao.getAllSnacks();
         Snack ungettableSnack = testDao.getSnack("A1");
         Snack shouldStillBeAbleToGet = testDao.getSnack("A2");

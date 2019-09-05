@@ -24,7 +24,7 @@
        class="com.karlmarxindustries.vending.dao.VendingDaoStubImpl"/>
    
     <bean id="auditDaoStub" 
-       class="com.karlmarxindustries.vending.dao.VendingAuditDaoStubImpl"/>
+       class="com.karlmarxindustries.vending.dao.AuditDaoStubImpl"/>
    
     <bean id="serviceLayer" 
        class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">

@@ -24,14 +24,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author karlmarx
  */
+
 public class ServiceLayerImplTest {
-     private VendingServiceLayer service;
-     private VendingDao dao;
+    private VendingServiceLayer service;
+    private VendingDao dao;
+     
     public ServiceLayerImplTest() {
-    ApplicationContext ctx = 
-        new ClassPathXmlApplicationContext("applicationContext.xml");
-         service = ctx.getBean("serviceLayer", VendingServiceLayer.class);
-          dao = ctx.getBean("dao", VendingDao.class);
+        ApplicationContext ctx = 
+            new ClassPathXmlApplicationContext("applicationContext.xml");
+        service = ctx.getBean("serviceLayer", VendingServiceLayer.class);
+
     }
     @Test
     public void testSomeMethod() {
@@ -49,7 +51,7 @@ public class ServiceLayerImplTest {
     public void testGetOneItem() throws FilePersistenceException {
         Snack snackTest = new Snack();
         String keyToTest = "anything";
-        dao.getAllSnacks().(keyToTest, snackTest);
+      List<Snack>  blah = dao.getAllSnacks();
         Snack snackFromMethod = service.getOneItem(keyToTest);
         
         Assertions.assertEquals(snackTest, snackFromMethod, "The result from get one item should be the same as what is the value to the key parameter");

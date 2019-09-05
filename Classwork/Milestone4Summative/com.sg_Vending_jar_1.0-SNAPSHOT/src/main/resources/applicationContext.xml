@@ -15,9 +15,9 @@
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <bean id="userIO" class="com.karlmarxindustries.ui.UserIOConsoleImpl"/>
+    <bean id="userIO" class="com.karlmarxindustries.vending.ui.UserIOConsoleImpl"/>
    
-    <bean id="view" class="com.karlmarxindustries.ui.VendingView">
+    <bean id="view" class="com.karlmarxindustries.vending.ui.VendingView">
         <constructor-arg ref="userIO"/>
     </bean>
    
@@ -25,7 +25,7 @@
          class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl"/>
    
     <bean id="auditDao" 
-         class="com.karlmarxindustries.vending.dao.AuditDaoFileImpl"/>
+         class="com.karlmarxindustries.vending.dao.VendingAuditDaoImpl"/>
    
     <bean id="serviceLayer" 
          class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
@@ -41,4 +41,3 @@
    
 </beans>
    
-</beans>

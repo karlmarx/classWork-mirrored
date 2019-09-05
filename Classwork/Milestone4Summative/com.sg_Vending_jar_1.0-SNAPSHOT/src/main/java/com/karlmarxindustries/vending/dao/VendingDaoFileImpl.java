@@ -34,7 +34,7 @@ public class VendingDaoFileImpl implements VendingDao {
     private final String testFile = "inventorytest.txt";
     private static final String DELIMITER = "::";
     private Map<String, Snack> snacks = new HashMap<>();
-    private VendingServiceLayer service;
+    
     public String getProductionFile() {
         return productionFile;
     }
@@ -49,16 +49,11 @@ public class VendingDaoFileImpl implements VendingDao {
         this.snacks = snacks;
     }
 
-    public VendingServiceLayer getService() {
-        return service;
-    }
-
-    public void setService(VendingServiceLayer service) {
-        this.service = service;
-    }
+   
     public String getTestFile() {
         return testFile;
     }
+    //@Override
     public Snack unmarshallSnack(String inventoryAsText){
         String[] vendTokens = inventoryAsText.split(DELIMITER);
         String slot = vendTokens[0];
@@ -69,6 +64,7 @@ public class VendingDaoFileImpl implements VendingDao {
         snackFromFile.setQuantity(Integer.valueOf(vendTokens[3]));
         return snackFromFile;
     }
+    //@Override
     public String marshallSnack(Snack aSnack){
         String snacksAsText = aSnack.getSlot() + DELIMITER;
         snacksAsText += aSnack.getName() + DELIMITER; 
@@ -173,52 +169,6 @@ public class VendingDaoFileImpl implements VendingDao {
         return snacks.get(slot);
     }
 
-//    @Override
-//    public Snack removeDvd(String title) throws FilePersistenceException {
-//        Snack removedDvd = snacks.remove(title);
-//        return removedDvd;
-//    }   
-    
-//
-//    @Override
-//    public Snack updateQuantity (String slot, Snack dvd) throws FilePersistenceException {
-//        Snack newDvd =snacks.put(title, dvd);
-//        return newDvd;   //put the rest of update in service LAyer
-//    }
-//    
-//    
-//    @Override
-//    public Snack editSnack (String title, Snack dvd) throws DvdLibraryDaoException{
-//        //this needs to be different - find and update in map
-//        Snack editedDvd = snacks.put(title, dvd); //make sure first part is good with updates using an if 
-//        return editedDvd;
-//    }
-//    
-//
-//    private Writer newFileWriter(String LIBRARY_FILE) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Snack getSnack(String slot) throws FilePersistenceException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void writeInventory() throws FilePersistenceException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void updateMoneyInside(BigDecimal moneyIn) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void updateMoneyInside() {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//    
 
     @Override
     public void updateMoneyInside(BigDecimal moneyIn) {
