@@ -6,13 +6,10 @@
 package com.karlmarxindustries.ui;
 
 import com.karlmarxindustries.vending.dto.Change;
-import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.Coins;
-import static com.karlmarxindustries.vending.dto.Coins.QUARTER;
 import com.karlmarxindustries.vending.dto.Snack;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -35,12 +32,6 @@ public class VendingView {
        String selection = io.readString("Would you like to purchase another \"Snack\"? (Enter 'Y' or 'N')");
        boolean continueAdding = selection.equalsIgnoreCase("Y");
        return continueAdding;
-    }
-    public void displayPurchaseOutcome() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    public void insertCoin() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public void displayMoneyInside(BigDecimal change) {
         io.print("Current balance: $" + change);

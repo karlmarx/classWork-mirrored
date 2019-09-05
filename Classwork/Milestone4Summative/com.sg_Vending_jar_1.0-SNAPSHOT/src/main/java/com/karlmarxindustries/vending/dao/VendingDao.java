@@ -27,7 +27,7 @@ public interface VendingDao { //should dao interface be independent of the load 
     public String getProductionFile();
     public String getTestFile() ;
     void writeInventory(List<Snack> snackList, String libraryFile) throws FilePersistenceException;
-    
+    public Map<String, Snack> getSnacks();
     void print(String msg);
 
     double readDouble(String prompt);

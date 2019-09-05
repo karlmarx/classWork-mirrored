@@ -6,16 +6,16 @@
 package com.karlmarxindustries.vending.controller;
 
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
-import com.karlmarxindustries.ui.VendingView;
-import com.karlmarxindustries.vending.dao.AuditDao;
+import com.karlmarxindustries.vending.ui.VendingView;
 import java.util.List;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
 import com.karlmarxindustries.vending.exception.ItemSoldOutException;
-import com.karlmarxindustries.vending.service.ServiceLayer;
 import java.math.BigDecimal;
+import com.karlmarxindustries.vending.service.VendingServiceLayer;
+import com.karlmarxindustries.vending.dao.VendingAuditDao;
 
 /**
  *
@@ -23,10 +23,10 @@ import java.math.BigDecimal;
  */
 public class VendingController {
     VendingView view;
-    ServiceLayer service;
+    VendingServiceLayer service;
     //CONTROLLER NEEDS TO HANDLE EXCEPTIONS!!!
     
-    public VendingController(VendingView view, ServiceLayer service) {
+    public VendingController(VendingView view, VendingServiceLayer service) {
         this.view = view;
         this.service = service;
     }

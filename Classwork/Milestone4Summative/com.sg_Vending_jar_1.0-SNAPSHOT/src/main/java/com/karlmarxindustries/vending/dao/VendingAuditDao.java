@@ -11,6 +11,6 @@ import com.karlmarxindustries.vending.exception.FilePersistenceException;
  *
  * @author karlmarx
  */
-public interface AuditDao {
+public interface VendingAuditDao {
     public void writeAuditEntry(String entry) throws FilePersistenceException;
 }

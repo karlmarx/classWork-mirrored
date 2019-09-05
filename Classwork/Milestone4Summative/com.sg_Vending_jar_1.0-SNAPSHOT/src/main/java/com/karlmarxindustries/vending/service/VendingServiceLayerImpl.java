@@ -5,7 +5,6 @@
  */
 package com.karlmarxindustries.vending.service;
 
-import com.karlmarxindustries.vending.dao.AuditDao;
 import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.dto.Change;
 import com.karlmarxindustries.vending.dto.ChangeAndOutcome;
@@ -17,18 +16,19 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import com.karlmarxindustries.vending.dao.VendingAuditDao;
 
 /**
  *
  * @author karlmarx
  */
-public class ServiceLayerImpl implements ServiceLayer {
+public class VendingServiceLayerImpl implements VendingServiceLayer {
     
     private VendingDao dao;
-    private AuditDao auditDao;
+    private VendingAuditDao auditDao;
     Change change = new Change(convertToBigAndScale("0.00"));
     ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
-    public ServiceLayerImpl(VendingDao vendingDao, AuditDao auditDao) {
+    public VendingServiceLayerImpl(VendingDao vendingDao, VendingAuditDao auditDao) {
         this.dao = vendingDao;
         this.auditDao = auditDao;
     }

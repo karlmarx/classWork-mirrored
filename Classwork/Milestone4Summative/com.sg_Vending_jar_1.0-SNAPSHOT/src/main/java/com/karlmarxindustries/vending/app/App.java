@@ -5,19 +5,12 @@
  */
 package com.karlmarxindustries.vending.app;
 
-import com.karlmarxindustries.vending.dao.VendingDaoFileImpl;
-import com.karlmarxindustries.ui.UserIO;
-import com.karlmarxindustries.ui.UserIOConsoleImpl;
-import com.karlmarxindustries.ui.VendingView;
 import com.karlmarxindustries.vending.controller.VendingController;
-import com.karlmarxindustries.vending.dao.AuditDao;
-import com.karlmarxindustries.vending.dao.AuditDaoImpl;
-import com.karlmarxindustries.vending.dao.VendingDao;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
 import com.karlmarxindustries.vending.exception.ItemSoldOutException;
-import com.karlmarxindustries.vending.service.ServiceLayer;
-import com.karlmarxindustries.vending.service.ServiceLayerImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -25,13 +18,10 @@ import com.karlmarxindustries.vending.service.ServiceLayerImpl;
  */
 public class App {
     
-        public static void main(String[] args) throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException  {
-            UserIO myIO = new UserIOConsoleImpl();
-            VendingView myView = new VendingView(myIO);
-            VendingDao myDao = new VendingDaoFileImpl();
-            AuditDao myAuditDao = new AuditDaoImpl();
-            ServiceLayer myServiceLayer = new ServiceLayerImpl(myDao, myAuditDao);
-            VendingController controller = new VendingController(myView, myServiceLayer);
-            controller.run();
+    public static void main(String[] args) throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException  {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        VendingController controller = 
+        ctx.getBean("controller", VendingController.class);
+        controller.run();
     }   
 }

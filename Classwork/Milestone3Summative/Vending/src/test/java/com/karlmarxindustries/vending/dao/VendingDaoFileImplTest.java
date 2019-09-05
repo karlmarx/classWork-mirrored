@@ -23,7 +23,11 @@ public class VendingDaoFileImplTest {
     public VendingDaoFileImplTest() {
         testDao = new VendingDaoFileImpl();
     }
-
+    @Test
+    public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
+        List<Snack> allSnacks = testDao.getAllSnacks();
+        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
+    }
     @Test
     public void testUnmarshallSnack() {
         String snackLine =  "T1::Name1::1.00::1";
@@ -53,11 +57,7 @@ public class VendingDaoFileImplTest {
         Assertions.assertEquals(6, allSnacks.size(), "There should be 6 snacks in array list as there are six snacks in inventory file.");
         
     }
-        @Test
-    public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
-        List<Snack> allSnacks = testDao.getAllSnacks();
-        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
-    }
+       
     @Test
     public void testGetSnack() throws FilePersistenceException {
         testDao.loadInventory(testDao.getProductionFile()); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
@@ -77,7 +77,9 @@ public class VendingDaoFileImplTest {
         List<Snack> initialSnacks = testDao.getAllSnacks();
         Snack snackToRemove = testDao.getSnack("A1");  
         List<Snack> snacksToEdit = initialSnacks;
-        testDao.snacks.remove("A1"); //made public to work. is that ok??
+        initialSnacks.remove("A1");
+        testDao.getSnacks().remove("A1");
+         //made public to work. is that ok?? - no 
         List<Snack> snacksAfterRemoval = testDao.getAllSnacks();
         Snack ungettableSnack = testDao.getSnack("A1");
         Snack shouldStillBeAbleToGet = testDao.getSnack("A2");

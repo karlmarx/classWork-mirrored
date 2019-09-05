@@ -7,7 +7,6 @@ package com.karlmarxindustries.vending.dao;
 
 import com.karlmarxindustries.vending.dto.Snack;
 import com.karlmarxindustries.vending.exception.FilePersistenceException;
-import com.karlmarxindustries.vending.service.ServiceLayer;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -22,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import com.karlmarxindustries.vending.service.VendingServiceLayer;
 
 /**
  *
@@ -30,13 +30,31 @@ import java.util.Scanner;
 public class VendingDaoFileImpl implements VendingDao {
   // public static String libraryFile (liveInventory);
     
-    public final  String productionFile = "inventory.txt";
+    private final  String productionFile = "inventory.txt";
     private final String testFile = "inventorytest.txt";
-    public static final String DELIMITER = "::";
-    public Map<String, Snack> snacks = new HashMap<>();
-    public ServiceLayer service;
+    private static final String DELIMITER = "::";
+    private Map<String, Snack> snacks = new HashMap<>();
+    private VendingServiceLayer service;
     public String getProductionFile() {
         return productionFile;
+    }
+
+    
+    @Override
+    public Map<String, Snack> getSnacks() {
+        return snacks;
+    }
+
+    public void setSnacks(Map<String, Snack> snacks) {
+        this.snacks = snacks;
+    }
+
+    public VendingServiceLayer getService() {
+        return service;
+    }
+
+    public void setService(VendingServiceLayer service) {
+        this.service = service;
     }
     public String getTestFile() {
         return testFile;
@@ -93,39 +111,7 @@ public class VendingDaoFileImpl implements VendingDao {
         }
                out.close();
     }
-//    @Override
-//    public void loadInventoryTest() throws FilePersistenceException {
-//        Scanner scanner;
-//        try{
-//            scanner = new Scanner(new BufferedReader(new FileReader(TEST_FILE)));
-//        } catch (FileNotFoundException e) {
-//            throw new FilePersistenceException("Uh-oh! Could not load inventory data into memory", e);
-//        }
-//        String currentLine;
-//        Snack currentSnack;
-//        while (scanner.hasNextLine()){
-//            currentLine = scanner.nextLine();
-//            currentSnack = unmarshallSnack(currentLine);
-//            snacks.put(currentSnack.getSlot(), currentSnack);
-//        }
-//        scanner.close();
-//    }
-//    @Override
-//    public void writeInventoryTest(List<Snack> snackList) throws FilePersistenceException {
-//        PrintWriter out;
-//        try{
-//            out = new PrintWriter(new FileWriter(TEST_FILE));
-//        } catch (IOException e){
-//            throw new FilePersistenceException("Could not save Inventory data", e);
-//        }
-//        String snackAsText;
-//        for (Snack currentSnack : snackList){
-//            snackAsText = marshallSnack(currentSnack);
-//            out.println(snackAsText);
-//            out.flush();
-//        }
-//        out.close();
-//    }
+
     
     @Override
     public void print(String msg) {
@@ -243,6 +229,8 @@ public class VendingDaoFileImpl implements VendingDao {
     public void updateQuantity(String slot, Snack snack) throws FilePersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+  
 
     
 }

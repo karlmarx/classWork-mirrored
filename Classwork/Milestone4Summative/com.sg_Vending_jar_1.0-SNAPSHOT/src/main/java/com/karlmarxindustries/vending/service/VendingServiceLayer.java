@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author karlmarx
  */
-public interface ServiceLayer {
+public interface VendingServiceLayer {
     public void updateMoneyInside(BigDecimal moneyIn) throws FilePersistenceException;
     public List<Snack> getAllSnacksInStock() throws FilePersistenceException;
     public Snack  getOneItem(String vendingSlot)  throws FilePersistenceException ;
