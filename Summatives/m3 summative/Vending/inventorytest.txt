@@ -1,0 +1,11 @@
+A1::Consciousness::59.99::10
+T4::Name4::4.00::10
+A2::Unicorn::60.25::10
+T5::Name5::5.00::10
+A3::Time::1.93::10
+A4::Fear::20.23::10
+A5::Twinkie::19.99::10
+A6::Bachelor Chow::8.02::10
+T1::Name1::1.00::10
+T2::Name2::2.00::10
+T3::Name3::3.00::10
