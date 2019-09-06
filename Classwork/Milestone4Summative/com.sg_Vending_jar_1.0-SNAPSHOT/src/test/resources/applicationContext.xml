@@ -18,14 +18,16 @@
  
     <!-- Bean definitions go here -->
     <bean id="vendingDao" 
-       class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl"/>
+       class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl">
+        <constructor-arg value="inventorytest.txt"/>
+    </bean>
    
     <bean id="vendingDaoStub" 
           class="com.karlmarxindustries.vending.dao.VendingDaoStubImpl">
         <constructor-arg ref="testSnackOne"/>
         <constructor-arg ref="testSnackTwo"/>
     </bean>
-   
+    
     <bean id="auditDaoStub" 
        class="com.karlmarxindustries.vending.dao.VendingAuditDaoStubImpl"/>
     

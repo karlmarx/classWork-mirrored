@@ -22,7 +22,9 @@
     </bean>
    
     <bean id="vendingDao" 
-         class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl"/>
+         class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl">
+        <constructor-arg value="inventory.txt"/>
+    </bean>
    
     <bean id="auditDao" 
          class="com.karlmarxindustries.vending.dao.VendingAuditDaoImpl"/>

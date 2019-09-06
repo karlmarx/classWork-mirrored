@@ -33,7 +33,7 @@ public class ServiceLayerImplTest {
     
     public ServiceLayerImplTest () {
         testSnackOne = new Snack();
-        testSnackTwo;
+        //testSnackTwo;
         testServiceLayer = new ServiceLayerImpl(dao, auditDao);
     }
 

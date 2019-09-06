@@ -57,9 +57,9 @@ public class VendingDaoFileImplTest {
    
      @Test
     public void testGetAllSnacksWithInventory() throws FilePersistenceException {
-        testDao.loadInventory(testDao.getProductionFile()); //the inventory from file has exactly six items at all times.
+        testDao.loadInventory(); //the inventory from file has exactly six items at all times.
         List<Snack> allSnacks = testDao.getAllSnacks();
-        Assertions.assertEquals(6, allSnacks.size(), "There should be 6 snacks in array list as there are six snacks in inventory file.");
+        Assertions.assertEquals(5, allSnacks.size(), "There should be 5 snacks in array list as there are five snacks in test inventory file.");
         
     }
     @Test
@@ -70,7 +70,7 @@ public class VendingDaoFileImplTest {
      
     @Test
     public void testGetSnack() throws FilePersistenceException {
-        testDao.loadInventory(testDao.getProductionFile()); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
+        testDao.loadInventory(); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
         Snack gottenSnack = testDao.getSnack("A6");  
         Snack secondGottenSnack = testDao.getSnack("A4");
         Assertions.assertEquals("A6", gottenSnack.getSlot(), "Slot should be A6");
@@ -81,32 +81,32 @@ public class VendingDaoFileImplTest {
         Assertions.assertEquals("Fear", secondGottenSnack.getName(), "Name should be Fear.");
         Assertions.assertNotSame(gottenSnack, secondGottenSnack, "Getting at 2 slots should yield two different objects");
     }
-    @Test
-    public void testGetAllSnacksAfterRemovingGottenSnack() throws FilePersistenceException {
-        testDao.loadInventory(testDao.getProductionFile());
-        List<Snack> initialSnacks = testDao.getAllSnacks();
-        Snack snackToRemove = testDao.getSnack("A1");  
-        List<Snack> snacksToEdit = initialSnacks;
-        testDao.getSnacks().remove("A1"); //made public to work. is that ok??
-        List<Snack> snacksAfterRemoval = testDao.getAllSnacks();
-        Snack ungettableSnack = testDao.getSnack("A1");
-        Snack shouldStillBeAbleToGet = testDao.getSnack("A2");
-                
-        Assertions.assertNotEquals(snacksToEdit.size(), snacksAfterRemoval.size(), "Removing a snack should be reflected in size of list");
-        Assertions.assertEquals(snacksToEdit.size(), initialSnacks.size(), "Getting a snack should not add or remove any snacks");
-        Assertions.assertNull(ungettableSnack, "this snack has been removed, so getting should return null");
-        Assertions.assertNotNull(testDao.getSnack("A2"), "other snacks should not have been affected by gettting or getting all");
-    }
+//    @Test
+//    public void testGetAllSnacks() throws FilePersistenceException {
+//        testDao.loadInventory();
+//        List<Snack> initialSnacks = testDao.getAllSnacks();
+//        Snack snackToRemove = testDao.getSnack("A1");  
+//        List<Snack> snacksToEdit = initialSnacks;
+//        testDao.getSnacks().remove("A1"); //made public to work. is that ok??
+//        List<Snack> snacksAfterRemoval = testDao.getAllSnacks();
+//        Snack ungettableSnack = testDao.getSnack("A1");
+//        Snack shouldStillBeAbleToGet = testDao.getSnack("A2");
+//                
+//        Assertions.assertNotEquals(snacksToEdit.size(), snacksAfterRemoval.size(), "Removing a snack should be reflected in size of list");
+//        Assertions.assertEquals(snacksToEdit.size(), initialSnacks.size(), "Getting a snack should not add or remove any snacks");
+//        Assertions.assertNull(ungettableSnack, "this snack has been removed, so getting should return null");
+//        Assertions.assertNotNull(testDao.getSnack("A2"), "other snacks should not have been affected by gettting or getting all");
+//    }
     
     @Test
     public void testGetSnackInvalidSlot() throws FilePersistenceException {
-        testDao.loadInventory(testDao.getProductionFile()); //Snacks are located at slots A1. A2, A3, A4, A5, A6
+        testDao.loadInventory(); //Snacks are located at slots A1. A2, A3, A4, A5, A6
         Snack shouldBeNull = testDao.getSnack("A7");
         Assertions.assertNull(shouldBeNull, "Should be null");
     }
     @Test 
     public void testFilePersistenceGetAll() throws FilePersistenceException {
-        testDao.loadInventory(testDao.getTestFile());
+        testDao.loadInventory();
         List<Snack> snacksEdit1 = testDao.getAllSnacks();
         for (Snack eachSnack: snacksEdit1) {
             eachSnack.setQuantity(20);
@@ -115,8 +115,8 @@ public class VendingDaoFileImplTest {
          for (Snack eachSnack: snacksEdit2) {
             eachSnack.setQuantity(10);
         }
-        testDao.writeInventory(snacksEdit2, testDao.getTestFile());
-        testDao.loadInventory(testDao.getTestFile());
+        testDao.writeInventory(snacksEdit2);
+        testDao.loadInventory();
         List<Snack> snacksAfterReloadingFile = testDao.getAllSnacks();
         Assertions.assertEquals(snacksEdit2, snacksAfterReloadingFile, "Snacks should be the same after writing and reading file.");
         Assertions.assertEquals(snacksAfterReloadingFile.get(0).getName(), snacksEdit2.get(0).getName(), "Name at index 0 should be the same after writing and reading file.");

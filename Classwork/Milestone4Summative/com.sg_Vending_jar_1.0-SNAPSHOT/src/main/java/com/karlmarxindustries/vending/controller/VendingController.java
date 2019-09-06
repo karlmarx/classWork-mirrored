@@ -24,8 +24,6 @@ import com.karlmarxindustries.vending.dao.VendingAuditDao;
 public class VendingController {
     VendingView view;
     VendingServiceLayer service;
-    //CONTROLLER NEEDS TO HANDLE EXCEPTIONS!!!
-    
     public VendingController(VendingView view, VendingServiceLayer service) {
         this.view = view;
         this.service = service;
@@ -73,9 +71,6 @@ public class VendingController {
    private void buySomething() throws InsufficientFundsException, ItemSoldOutException, FilePersistenceException {
         Snack snack;
         String slotWanted = null;
-//        boolean soldOut = true;
-//        boolean insuffFunds = true;
-
         displayInventory();
         view.purchaseSnackBanner();
         boolean correctSelection = false;
@@ -94,11 +89,7 @@ public class VendingController {
                         view.displaySuccessBanner(snack);
                         view.displayChangeBack(changeBack.getChange());
                         service.updateMoneyInside(new BigDecimal("0.00")); 
-                    //redundant    view.displayCurrentBalance(balanceAfterPurchase);
-//                        soldOut = false;
-//                        insuffFunds = false;
                     } 
-                    
                 } else {
                     return;
                 }

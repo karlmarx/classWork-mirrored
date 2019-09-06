@@ -12,11 +12,7 @@ import com.karlmarxindustries.vending.exception.FilePersistenceException;
 import com.karlmarxindustries.vending.exception.InsufficientFundsException;
 import com.karlmarxindustries.vending.exception.ItemSoldOutException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import static java.util.Collections.emptyList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -51,25 +47,13 @@ public class ServiceLayerImplTest {
     @Test 
     public void testGetAllSnacksInStock() throws FilePersistenceException {
         List<Snack> initialSnacks =  service.getAllSnacksInStock();
-//        Map<String, Snack> mapToClear = dao.getSnacks();
-//        mapToClear.clear();
-//        dao.setSnacks(mapToClear);
-//        List<Snack> noSnacksAfterEmpty = service.getAllSnacksInStock();
-//        dao.setFirstSnack(testSnackThree);
-//        List<Snack> allSnacksFirstOnly = service.getAllSnacksInStock();
-//        dao.setFirstSnack(testSnackFour);
-//        List<Snack> allSnacksInStock = service.getAllSnacksInStock();
-        
-        
+        List<Snack> snacksToZeroQuantity = initialSnacks;
+        for (Snack snack : snacksToZeroQuantity) {
+            snack.setQuantity(0);
+        } 
+        List<Snack> zeroQuantitySnacks = service.getAllSnacksInStock();
         Assertions.assertEquals(2, initialSnacks.size(), "There should be two snacks with non-zero quantity");
-//        Assertions.assertEquals(0, noSnacksAfterEmpty.size(), "There should not be any snacks yet after empty.");
-//        Assertions.assertEquals(0, allSnacksFirstOnly.size(), "There should be 0 snacks in the array list as quantity is 0.");
-//        Assertions.assertEquals (1, allSnacksInStock.size(), "There should be one snack in array as only one is in stock.");
-//        Assertions.assertEquals(testSnackThree, allSnacksFirstOnly.get(0), "this should be the only snack in array.");
-//        Assertions.assertFalse(allSnacksFirstOnly.contains(testSnackThree), "This array should not contain this snack as qty is 0.");
-//        Assertions.assertFalse(allSnacksFirstOnly.contains(testSnackFour), "This array should not contain this yet.");  
-//        Assertions.assertFalse(allSnacksFirstOnly.contains(testSnackThree), "This array should contain this snack as qty is 0.");
-//        Assertions.assertTrue(allSnacksInStock.contains(testSnackFour), "This array should now contain this snack .");          
+        Assertions.assertEquals(0, zeroQuantitySnacks.size(), "this should be empty because quantities are zero ");
     }
     @Test
     public void testGetOneItem() throws FilePersistenceException {
@@ -132,10 +116,7 @@ public class ServiceLayerImplTest {
     public void testPurchaseItemQuantityZeroAndNotEnoughMoney(){
         //later?? - worth doing?
     }
-    @Test
-    public void testPurchaseItemInvalidSlot() {
-        
-    }
+    
     @Test 
     public void testPurchaseItemCorrectChangeGivenTwelveQuarters() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
         service.updateMoneyInside(new BigDecimal("4.00"));
@@ -179,11 +160,8 @@ public class ServiceLayerImplTest {
         } catch (InsufficientFundsException e)  {
             correctExceptionThrown = true;
         }
-        Assertions.assertEquals(0, change.getChange().getNumQuarters(), "Change should include 0 quarters.");
-        Assertions.assertEquals(0, change.getChange().getNumDimes(), "Change should include 0 dimes.");
-        Assertions.assertEquals(0, change.getChange().getNumNickels(), "Change should include  0 nickels.");
-        Assertions.assertEquals(0, change.getChange().getNumPennies(), "Change should include 0 pennies.");
-        Assertions.assertFalse(change.getOutcomeSuccess(), "Outcome(success) should be FALSE");
+        Assertions.assertNull(change, "Change should be null.");
+        
         Assertions.assertTrue(correctExceptionThrown, "this should have thrown an insufficient funds exception.");
     } 
     @Test
@@ -197,17 +175,17 @@ public class ServiceLayerImplTest {
         Assertions.assertEquals(0, change.getChange().getNumPennies(), "Change should include 0 pennies.");
         Assertions.assertTrue(change.getOutcomeSuccess(), "Outcome(success) should be TRUE");
     } 
-//    @Test 
-//    public void testPurchaseItemCorrectChangeGivenFourQuarters() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
-//        service.updateMoneyInside(new BigDecimal("4.00"));
-//        ChangeAndOutcome change =  service.purchaseItem("T2", BigDecimal.ONE);
-//        
-//        Assertions.assertEquals(4, change.getChange().getNumQuarters(), "Change should include 4 quarters.");
-//        Assertions.assertEquals(0, change.getChange().getNumDimes(), "Change should include 0 dimes.");
-//        Assertions.assertEquals(0, change.getChange().getNumNickels(), "Change should include 0 nickels.");
-//        Assertions.assertEquals(0, change.getChange().getNumPennies(), "Change should include 0 pennies.");
-//        Assertions.assertTrue(change.getOutcomeSuccess(), "Outcome(success) should be true");
-//    } 
+    @Test 
+    public void testPurchaseItemCorrectChangeJustAPenny() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
+        service.updateMoneyInside(new BigDecimal("3.01"));
+        ChangeAndOutcome change =  service.purchaseItem("T1", new BigDecimal("3.00"));
+        
+        Assertions.assertEquals(0, change.getChange().getNumQuarters(), "Change should include 0 quarters.");
+        Assertions.assertEquals(0, change.getChange().getNumDimes(), "Change should include 0 dimes.");
+        Assertions.assertEquals(0, change.getChange().getNumNickels(), "Change should include 0 nickels.");
+        Assertions.assertEquals(1, change.getChange().getNumPennies(), "Change should include 1 penny.");
+        Assertions.assertTrue(change.getOutcomeSuccess(), "Outcome(success) should be true");
+    } 
 //    @Test 
 //    public void testPurchaseItemCorrectChangeGivenFourQuarters() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {
 //        service.updateMoneyInside(new BigDecimal("4.00"));
@@ -234,9 +212,19 @@ public class ServiceLayerImplTest {
         BigDecimal beginningBalance = service.checkCurrentBalance();
         service.deductPriceFromBalance(BigDecimal.ONE);
         BigDecimal balanceAfter = service.checkCurrentBalance();
-        
+        Assertions.assertEquals(new BigDecimal("100.00"), beginningBalance, "ending balance should be $100.00");
         Assertions.assertEquals(new BigDecimal("99.00"), balanceAfter, "ending balance should be $99.00");
-        //test for negative balances?
-        
     }
+    @Test
+    public void testUpdateMoneyInside() throws FilePersistenceException{
+        service.updateMoneyInside(new BigDecimal("1.00"));
+        BigDecimal beginningBalance = service.checkCurrentBalance();
+        service.updateMoneyInside(new BigDecimal("1000.00"));
+        BigDecimal endBalance = service.checkCurrentBalance();
+        
+        Assertions.assertEquals(new BigDecimal("1.00"), beginningBalance, "balance should be 1.00 after updating");
+        Assertions.assertEquals(new BigDecimal("1000.00"), endBalance, "balance should be 1000.00 after updating");
+    }
+    
+  
 }

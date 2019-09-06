@@ -30,29 +30,18 @@ import com.karlmarxindustries.vending.service.VendingServiceLayer;
 public class VendingDaoFileImpl implements VendingDao {
   // public static String libraryFile (liveInventory);
     
-    private final  String productionFile = "inventory.txt";
-    private final String testFile = "inventorytest.txt";
+    //private final  String productionFile = "inventory.txt";
+    //private final String testFile = "inventorytest.txt";
     private static final String DELIMITER = "::";
     private Map<String, Snack> snacks = new HashMap<>();
+    private String filename;
+
+    public VendingDaoFileImpl(String filename) {
+        this.filename = filename;
+    }
     
-    public String getProductionFile() {
-        return productionFile;
-    }
-
-    
-    @Override
-    public Map<String, Snack> getSnacks() {
-        return snacks;
-    }
-
-    public void setSnacks(Map<String, Snack> snacks) {
-        this.snacks = snacks;
-    }
-
    
-    public String getTestFile() {
-        return testFile;
-    }
+   
     //@Override
     public Snack unmarshallSnack(String inventoryAsText){
         String[] vendTokens = inventoryAsText.split(DELIMITER);
@@ -64,20 +53,18 @@ public class VendingDaoFileImpl implements VendingDao {
         snackFromFile.setQuantity(Integer.valueOf(vendTokens[3]));
         return snackFromFile;
     }
-    //@Override
     public String marshallSnack(Snack aSnack){
         String snacksAsText = aSnack.getSlot() + DELIMITER;
         snacksAsText += aSnack.getName() + DELIMITER; 
         snacksAsText += String.valueOf(aSnack.getPrice()) + DELIMITER;
         snacksAsText += String.valueOf(aSnack.getQuantity());
         return snacksAsText;
-    } ///STOPPED HERE
-    
+    } 
     @Override
-    public void loadInventory(String libraryFile) throws FilePersistenceException {
+    public void loadInventory() throws FilePersistenceException {
         Scanner scanner;
         try{
-            scanner = new Scanner(new BufferedReader(new FileReader(libraryFile)));
+            scanner = new Scanner(new BufferedReader(new FileReader(filename)));
         } catch (FileNotFoundException e) {
             throw new FilePersistenceException("Uh-oh! Could not load inventory data into memory", e);
         }
@@ -92,10 +79,10 @@ public class VendingDaoFileImpl implements VendingDao {
     }
     
     @Override
-    public void writeInventory(List<Snack> snackList, String libraryFile) throws FilePersistenceException {
+    public void writeInventory(List<Snack> snackList) throws FilePersistenceException {
         PrintWriter out;
         try{
-            out = new PrintWriter(new FileWriter(libraryFile));
+            out = new PrintWriter(new FileWriter(filename));
         } catch (IOException e){
             throw new FilePersistenceException("Could not save Inventory data", e);
         }
@@ -108,79 +95,12 @@ public class VendingDaoFileImpl implements VendingDao {
                out.close();
     }
 
-    
-    @Override
-    public void print(String msg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double readDouble(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double readDouble(String prompt, double min, double max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public float readFloat(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public float readFloat(String prompt, float min, float max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int readInt(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public int readInt(String prompt, int min, int max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public long readLong(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public long readLong(String prompt, long min, long max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String readString(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public List<Snack> getAllSnacks() throws FilePersistenceException {
         return  new ArrayList<Snack>(snacks.values());
     }
-
     @Override
     public Snack getSnack(String slot) throws FilePersistenceException {
         return snacks.get(slot);
     }
-
-
-    @Override
-    public void updateMoneyInside(BigDecimal moneyIn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateQuantity(String slot, Snack snack) throws FilePersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-  
-
-    
 }

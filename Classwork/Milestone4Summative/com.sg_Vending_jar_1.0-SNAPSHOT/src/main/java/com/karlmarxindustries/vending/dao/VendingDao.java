@@ -17,39 +17,7 @@ import java.util.Map;
  */
 public interface VendingDao { //should dao interface be independent of the load and write functions?
     List<Snack> getAllSnacks() throws FilePersistenceException;
-    
     Snack getSnack (String slot) throws FilePersistenceException;
-    
-    void updateMoneyInside(BigDecimal moneyIn);
-    void updateQuantity(String slot, Snack snack) throws FilePersistenceException; 
-    
-    void loadInventory(String libraryFile) throws FilePersistenceException;
-    public String getProductionFile();
-    public String getTestFile() ;
-    void writeInventory(List<Snack> snackList, String libraryFile) throws FilePersistenceException;
-    public Map<String, Snack> getSnacks();
-    void print(String msg);
-    //public Snack unmarshallSnack(String inventoryAsText);
-
-    //public String marshallSnack(Snack aSnack);
-
-    double readDouble(String prompt);
-
-    double readDouble(String prompt, double min, double max);
-
-    float readFloat(String prompt);
-
-    float readFloat(String prompt, float min, float max);
-
-    int readInt(String prompt);
-
-    int readInt(String prompt, int min, int max);
-
-    long readLong(String prompt);
-
-    long readLong(String prompt, long min, long max);
-
-    String readString(String prompt);
-
-    
+    void loadInventory() throws FilePersistenceException;
+    void writeInventory(List<Snack> snackList) throws FilePersistenceException;
 }
