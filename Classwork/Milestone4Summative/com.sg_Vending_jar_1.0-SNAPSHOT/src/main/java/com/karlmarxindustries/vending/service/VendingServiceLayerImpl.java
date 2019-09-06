@@ -27,8 +27,8 @@ public class VendingServiceLayerImpl implements VendingServiceLayer {
     
     private VendingDao dao;
     private VendingAuditDao auditDao;
-    Change change = new Change(convertToBigAndScale("0.00"));
-    ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
+    private Change change = new Change(convertToBigAndScale("0.00"));
+    private ChangeAndOutcome changeAndOutcome = new ChangeAndOutcome(change);
     public VendingServiceLayerImpl(VendingDao vendingDao, VendingAuditDao auditDao) {
         this.dao = vendingDao;
         this.auditDao = auditDao;
@@ -194,4 +194,6 @@ public class VendingServiceLayerImpl implements VendingServiceLayer {
         changeAndOutcome.getChange().setMoneyInside(moneyInputFromUser.add(changeAndOutcome.getChange().getMoneyInside()));
         auditDao.writeAuditEntry("The user inserted $" + String.valueOf(moneyInputFromUser) + " into the machine."); 
     }
+
+    
 }

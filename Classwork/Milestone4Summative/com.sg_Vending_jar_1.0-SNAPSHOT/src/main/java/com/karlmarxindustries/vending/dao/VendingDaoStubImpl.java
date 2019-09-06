@@ -22,6 +22,8 @@ public class VendingDaoStubImpl implements VendingDao {
         private Snack firstSnack;
         private Snack secondSnack;
         private Map<String, Snack> snacks = new HashMap<>();
+        
+        
 
     @Override
     public int hashCode() {
@@ -64,6 +66,8 @@ public class VendingDaoStubImpl implements VendingDao {
     public VendingDaoStubImpl(Snack firstSnack, Snack secondSnack) {
         this.firstSnack = firstSnack;
         this.secondSnack = secondSnack;
+      //  this.snacks = new HashMap<>(); //is this ok?
+   
     }
 
     public VendingDaoStubImpl() {
@@ -103,7 +107,9 @@ public class VendingDaoStubImpl implements VendingDao {
 
     @Override
     public Snack getSnack(String slot) throws FilePersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (slot.equals("T1")) return firstSnack;
+        if (slot.equals("T2")) return secondSnack;
+        else return null;
     }
 
     @Override

@@ -21,11 +21,35 @@
        class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl"/>
    
     <bean id="vendingDaoStub" 
-       class="com.karlmarxindustries.vending.dao.VendingDaoStubImpl"/>
+          class="com.karlmarxindustries.vending.dao.VendingDaoStubImpl">
+        <constructor-arg ref="testSnackOne"/>
+        <constructor-arg ref="testSnackTwo"/>
+    </bean>
    
     <bean id="auditDaoStub" 
        class="com.karlmarxindustries.vending.dao.VendingAuditDaoStubImpl"/>
-   
+    
+       <bean id="testSnackOne" class="com.karlmarxindustries.vending.dto.Snack">
+           <constructor-arg value="T1"/>
+           <constructor-arg value="Generic"/>
+           <constructor-arg ref="firstBigDecimal2"/>
+           <constructor-arg type="int" value="2"/>
+        </bean>
+        
+        <bean id="testSnackTwo" class="com.karlmarxindustries.vending.dto.Snack">
+           <constructor-arg value="T2"/>
+           <constructor-arg value="More Generic"/>
+           <constructor-arg ref="secondBigDecimal3"/>
+           <constructor-arg type="int" value="1"/>
+        </bean>
+<bean id="firstBigDecimal2" class="java.math.BigDecimal">
+    <constructor-arg value="2.00"/>
+</bean>
+<bean id="secondBigDecimal3" class="java.math.BigDecimal">
+    <constructor-arg value="3.00"/>
+</bean>
+    
+
     <bean id="serviceLayer" 
        class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
         <constructor-arg ref="vendingDaoStub"/>

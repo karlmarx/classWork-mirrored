@@ -30,6 +30,7 @@ public class Snack {
 
     public Snack() {
     }
+    
 
     public String getSlot() {
         return slot;

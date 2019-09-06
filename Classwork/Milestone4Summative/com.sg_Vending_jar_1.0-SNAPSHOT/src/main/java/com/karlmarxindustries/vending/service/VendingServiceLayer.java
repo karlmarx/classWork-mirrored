@@ -31,4 +31,6 @@ public interface VendingServiceLayer {
     public void writeInventoryOnExit(List<Snack> allSnacks) throws FilePersistenceException;
     public BigDecimal checkCurrentBalance();
     public void addToMoneyInside(BigDecimal moneyInputFromUser) throws FilePersistenceException;
+
+
 }
