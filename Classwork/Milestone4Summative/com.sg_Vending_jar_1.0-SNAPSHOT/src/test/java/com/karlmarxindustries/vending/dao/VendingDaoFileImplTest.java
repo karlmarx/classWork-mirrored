@@ -53,19 +53,21 @@ public class VendingDaoFileImplTest {
         Snack snackFromText = testDao.unmarshallSnack(snackAsText);
         Assertions.assertEquals(toTextify, snackFromText, "Input and output of marshalling/unmarshalling should be the same.");
     }
-    @Test
-    public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
-        List<Snack> allSnacks = testDao.getAllSnacks();
-        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
-    }
-    @Test
+   
+   
+     @Test
     public void testGetAllSnacksWithInventory() throws FilePersistenceException {
         testDao.loadInventory(testDao.getProductionFile()); //the inventory from file has exactly six items at all times.
         List<Snack> allSnacks = testDao.getAllSnacks();
         Assertions.assertEquals(6, allSnacks.size(), "There should be 6 snacks in array list as there are six snacks in inventory file.");
         
     }
-    
+    @Test
+     public void testGetAllSnacksWithoutInventory() throws FilePersistenceException {
+        List<Snack> allSnacks = testDao.getAllSnacks();
+        Assertions.assertEquals(0, allSnacks.size(), "There should be 0 snacks in array list as the inventory file was not loaded.");
+    }
+     
     @Test
     public void testGetSnack() throws FilePersistenceException {
         testDao.loadInventory(testDao.getProductionFile()); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.

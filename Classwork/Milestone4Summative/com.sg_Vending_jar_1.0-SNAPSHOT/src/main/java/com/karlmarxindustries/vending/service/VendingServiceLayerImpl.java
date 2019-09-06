@@ -17,6 +17,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import com.karlmarxindustries.vending.dao.VendingAuditDao;
+import java.util.Objects;
 
 /**
  *
@@ -32,6 +33,49 @@ public class VendingServiceLayerImpl implements VendingServiceLayer {
         this.dao = vendingDao;
         this.auditDao = auditDao;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 19 * hash + Objects.hashCode(this.dao);
+        hash = 19 * hash + Objects.hashCode(this.auditDao);
+        hash = 19 * hash + Objects.hashCode(this.change);
+        hash = 19 * hash + Objects.hashCode(this.changeAndOutcome);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VendingServiceLayerImpl other = (VendingServiceLayerImpl) obj;
+        if (!Objects.equals(this.dao, other.dao)) {
+            return false;
+        }
+        if (!Objects.equals(this.auditDao, other.auditDao)) {
+            return false;
+        }
+        if (!Objects.equals(this.change, other.change)) {
+            return false;
+        }
+        if (!Objects.equals(this.changeAndOutcome, other.changeAndOutcome)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "VendingServiceLayerImpl{" + "dao=" + dao + ", auditDao=" + auditDao + ", change=" + change + ", changeAndOutcome=" + changeAndOutcome + '}';
+    }
+    
     @Override
     public void loadInventory() throws FilePersistenceException {
         try { 

@@ -12,53 +12,98 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
  * @author karlmarx
  */
 public class VendingDaoStubImpl implements VendingDao {
-        private Snack onlySnack;
+        private Snack firstSnack;
+        private Snack secondSnack;
         private Map<String, Snack> snacks = new HashMap<>();
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.firstSnack);
+        hash = 23 * hash + Objects.hashCode(this.secondSnack);
+        hash = 23 * hash + Objects.hashCode(this.snacks);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "VendingDaoStubImpl{" + "firstSnack=" + firstSnack + ", secondSnack=" + secondSnack + ", snacks=" + snacks + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VendingDaoStubImpl other = (VendingDaoStubImpl) obj;
+        if (!Objects.equals(this.firstSnack, other.firstSnack)) {
+            return false;
+        }
+        if (!Objects.equals(this.secondSnack, other.secondSnack)) {
+            return false;
+        }
+        if (!Objects.equals(this.snacks, other.snacks)) {
+            return false;
+        }
+        return true;
+    }
+
+    public VendingDaoStubImpl(Snack firstSnack, Snack secondSnack) {
+        this.firstSnack = firstSnack;
+        this.secondSnack = secondSnack;
+    }
+
     public VendingDaoStubImpl() {
-        onlySnack = new Snack("T1", "Generic", new BigDecimal("1.00"), 10);
     }
 
-
-    public Snack getOnlySnack() {
-        return onlySnack;
+    public Snack getFirstSnack() {
+        return firstSnack;
     }
 
-    public void setOnlySnack(Snack onlySnack) {
-        this.onlySnack = onlySnack;
+    public void setFirstSnack(Snack firstSnack) {
+        this.firstSnack = firstSnack;
     }
 
-    
+    public Snack getSecondSnack() {
+        return secondSnack;
+    }
+
+    public void setSecondSnack(Snack secondSnack) {
+        this.secondSnack = secondSnack;
+    }
+
+    public Map<String, Snack> getSnacks() {
+        return snacks;
+    }
 
     public void setSnacks(Map<String, Snack> snacks) {
         this.snacks = snacks;
     }
 
-    public VendingDaoStubImpl(Snack onlySnack) {
-        onlySnack = new Snack("T1", "Name", new BigDecimal("1.50"), 10);
-        snacks.put(onlySnack.getSlot(),onlySnack);
-    }
-    
-    
-    
     @Override
     public List<Snack> getAllSnacks() throws FilePersistenceException {
-        return new ArrayList<Snack>(snacks.values());
+        List<Snack> bothSnacks = new ArrayList<>();
+        bothSnacks.add(firstSnack);
+        bothSnacks.add(secondSnack);
+        return bothSnacks;
     }
 
     @Override
     public Snack getSnack(String slot) throws FilePersistenceException {
-        if (slot.equals(onlySnack.getSlot())) {
-            return onlySnack;
-        } else {
-            return null;
-        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -141,20 +186,7 @@ public class VendingDaoStubImpl implements VendingDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Map<String, Snack> getSnacks() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-//    @Override
-//    public Snack unmarshallSnack(String inventoryAsText) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Snack marshallSnack(String inventoryAsText) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+    
 
 
     
