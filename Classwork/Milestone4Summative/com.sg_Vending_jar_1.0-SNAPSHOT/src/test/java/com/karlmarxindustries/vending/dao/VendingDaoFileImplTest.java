@@ -59,7 +59,7 @@ public class VendingDaoFileImplTest {
     public void testGetAllSnacksWithInventory() throws FilePersistenceException {
         testDao.loadInventory(); //the inventory from file has exactly six items at all times.
         List<Snack> allSnacks = testDao.getAllSnacks();
-        Assertions.assertEquals(5, allSnacks.size(), "There should be 5 snacks in array list as there are five snacks in test inventory file.");
+        Assertions.assertEquals(5, allSnacks.size(), "There should be 5 snacks in array list as there are 5 snacks in test inventory file.");
         
     }
     @Test
@@ -69,16 +69,16 @@ public class VendingDaoFileImplTest {
     }
      
     @Test
-    public void testGetSnack() throws FilePersistenceException {
+    public void testGetSnack() throws FilePersistenceException { //updated to Tests 
         testDao.loadInventory(); //the Snack located at Slots A1 has name Veuve Clicqout & price 59.99.   quantity changes overtime.
-        Snack gottenSnack = testDao.getSnack("A6");  
-        Snack secondGottenSnack = testDao.getSnack("A4");
-        Assertions.assertEquals("A6", gottenSnack.getSlot(), "Slot should be A6");
-        Assertions.assertEquals(new BigDecimal("8.02"), gottenSnack.getPrice(), "Price should be 8.02");
-        Assertions.assertEquals("Bachelor Chow", gottenSnack.getName(), "Name should be Bachelor Chow.");
-        Assertions.assertEquals("A4", secondGottenSnack.getSlot(), "Slot should be A6");
-        Assertions.assertEquals(new BigDecimal("20.23"), secondGottenSnack.getPrice(), "Price should be 20.23");
-        Assertions.assertEquals("Fear", secondGottenSnack.getName(), "Name should be Fear.");
+        Snack gottenSnack = testDao.getSnack("T2");  
+        Snack secondGottenSnack = testDao.getSnack("T4");
+        Assertions.assertEquals("T2", gottenSnack.getSlot(), "Slot should be T2");
+        Assertions.assertEquals(new BigDecimal("2.00"), gottenSnack.getPrice(), "Price should be 2.00");
+        Assertions.assertEquals("Name2", gottenSnack.getName(), "Name should be Name2.");
+        Assertions.assertEquals("T4", secondGottenSnack.getSlot(), "Slot should be T4");
+        Assertions.assertEquals(new BigDecimal("4.00"), secondGottenSnack.getPrice(), "Price should be 4.00");
+        Assertions.assertEquals("Name4", secondGottenSnack.getName(), "Name should be Name4.");
         Assertions.assertNotSame(gottenSnack, secondGottenSnack, "Getting at 2 slots should yield two different objects");
     }
 //    @Test
