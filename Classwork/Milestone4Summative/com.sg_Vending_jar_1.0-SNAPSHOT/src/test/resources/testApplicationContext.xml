@@ -50,12 +50,19 @@
 <bean id="secondBigDecimal3" class="java.math.BigDecimal">
     <constructor-arg value="3.00"/>
 </bean>
-    
+    <bean id="vendingDaoStubEmpty" 
+          class="com.karlmarxindustries.vending.dao.VendingDaoEmptyStubImpl">
+     
+    </bean>
 
     <bean id="serviceLayer" 
        class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
         <constructor-arg ref="vendingDaoStub"/>
         <constructor-arg ref="auditDaoStub"/>           
     </bean>
-   
+<bean id="serviceLayerEmptyDAO" 
+       class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
+        <constructor-arg ref="vendingDaoStubEmpty"/>
+        <constructor-arg ref="auditDaoStub"/>           
+    </bean>
 </beans>

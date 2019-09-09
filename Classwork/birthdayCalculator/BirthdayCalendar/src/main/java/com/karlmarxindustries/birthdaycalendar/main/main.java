@@ -26,12 +26,12 @@ public class main {
          Scanner io = new Scanner(System.in);
         String dateIn = readString("What's your birthday? (MM/DD/YYYY format)").trim();
         LocalDate dobDate = LocalDate.parse(dateIn, formatter);
-        System.out.println("That mean's you were born on a " + dobDate.getDayOfWeek());
+        System.out.println("That means you were born on a " + dobDate.getDayOfWeek() + ".");
       
         
         int currentYear = LocalDate.now().getYear();
         LocalDate thisYear = dobDate.withYear(currentYear);
-        System.out.println("This year it's on a "  + thisYear.getDayOfWeek());
+        System.out.println("This year it's on a "  + thisYear.getDayOfWeek() +  ".");
        
         LocalDate nextYear = dobDate.withYear(currentYear +1 );
         int compare = thisYear.compareTo(LocalDate.now());
@@ -52,16 +52,12 @@ public class main {
         LocalDate nextBday = dobDate.withYear(nextBirthyear);
         System.out.println("Since today is " + LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + ", it is only " + Math.abs(daysTilNext) + " days until your next birthday!");
         int ageAtNextBirthday = nextBirthyear - dobDate.getYear();
-        System.out.println("Bet you're excited to be turning " + ageAtNextBirthday + " on " + nextBday.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + ".");
+        System.out.println("Bet you're SUPER excited to be turning " + ageAtNextBirthday + " on " + nextBday.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)) + ".");
         
         
         
         
-//        String input="01/08/2012";
-//        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
-//        Date dt1=format1.parse(input);
-//        DateFormat format2=new SimpleDateFormat("EEEE"); 
-//        String finalDay=format2.format(dt1);
+
     }
 //    public static String stringToDayOfWeek(String input) throws ParseException {
 //        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");

@@ -36,7 +36,7 @@ public class ServiceLayerImplTest {
 //        testSnackOne = new Snack("T3", "Most Generic", new BigDecimal("3.00"), 4);
 
         ApplicationContext ctx = 
-            new ClassPathXmlApplicationContext("applicationContext.xml");
+            new ClassPathXmlApplicationContext("testApplicationContext.xml");
         service = ctx.getBean("serviceLayer", VendingServiceLayer.class);
        
 
