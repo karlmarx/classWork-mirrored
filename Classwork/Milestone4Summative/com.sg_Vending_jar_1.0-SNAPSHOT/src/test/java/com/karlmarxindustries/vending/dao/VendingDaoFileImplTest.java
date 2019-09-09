@@ -26,7 +26,7 @@ public class VendingDaoFileImplTest {
     
     public VendingDaoFileImplTest() {
         ApplicationContext ctx = 
-        new ClassPathXmlApplicationContext("applicationContext.xml");
+        new ClassPathXmlApplicationContext("testApplicationContext.xml");
         testDao = ctx.getBean("vendingDao", VendingDaoFileImpl.class);
     
     }
