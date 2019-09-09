@@ -1,0 +1,44 @@
+-------------------------------------------------------------------------------
+Test set: com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao
+-------------------------------------------------------------------------------
+Tests run: 15, Failures: 0, Errors: 10, Skipped: 0, Time elapsed: 2.988 sec <<< FAILURE! - in com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao
+testPurchaseItemCorrectChangeGivenTwelveQuarters  Time elapsed: 0.021 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChangeGivenTwelveQuarters(ServiceLayerImplTestWithEmptyDao.java:114)
+
+testPurchaseItemCorrectChangeGivenOneOfEach  Time elapsed: 0.002 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChangeGivenOneOfEach(ServiceLayerImplTestWithEmptyDao.java:136)
+
+testPurchaseItemNotEnoughMoney  Time elapsed: 0.005 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemNotEnoughMoney(ServiceLayerImplTestWithEmptyDao.java:80)
+
+testPurchaseItemCorrectChangeJustAPenny  Time elapsed: 0.008 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChangeJustAPenny(ServiceLayerImplTestWithEmptyDao.java:172)
+
+testPurchaseItemQuantity  Time elapsed: 0.003 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemQuantity(ServiceLayerImplTestWithEmptyDao.java:70)
+
+testGetAllSnacksInStock  Time elapsed: 0.002 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testGetAllSnacksInStock(ServiceLayerImplTestWithEmptyDao.java:44)
+
+testPurchaseItemCorrectChange10000Quarters  Time elapsed: 0.01 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChange10000Quarters(ServiceLayerImplTestWithEmptyDao.java:161)
+
+testPurchaseItemQuantityZero  Time elapsed: 0.002 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemQuantityZero(ServiceLayerImplTestWithEmptyDao.java:93)
+
+testPurchaseItemCorrectChangeGivenInsuffFunds  Time elapsed: 0.008 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChangeGivenInsuffFunds(ServiceLayerImplTestWithEmptyDao.java:150)
+
+testPurchaseItemCorrectChangeGivenֵNoChange  Time elapsed: 0.003 sec  <<< ERROR!
+java.lang.NullPointerException
+	at com.karlmarxindustries.vending.service.ServiceLayerImplTestWithEmptyDao.testPurchaseItemCorrectChangeGivenֵNoChange(ServiceLayerImplTestWithEmptyDao.java:125)
+

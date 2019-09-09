@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation=
+        "http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/mvc
+         http://www.springframework.org/schema/mvc/spring-mvc.xsd
+         http://www.springframework.org/schema/tx
+         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+         http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+ 
+    <!-- Bean definitions go here -->
+    <bean id="vendingDao" 
+       class="com.karlmarxindustries.vending.dao.VendingDaoFileImpl">
+        <constructor-arg value="inventorytest.txt"/>
+    </bean>
+   
+    <bean id="vendingDaoStub" 
+          class="com.karlmarxindustries.vending.dao.VendingDaoStubImpl">
+        <constructor-arg ref="testSnackOne"/>
+        <constructor-arg ref="testSnackTwo"/>
+    </bean>
+    
+    <bean id="auditDaoStub" 
+       class="com.karlmarxindustries.vending.dao.VendingAuditDaoStubImpl"/>
+    
+       <bean id="testSnackOne" class="com.karlmarxindustries.vending.dto.Snack">
+           <constructor-arg value="T1"/>
+           <constructor-arg value="Generic"/>
+           <constructor-arg ref="firstBigDecimal2"/>
+           <constructor-arg type="int" value="2"/>
+        </bean>
+        
+        <bean id="testSnackTwo" class="com.karlmarxindustries.vending.dto.Snack">
+           <constructor-arg value="T2"/>
+           <constructor-arg value="More Generic"/>
+           <constructor-arg ref="secondBigDecimal3"/>
+           <constructor-arg type="int" value="1"/>
+        </bean>
+<bean id="firstBigDecimal2" class="java.math.BigDecimal">
+    <constructor-arg value="2.00"/>
+</bean>
+<bean id="secondBigDecimal3" class="java.math.BigDecimal">
+    <constructor-arg value="3.00"/>
+</bean>
+    <bean id="vendingDaoStubEmpty" 
+          class="com.karlmarxindustries.vending.dao.VendingDaoEmptyStubImpl">
+     
+    </bean>
+
+    <bean id="serviceLayer" 
+       class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
+        <constructor-arg ref="vendingDaoStub"/>
+        <constructor-arg ref="auditDaoStub"/>           
+    </bean>
+<bean id="serviceLayerEmptyDAO" 
+       class="com.karlmarxindustries.vending.service.VendingServiceLayerImpl">
+        <constructor-arg ref="vendingDaoStubEmpty"/>
+        <constructor-arg ref="auditDaoStub"/>           
+    </bean>
+</beans>
