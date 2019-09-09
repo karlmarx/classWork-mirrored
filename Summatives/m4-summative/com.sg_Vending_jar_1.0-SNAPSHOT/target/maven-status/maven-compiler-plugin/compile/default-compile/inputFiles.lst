@@ -4,6 +4,7 @@
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/service/VendingServiceLayer.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/exception/FilePersistenceException.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/dao/VendingDaoFileImpl.java
+/Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/dao/VendingDaoEmptyStubImpl.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/dto/Coins.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/dao/VendingDaoStubImpl.java
 /Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT/src/main/java/com/karlmarxindustries/vending/exception/InsufficientFundsException.java

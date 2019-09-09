@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="2.504" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="2.757" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="12.0.2+10"/>
@@ -12,6 +12,7 @@
     <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="test" value="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="user.dir" value="/Users/karlmarx/Desktop/repos/java-lou-0819-karlmarxxxx/Classwork/Milestone4Summative/com.sg_Vending_jar_1.0-SNAPSHOT"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
@@ -40,7 +41,7 @@
     <property name="java.class.path" value="/Applications/NetBeans/Apache NetBeans 11.1.app/Contents/Resources/NetBeans/java/maven/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="12"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=/Applications/NetBeans/Apache NetBeans 11.1.app/Contents/Resources/NetBeans/java/maven-nblib/netbeans-eventspy.jar test"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dtest=com.karlmarxindustries.vending.dao.VendingDaoFileImplTest -Dmaven.ext.class.path=/Applications/NetBeans/Apache NetBeans 11.1.app/Contents/Resources/NetBeans/java/maven-nblib/netbeans-eventspy.jar surefire:test"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -57,12 +58,12 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
   </properties>
-  <testcase name="testMarshallSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.031"/>
-  <testcase name="testGetSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.015"/>
+  <testcase name="testMarshallSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.056"/>
+  <testcase name="testGetSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.083"/>
   <testcase name="testGetAllSnacksWithoutInventory" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.001"/>
-  <testcase name="testGetAllSnacksWithInventory" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.002"/>
-  <testcase name="testUnmarshallSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.001"/>
+  <testcase name="testGetAllSnacksWithInventory" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.007"/>
+  <testcase name="testUnmarshallSnack" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.003"/>
   <testcase name="testMarshallAndUnmarshall" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.001"/>
   <testcase name="testGetSnackInvalidSlot" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.005"/>
-  <testcase name="testFilePersistenceGetAll" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.011"/>
+  <testcase name="testFilePersistenceGetAll" classname="com.karlmarxindustries.vending.dao.VendingDaoFileImplTest" time="0.015"/>
 </testsuite>
