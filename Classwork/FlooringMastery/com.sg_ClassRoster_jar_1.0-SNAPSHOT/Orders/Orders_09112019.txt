@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+6,asdklfjlasdjl as3,ky,6.0,tile,34092834,3.50,4.15,119324919.00,141485261.10,1564861080.60,1825671260.70,

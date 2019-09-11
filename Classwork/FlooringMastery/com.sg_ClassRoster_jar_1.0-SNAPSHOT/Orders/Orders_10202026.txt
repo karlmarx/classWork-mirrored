@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+7,asdfjkl,ky,4.3,tile,100.0,3.50,4.15,350.00,415.00,4590.00,5355.00,

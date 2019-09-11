@@ -58,8 +58,6 @@ public class ServiceLayerImplTest {
     @Test
     public void testGetOneItem() throws FilePersistenceException {
         
-        String keyToTest = "anything";
-        
         Snack shouldBeOne = service.getOneItem("T1");
         Snack shouldBeTwo = service.getOneItem("T2");
         Snack shouldBeNull = service.getOneItem("T3");
@@ -112,10 +110,10 @@ public class ServiceLayerImplTest {
         Assertions.assertEquals(0, quantityAfterSale, "Quantity should remain 0 after sale.");
         Assertions.assertEquals(true, itemSoldOutExceptionThrown, "The Item sold out exception should be thrown when quantity of item is 0.");
     }
-    @Test
-    public void testPurchaseItemQuantityZeroAndNotEnoughMoney(){
-        //later?? - worth doing?
-    }
+//    @Test
+//    public void testPurchaseItemQuantityZeroAndNotEnoughMoney(){
+//        //later?? - worth doing?
+//    }
     
     @Test 
     public void testPurchaseItemCorrectChangeGivenTwelveQuarters() throws FilePersistenceException, InsufficientFundsException, ItemSoldOutException {

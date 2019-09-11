@@ -87,6 +87,7 @@ public class VendingDaoFileImpl implements VendingDao {
             throw new FilePersistenceException("Could not save Inventory data", e);
         }
         String snackAsText;
+       
         for (Snack currentSnack : snackList){
             snackAsText = marshallSnack(currentSnack);
             out.println(snackAsText);
