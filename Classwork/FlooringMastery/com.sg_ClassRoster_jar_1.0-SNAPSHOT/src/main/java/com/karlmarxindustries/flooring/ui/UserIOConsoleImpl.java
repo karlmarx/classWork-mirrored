@@ -47,14 +47,19 @@ public class UserIOConsoleImpl implements UserIO {
     
      public double readDoubleAllowBlank(String prompt, double min, double max) {
             double result = 0;
+            String resultString;
             boolean badInput = true;
             
             while(badInput)  {
-                result = readDouble(prompt);
-                if (result ==0d || Double.compare(result, min) >= 0 && Double.compare(result, max) <=0){
+                resultString = readString(prompt);
+                result = Double.parseDouble(resultString);
+                if (resultString.equals("")|| Double.compare(result, min) >= 0 && Double.compare(result, max) <=0){
                     badInput = false;
                 } else {
                     print("Input need to be >= " + min + " or <= " + max + ".");
+                }
+                if(resultString.equals("")) {
+                    result =0d;
                 }
            }
             return result;

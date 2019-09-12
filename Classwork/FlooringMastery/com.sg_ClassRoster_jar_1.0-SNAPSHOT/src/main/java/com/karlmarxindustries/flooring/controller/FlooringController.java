@@ -28,6 +28,7 @@ public class FlooringController {
 
     FlooringView view;
     private FlooringServiceLayer service;
+    //idea : secret method to switch between test and production
 
     public FlooringController(FlooringServiceLayer service, FlooringView view) {
         this.service = service;

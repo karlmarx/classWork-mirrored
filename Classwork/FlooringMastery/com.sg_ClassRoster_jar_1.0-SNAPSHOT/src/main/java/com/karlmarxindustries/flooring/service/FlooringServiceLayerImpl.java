@@ -15,6 +15,7 @@ import com.karlmarxindustries.flooring.dao.FlooringTaxDao;
 import com.karlmarxindustries.flooring.dao.TestingModeException;
 import com.karlmarxindustries.flooring.dto.Product;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,15 +35,16 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
         this.oDao = oDao;
         this.pDao = pDao;
     }
+
     @Override
     public void initialLoadProductTaxInfo() throws FilePersistenceException {
-         tDao.loadRateList();
-         pDao.loadProductInfo();
+        tDao.loadRateList();
+        pDao.loadProductInfo();
     }
-    
+
     @Override
     public List<String> loadValidStates() throws FilePersistenceException {
-      
+
         return tDao.getAllStates();
     }
 
@@ -91,7 +93,6 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 //        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
 //        return removedStudent;
 //    }
-
     private FlooringAuditDao auditDao;
 
     private int newOrderNumber() throws FilePersistenceException {
@@ -108,7 +109,6 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 //    public void addOrder(Order toAdd) {
 //        oDao.createOrder(toAdd);
 //    }
-
     @Override
     public List<Order> getAllOrders() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -125,10 +125,15 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 
     @Override
     public Order getMatchingOrderForDate(LocalDate searchDate, int searchOrderNumber) throws FilePersistenceException, NoMatchingOrdersException {
-        Order foundOrder = oDao.getOrder(searchOrderNumber);
-        if (foundOrder.getDate().compareTo(searchDate) == 0 ) {
-            return foundOrder;
-        } else {
+        try {
+            Order foundOrder = oDao.getOrder(searchOrderNumber);
+
+            if (foundOrder.getDate().compareTo(searchDate) == 0) {
+                return foundOrder;
+            } else {
+                throw new NoMatchingOrdersException("There were no matching orders for that date.");
+            }
+        } catch (NullPointerException f) {
             throw new NoMatchingOrdersException("There were no matching orders for that date.");
         }
     }
@@ -139,25 +144,25 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
     }
 
     @Override
-    public void saveWorks()  throws FilePersistenceException, TestingModeException  {
+    public void saveWorks() throws FilePersistenceException, TestingModeException {
         oDao.saveAllOrders();
     }
 
     @Override
-    public Order calculateCostsTaxesTotal(Order order)  throws
+    public Order calculateCostsTaxesTotal(Order order) throws
             FlooringDuplicateIdException,
             FlooringDataValidationException,
-            FilePersistenceException{
-       
-         Product productChosen = pDao.getProduct(order.getProductType().toUpperCase());
+            FilePersistenceException {
+
+        Product productChosen = pDao.getProduct(order.getProductType().toUpperCase());
         BigDecimal taxRate = tDao.getTax(order.getState().toUpperCase()).getTaxRate();
         order.setTaxRate(taxRate);
-        order.setCostPerSquareFoot(productChosen.getCostPerSquareFoot().setScale(2));
-        order.setLaborCostPerSquareFoot(productChosen.getLaborCostPerSquareFoot().setScale(2));
-        order.setMaterialCost(order.getArea().multiply(order.getCostPerSquareFoot()).setScale(2));
-        order.setLaborCost(order.getArea().multiply(order.getLaborCostPerSquareFoot()).setScale(2));
-        order.setTax((order.getMaterialCost().add(order.getLaborCost())).multiply(taxRate).setScale(2));
-        order.setTotal(order.getTax().add(order.getLaborCost()).add(order.getMaterialCost()).setScale(2));
+        order.setCostPerSquareFoot(productChosen.getCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP));
+        order.setLaborCostPerSquareFoot(productChosen.getLaborCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP));
+        order.setMaterialCost(order.getArea().multiply(order.getCostPerSquareFoot()).setScale(2, RoundingMode.HALF_UP));
+        order.setLaborCost(order.getArea().multiply(order.getLaborCostPerSquareFoot()).setScale(2, RoundingMode.HALF_UP));
+        order.setTax((order.getMaterialCost().add(order.getLaborCost())).multiply(taxRate.divide(new BigDecimal("100"))).setScale(2, RoundingMode.HALF_UP));
+        order.setTotal(order.getTax().add(order.getLaborCost()).add(order.getMaterialCost()).setScale(2, RoundingMode.HALF_UP));
         return order;
     }
 
@@ -170,10 +175,11 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
     public void loadOrderData() throws FilePersistenceException {
         oDao.loadOrders();
     }
-    @Override 
-    public String firstLetterCapRestLower (String string) {
-    return (string.substring(0,1).toUpperCase() + string.substring(1).toLowerCase());
-}
+
+    @Override
+    public String firstLetterCapRestLower(String string) {
+        return (string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase());
+    }
 
     @Override
     public Order addOrder(Order toAdd) throws FilePersistenceException {

@@ -65,8 +65,8 @@ public class FlooringView {
         }
         while (!validName) {
             customerName = io.readString("Please enter customer name: ").trim();
-            if (!isAlphaPeriodComma(customerName)) {
-                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods.");
+            if (!isAlphaPeriodComma(customerName)||customerName.equalsIgnoreCase("null")) {
+                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods. Name cannot be 'null'.");
             } else {
                 validName = true;
             }
@@ -94,7 +94,6 @@ public class FlooringView {
         double doubleArea = io.readDouble("Please enter area in sq feet. (minimum 100)", 100.0d, Double.MAX_VALUE);
         area = new BigDecimal(String.valueOf(doubleArea));
         Order orderToValidate = new Order(date, customerName, inputState, area, inputProduct);
-
         return orderToValidate;
         //send to service layer for calculations and to validate state.
     }
@@ -126,7 +125,7 @@ public class FlooringView {
     }
 
     public void displayExitBanner() {
-        io.print("Good Bye!!!");
+        io.print("Goodbye!!!");
     }
 
     public void displayUnknownCommandBanner() {
@@ -194,7 +193,7 @@ public class FlooringView {
          return date;   
     }
     public int getOrderNumber() {
-        int orderNumber = io.readInt("please enter order number", 1, Integer.MAX_VALUE);
+        int orderNumber = io.readInt("Please enter order number", 1, Integer.MAX_VALUE);
         return orderNumber;
     }
     public void displayErrorMessage(String errorMsg){
@@ -206,7 +205,7 @@ public class FlooringView {
         io.print("Please review the order to make sure it is the correct order");
         io.print("Order #" + toRemove.getOrderNumber());
         displayOrder(toRemove);
-        return confirmSomething("Would you like to add this order? (Y/N)");
+        return confirmSomething("Would you like to add remove this order? (Y/N)");
     }
     public boolean confirmSomething(String toConfirm) {
         boolean confirmed = false;
@@ -238,18 +237,23 @@ public class FlooringView {
         io.print("No changes have been made.");
     }
     public void displayOrder(Order order) {
+        if (order.getOrderNumber() != 0) {
+            io.print("Order number: " + order.getOrderNumber());
+        } else {
+            io.print("- Order # has yet to be assigned.");
+        }
         io.print("Order date: " +order.getDate());
         io.print("Customer name: " + order.getCustomerName());
         io.print("State: " + order.getState());
         io.print("Tax rate: " + order.getTaxRate());
         io.print("Product type:" + order.getProductType());
-        io.print("Area: " + order.getArea());
-        io.print("Cost per square foot: " + order.getCostPerSquareFoot());
-        io.print("Labor cost per square foot: " + order.getLaborCostPerSquareFoot());
-        io.print("Material cost: " + order.getMaterialCost());
-        io.print("Labor cost: " + order.getLaborCost());
-        io.print("Tax: " + order.getTax());
-        io.print("Total: " + order.getTotal());
+        io.print("Area: " + order.getArea() + "square feet");
+        io.print("Cost per square foot: $" + order.getCostPerSquareFoot());
+        io.print("Labor cost per square foot: $" + order.getLaborCostPerSquareFoot());
+        io.print("Material cost: $" + order.getMaterialCost());
+        io.print("Labor cost: $" + order.getLaborCost());
+        io.print("Tax: $" + order.getTax());
+        io.print("Total: $" + order.getTotal());
     }
 
     public void displayNotSaved() {
@@ -278,14 +282,15 @@ public class FlooringView {
         BigDecimal area;
         while (!validName) {
             customerName = io.readString("Please enter customer name[" + order.getCustomerName() + "]: ").trim();
-            if (!isAlphaPeriodComma(customerName) && !customerName.equals("")) {
-                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods.");
+            if (!isAlphaPeriodComma(customerName)||customerName.equalsIgnoreCase("null") && !customerName.equals("")) {
+                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods. Name cannot be 'null'.");
             } else {
                 validName = true;
             }
+            
         }
         while (!validState) {
-            inputState = io.readString("Please enter state[" + order.getState() + "]: (using 2 letter abbreviation) ");
+            inputState = io.readString("Please enter state[" + order.getState().toUpperCase() + "]: (using 2 letter abbreviation) ");
             String upperState = inputState.toUpperCase();
             if (!stateList.contains(upperState) && !inputState.equals("")) {
                 io.print("Floors cannot be sold in " + inputState + "currently.  Please try again.");
@@ -295,7 +300,7 @@ public class FlooringView {
         }
         while (!validProduct) {
             this.displayAllProducts(productList);
-            inputProduct = io.readString("Please enter product type from list above[" + order.getProductType() + "]:  ");
+            inputProduct = io.readString("Please enter product type from list above[" + order.getProductType().toUpperCase() + "]:  ");
             String product = inputProduct.trim().toUpperCase();
             if (!productTypeList.contains(product) && !inputProduct.equals("")) {
                 io.print("That product is not available.  Please select from the available options.");
@@ -307,7 +312,7 @@ public class FlooringView {
         area = new BigDecimal(String.valueOf(doubleArea));
         if (!customerName.equals("")) order.setCustomerName(customerName);
         if(!inputState.equals("")) order.setState(inputState);
-        if(doubleArea != 0) order.setArea(area); //is this okay?
+        if(doubleArea != 0) order.setArea(area); //does this work?
         if(!inputProduct.equals("")) order.setProductType(inputProduct);
        
 

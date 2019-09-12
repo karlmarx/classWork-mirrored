@@ -42,7 +42,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         return new ArrayList<Order>(orders.values());
     }
 
-    public Order getOrder(String orderNumber) throws FilePersistenceException {
+    public Order getOrder(int orderNumber) throws FilePersistenceException {
         return orders.get(orderNumber);
     }
 
@@ -216,7 +216,8 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
 
     @Override
     public Order createOrder(Integer orderNumber, Order toAdd) {
-        Order newOrder = orders.put(toAdd.getOrderNumber(), toAdd);
+        Order newOrder = orders.put(orderNumber, toAdd);
+      
         return newOrder;
     }
 
@@ -237,12 +238,6 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         scanner.close();
         return isTesting;
     }
-
-//    @Override
-//    public void createOrder(Order toAdd) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//    
     private void deleteFileIfEmpty(LocalDate each) throws FilePersistenceException {
 
         List<Order> orders = this.getAllOrdersForDate(each);
