@@ -1,0 +1,59 @@
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.karlmarxindustries.zoo.biz;
+
+import com.karlmarxindustries.zoo.dao.ProductDAO;
+import com.karlmarxindustries.zooservice.dto.Product;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author karlmarx
+ */
+public class ProductDAOStub implements ProductDAO {
+    public Product firstProduct;
+    public Product secondProduct;
+
+    public ProductDAOStub(Product firstProduct, Product secondProduct) {
+        this.firstProduct = firstProduct;
+        this.secondProduct = secondProduct;
+    }
+    
+    //only i
+
+    @Override
+    public Product addProduct(int id, Product toAdd) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Product getProduct(int id) {
+        if (id == firstProduct.getId()) return firstProduct;
+        else if(id == secondProduct.getId()) return secondProduct;
+        else return null;
+     }
+
+    @Override
+    public List<Product> getAllProducts() {
+            List<Product> theStubProducts = new ArrayList<>();
+            theStubProducts.add(firstProduct);
+            theStubProducts.add(secondProduct);
+            return theStubProducts;
+    }
+
+    @Override
+    public void editProduct(int oldId, Product toUpdate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Product removeProduct(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+}

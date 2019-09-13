@@ -29,7 +29,7 @@ public interface FlooringOrderDao {
 
     public Order getOrder(Integer orderNumber) throws FilePersistenceException;
 
-    public void loadOrderInfo(String pathToDirectory) throws FilePersistenceException;
+   
 
 //    public void createOrder(Order toAdd);
 

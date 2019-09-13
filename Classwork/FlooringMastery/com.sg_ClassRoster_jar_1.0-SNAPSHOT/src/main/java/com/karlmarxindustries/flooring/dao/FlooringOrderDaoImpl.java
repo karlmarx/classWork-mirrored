@@ -104,8 +104,10 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         String orderNumber = orderTokens[0];
         Order orderFromFile = new Order();
         orderFromFile.setOrderNumber(Integer.valueOf(orderNumber));
-        String commaSubstitution = orderTokens[1].replace("::",","); //in case of coma in name
-        orderFromFile.setCustomerName(commaSubstitution);
+        String commaSubstitution = orderTokens[1].replace("::",","); 
+        String commaAndNullSubstitution = commaSubstitution.replace("*n*u*l*l*", "null");
+//in case of coma in name
+        orderFromFile.setCustomerName(commaAndNullSubstitution);
         orderFromFile.setState(orderTokens[2]);
         orderFromFile.setTaxRate(new BigDecimal(orderTokens[3]));
         orderFromFile.setProductType(orderTokens[4]);
@@ -120,20 +122,22 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
 
     }
 
-    private String marshallOrder(Order anOrder) {
+    public String marshallOrder(Order anOrder) {
         String orderAsText = anOrder.getOrderNumber() + DELIMITER;
         String commaSubstitution = anOrder.getCustomerName().replace(",", "::");
-        orderAsText += commaSubstitution + DELIMITER;
+        String commaAndNullSubstitution = commaSubstitution.replace("null", "*n*u*l*l*");
+      
+        orderAsText += commaAndNullSubstitution + DELIMITER;
         orderAsText += anOrder.getState() + DELIMITER;
         orderAsText += String.valueOf(anOrder.getTaxRate()) + DELIMITER;
         orderAsText += anOrder.getProductType() + DELIMITER;
         orderAsText += String.valueOf(anOrder.getArea()) + DELIMITER;
         orderAsText += String.valueOf(anOrder.getCostPerSquareFoot()) + DELIMITER;
-        orderAsText += String.valueOf(anOrder.getLaborCostPerSquareFoot() + DELIMITER);
+        orderAsText += String.valueOf(anOrder.getLabourCostPerSquareFoot() + DELIMITER);
         orderAsText += String.valueOf(anOrder.getMaterialCost() + DELIMITER);
-        orderAsText += String.valueOf(anOrder.getLaborCost() + DELIMITER);
+        orderAsText += String.valueOf(anOrder.getLabourCost() + DELIMITER);
         orderAsText += String.valueOf(anOrder.getTax() + DELIMITER);
-        orderAsText += String.valueOf(anOrder.getTotal() + DELIMITER);
+        orderAsText += String.valueOf(anOrder.getTotal());
 
         return orderAsText;
     }
@@ -204,10 +208,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         return removedOrder;
     }
 
-    @Override
-    public void loadOrderInfo(String pathToDirectory) throws FilePersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 
     @Override
     public Order getOrder(Integer orderNumber) throws FilePersistenceException {

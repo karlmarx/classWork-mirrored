@@ -1,0 +1,3 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+214,*n*u*l*l*:: *n*u*l*l*,ky,6.00,TILE,1323.0,3.50,4.15,4630.50,5490.45,607.26,10728.21,
+215,*n*u*l*l*:: *n*u*l*l*,ky,6.00,tile,123.0,3.50,4.15,430.50,510.45,56.46,997.41,

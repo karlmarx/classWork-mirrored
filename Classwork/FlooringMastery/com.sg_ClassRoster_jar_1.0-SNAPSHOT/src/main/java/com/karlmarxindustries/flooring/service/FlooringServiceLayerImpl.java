@@ -160,9 +160,9 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
         order.setCostPerSquareFoot(productChosen.getCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP));
         order.setLaborCostPerSquareFoot(productChosen.getLaborCostPerSquareFoot().setScale(2, RoundingMode.HALF_UP));
         order.setMaterialCost(order.getArea().multiply(order.getCostPerSquareFoot()).setScale(2, RoundingMode.HALF_UP));
-        order.setLaborCost(order.getArea().multiply(order.getLaborCostPerSquareFoot()).setScale(2, RoundingMode.HALF_UP));
-        order.setTax((order.getMaterialCost().add(order.getLaborCost())).multiply(taxRate.divide(new BigDecimal("100"))).setScale(2, RoundingMode.HALF_UP));
-        order.setTotal(order.getTax().add(order.getLaborCost()).add(order.getMaterialCost()).setScale(2, RoundingMode.HALF_UP));
+        order.setLaborCost(order.getArea().multiply(order.getLabourCostPerSquareFoot()).setScale(2, RoundingMode.HALF_UP));
+        order.setTax((order.getMaterialCost().add(order.getLabourCost())).multiply(taxRate.divide(new BigDecimal("100"))).setScale(2, RoundingMode.HALF_UP));
+        order.setTotal(order.getTax().add(order.getLabourCost()).add(order.getMaterialCost()).setScale(2, RoundingMode.HALF_UP));
         return order;
     }
 

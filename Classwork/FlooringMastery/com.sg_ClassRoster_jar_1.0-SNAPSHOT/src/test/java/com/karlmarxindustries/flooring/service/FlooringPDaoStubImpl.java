@@ -5,18 +5,22 @@
  */
 package com.karlmarxindustries.flooring.service;
 
+import com.karlmarxindustries.flooring.dao.FilePersistenceException;
+import com.karlmarxindustries.flooring.dao.FlooringProductDao;
 import com.karlmarxindustries.flooring.dto.Product;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  *
  * @author karlmarx
  */
-class FlooringPDaoStubImpl {
+class FlooringPDaoStubImpl implements FlooringProductDao {
     Product firstProduct;
     Product secondProduct;
-    Map<String, Product> orders = new HashMap<>();
+    Map<String, Product> products = new HashMap<>();
 
     
     public FlooringPDaoStubImpl(Product firstProduct, Product secondProduct) {
@@ -24,29 +28,27 @@ class FlooringPDaoStubImpl {
         this.secondProduct = secondProduct;
     }
 
-    public Product getFirstProduct() {
-        return firstProduct;
+    @Override
+    public List<Product> getAllProducts() throws FilePersistenceException {
+        List<Product> allProducts = new ArrayList<>();
+        allProducts.add(firstProduct);
+        allProducts.add(secondProduct);
+        return allProducts;
     }
 
-    public void setFirstProduct(Product firstProduct) {
-        this.firstProduct = firstProduct;
+    @Override
+    public Product getProduct(String productType) throws FilePersistenceException {
+         if (productType.equalsIgnoreCase(firstProduct.getProductType())) return firstProduct;
+        else if(productType.equalsIgnoreCase(secondProduct.getProductType())) return secondProduct;
+        else return null;
     }
 
-    public Product getSecondProduct() {
-        return secondProduct;
+    @Override
+    public void loadProductInfo() throws FilePersistenceException {
+            products.put(firstProduct.getProductType(), firstProduct);
+            products.put(secondProduct.getProductType(), secondProduct);
     }
 
-    public void setSecondProduct(Product secondProduct) {
-        this.secondProduct = secondProduct;
-    }
-
-    public Map<String, Product> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Map<String, Product> orders) {
-        this.orders = orders;
-    }
-    
+  
     
 }

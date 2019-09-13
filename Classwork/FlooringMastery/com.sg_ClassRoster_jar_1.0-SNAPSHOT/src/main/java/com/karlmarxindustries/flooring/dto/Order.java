@@ -178,7 +178,7 @@ public class Order {
         this.costPerSquareFoot = costPerSquareFoot;
     }
 
-    public BigDecimal getLaborCostPerSquareFoot() {
+    public BigDecimal getLabourCostPerSquareFoot() {
         return laborCostPerSquareFoot;
     }
 
@@ -194,7 +194,7 @@ public class Order {
         this.materialCost = materialCost;
     }
 
-    public BigDecimal getLaborCost() {
+    public BigDecimal getLabourCost() {
         return laborCost;
     }
 

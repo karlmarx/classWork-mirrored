@@ -20,23 +20,23 @@ import java.util.regex.Pattern;
  *
  * @author karlmarx
  */
-public class FlooringView {
+public class FlooringViewDeutsch {
 
     private UserIO io;
 
-    public FlooringView(UserIO io) {
+    public FlooringViewDeutsch(UserIO io) {
         this.io = io;
     }
 
     public int printMenuAndGetSelection() {
-        io.print("<<Flooring Program>>");
-        io.print("1. Display Orders");
-        io.print("2. Add an Order");
-        io.print("3. Edit an Order");
-        io.print("4. Remove an Order");
-        io.print("5. Save Current Work");
-        io.print("6. Exit");
-        return io.readInt("Please select from the above choices.", 1, 6);
+        io.print("<<Bodenbelagsprogramm>>");
+        io.print("1. Bestellungen Anzeigen");
+        io.print("2. Bestellungen Anlegen");
+        io.print("3. Bestellungen Bearbeiten");
+        io.print("4. Bestellungen Löschen");
+        io.print("5. Fortschritt Speichern");
+        io.print("6. Abbrechen");
+        return io.readInt("Bitte wählen Sie aus den obigen Optionen.", 1, 6);
     }
 
     public Order getNewOrderInfo(List<String> stateList, List<Product> productList) {
@@ -58,40 +58,40 @@ public class FlooringView {
         while (!validDate) {
             date = getDesiredDate();
             if (date.compareTo(LocalDate.now()) < 0) {
-                io.print("You have entered a date in the past.  Please enter a valid future date.");
+                io.print("Sie haben ein Datum in der Vergangenheit eingegeben. Bitte geben Sie ein gültiges zukünftiges Datum ein..");
             } else {
                 validDate = true;
             }
         }
         while (!validName) {
-            customerName = io.readString("Please enter customer name: ").trim();
+            customerName = io.readString("Bitte geben Sie den Kundennamen ein.").trim();
             if (!isAlphaPeriodComma(customerName)) {
-                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods.");
+                io.print("Ungültiges Format! Zulässige Zeichen: Zahlen, Buchstaben, Kommas und Punkte.");
             } else {
                 validName = true;
             }
         }
         //figure out way to get state list.  maybe as a METHOD PARAMATER
         while (!validState) {
-            inputState = io.readString("Please enter state: (using 2 letter abbreviation) ");
+            inputState = io.readString("Biite geben Sie den Staat ein: (Nur aus zwei Buchstaben bestehende Abkürzungen.) ");
             String upperState = inputState.toUpperCase();
             if (!stateList.contains(upperState)) {
-                io.print("Floors cannot be sold in " + upperState + " currently.  Please try again.");
+                io.print("Fußböden können nicht in " + upperState + " verkauft werden.  Bitte geben Sie einen anderen Staat ein.");
             } else {
                 validState = true;
             }
         }
         while (!validProduct) {
             this.displayAllProducts(productList);
-            inputProduct = io.readString("Please enter product from above:  (use full name of product)");
+            inputProduct = io.readString("Bitte geben Sie das Produkt aus der obigen Auswahl ein: (Verwenden Sie nur den vollständigen Namen)");
             String product = inputProduct.trim().toUpperCase();
             if (!productTypeList.contains(product)) {
-                io.print("That product is not available.  Please select from the available options.");
+                io.print("Dieses Produkt ist nicht verfügbar. Bitte wählen Sie aus den verfügbaren Optionen.");
             } else {
                 validProduct = true;
             }
         }
-        double doubleArea = io.readDouble("Please enter area in sq feet. (minimum 100)", 100.0d, Double.MAX_VALUE);
+        double doubleArea = io.readDouble("Bitte geben Sie den Bereich in Quadratfuß ein. (mindestens 100)", 100.0d, Double.MAX_VALUE);
         area = new BigDecimal(String.valueOf(doubleArea));
         Order orderToValidate = new Order(date, customerName, inputState, area, inputProduct);
         return orderToValidate;
@@ -99,37 +99,38 @@ public class FlooringView {
     }
 
     public void displayAddOrderBanner() {
-        io.print("=== Add Order ===");
+        io.print("=== Bestellungen Anlegen ===");
     }
 
     public void displayAddOrderSuccessBanner() {
-        io.readString("Order successfully created.  Please hit enter to continue");
+        io.readString("Bestellung erfolgreich erstellt. Bitte drücken Sie die Eingabetaste, um fortzufahren.");
     }
 
     public void displayOrdersForDate(List<Order> orderList) {
+        io.print("+++++++++++++++++++++++");
         for (Order order  : orderList) {
             this.displayOrder(order);
             io.print("+++++++++++++++++++++++");
         }
-        io.readString("Please hit enter to continue.");
+        io.readString("Bitte drücken Sie die Eingabetaste, um fortzufahren.");
     }
 
 
 
     public void displayEditOrderBanner() {
-        io.print("=== Remove Order ===");
+        io.print("=== Bestellungen Löschen ===");
     }
 
     public void displayRemoveSuccessBanner() {
-        io.readString("Order successfully removed.  Please hit enter to continue.");
+        io.readString("Die Bestellung wurde erfolgreich gelöscht. Bitte drücken Sie die Eingabetaste, um fortzufahren.");
     }
 
     public void displayExitBanner() {
-        io.print("Goodbye!!!");
+        io.print("Auf wiedersehen!!!");
     }
 
     public void displayUnknownCommandBanner() {
-        io.print("Unknown Command!!!");
+        io.print("Unbekannte Anweisung!!!");
     }
 
   
@@ -144,10 +145,10 @@ public class FlooringView {
 
     private void displayAllProducts(List<Product> productTypeList) {
         int counter = 1;
-        io.print("===Available Products:===");
+        io.print("===Verfügbare Produkte:===");
         for (Product currentProduct : productTypeList) {
-            io.print(counter + ". [" + currentProduct.getProductType() + "] - Cost: $"
-                    + currentProduct.getCostPerSquareFoot() + " - Labor Cost: $"
+            io.print(counter + ". [" + currentProduct.getProductType() + "] - Kosten: $"
+                    + currentProduct.getCostPerSquareFoot() + " - Arbeitskosten: $"
                     + currentProduct.getLaborCostPerSquareFoot());
                      io.print("++++++++++++++++++++++++++");
             counter++;
@@ -158,106 +159,107 @@ public class FlooringView {
 
     public boolean displayConfirmOrderToAdd(Order toAdd) {
         boolean confirmed = false;
-        io.print("Please review the order to make sure it is correct:");
+        io.print("Bitte überprüfen Sie diese Bestellung, um sicherzustellen, dass sie korrekt ist:");
         displayOrder(toAdd);
-        String confirmation = io.readString("Would you like to add this order? (Y/N)");
-        if (confirmation.equalsIgnoreCase("Y")) {
+        String confirmation = io.readString("Möchten Sie diesen Auftrag erstellen? (J/N)");
+        if (confirmation.equalsIgnoreCase("J")) {
             confirmed = true;
-            io.print("The order has been created and assigned order id#" + toAdd.getOrderNumber() + "."); //split this up?
+            io.print("Die Bestellung wurde angelegt und mit der Bestellnummer #" + toAdd.getOrderNumber() + "versehen."); //split this up?
         } else {
-            io.print("The order has not been created."); //put this logic in controller probably
+            io.print(
+"Die Bestellung wurde nicht angelegt."); //put this logic in controller probably
         }
         return confirmed;
     }
 
     public void displayDisplayOrdersBanner() {
-               io.print("=== Display Order ===");
+               io.print("=== Bestellungen Anzeigen ===");
     }
 
     public LocalDate getDesiredDate() {
         
         boolean validDate = false;
         LocalDate date = null;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         while(!validDate) {
             try {
-                String dateAsText = io.readString("Please enter date (MM/DD/YYYY): ").trim();
+                String dateAsText = io.readString("Bitte geben Sie das Datum ein (DD.MM.JJJJ): ").trim();
                 
                 date = LocalDate.parse(dateAsText, formatter);
                 validDate = true;
             } catch (DateTimeException e) { //this okay to handle here?
-                io.print("The date format was invalid.  Please try again!");
+                io.print("Das Datumsformat ist ungültig. Bitte versuche es erneut!");
                 
             }
         }
          return date;   
     }
     public int getOrderNumber() {
-        int orderNumber = io.readInt("Please enter order number", 1, Integer.MAX_VALUE);
+        int orderNumber = io.readInt("Bitte geben Sie die Bestellnummer ein!", 1, Integer.MAX_VALUE);
         return orderNumber;
     }
     public void displayErrorMessage(String errorMsg){
-            io.print("--- ERROR ---");
+            io.print("--- FEHLER ---");
             io.print(errorMsg);
     }
 
     public boolean displayConfirmOrderToRemove(Order toRemove) {
-        io.print("Please review the order to make sure it is the correct order");
-        io.print("Order #" + toRemove.getOrderNumber());
+        io.print("Bitte überprüfen Sie die Bestellung, um sicherzustellen, dass es sich um die richtige Bestellung handelt.");
+        io.print("Bestellung #" + toRemove.getOrderNumber());
         displayOrder(toRemove);
-        return confirmSomething("Would you like to add remove this order? (Y/N)");
+        return confirmSomething("Möchten Sie hinzufügen, entfernen Sie diese Bestellung? (J/N)");
     }
     public boolean confirmSomething(String toConfirm) {
         boolean confirmed = false;
         String confirmation = io.readString(toConfirm);
-        if (confirmation.equalsIgnoreCase("Y")) {
+        if (confirmation.equalsIgnoreCase("J")) {
             confirmed = true;
         } 
         return confirmed;
     }
     public boolean displayConfirmSave() {
-        return confirmSomething("Are you sure you would like to save your work from this session? (Y/N)");
+        return confirmSomething("Sind Sie sicher, dass Sie Ihre Arbeit aus dieser Sitzung speichern möchten? (J/N)");
     }
 
     public void displaySaveSuccess() {
-        io.print("The changes made in this session have been saved successfully.");
+        io.print("Die in dieser Sitzung vorgenommenen Änderungen wurden erfolgreich gespeichert.");
     }
 
 
     public boolean displayConfirmEditing(Order editedAndCalculated) {
         displayOrder(editedAndCalculated);
-        return confirmSomething("Would you like to save these changes? (Y/N)");
+        return confirmSomething("Möchten Sie diese Änderungen speichern? (J/N)");
     }
 
     public void displayEditSuccess() {
-        io.print("The changes have been saved.  Make sure to 'Save Current Work' from the main menu to finalize your changes.");
+        io.print("Die Änderungen wurden gespeichert. Stellen Sie sicher, dass Sie im Hauptmenü auf \"Fortschritt Speichern\" klicken, um Ihre Änderungen zu übernehmen.");
     }
 
     public void displayNoChangesMade() {
-        io.print("No changes have been made.");
+        io.print("Es wurden keine Änderungen vorgenommen.");
     }
     public void displayOrder(Order order) {
         if (order.getOrderNumber() != 0) {
-            io.print("Order number: " + order.getOrderNumber());
+            io.print("Bestellung nummer: " + order.getOrderNumber());
         } else {
-            io.print("- Order # has yet to be assigned.");
+            io.print("Bestellnummer wurde nicht vergeben.");
         }
-        io.print("Order date: " +order.getDate());
-        io.print("Customer name: " + order.getCustomerName());
-        io.print("State: " + order.getState());
-        io.print("Tax rate: " + order.getTaxRate());
-        io.print("Product type:" + order.getProductType());
-        io.print("Area: " + order.getArea() + "square feet");
-        io.print("Cost per square foot: $" + order.getCostPerSquareFoot());
-        io.print("Labor cost per square foot: $" + order.getLabourCostPerSquareFoot());
-        io.print("Material cost: $" + order.getMaterialCost());
-        io.print("Labor cost: $" + order.getLabourCost());
-        io.print("Tax: $" + order.getTax());
-        io.print("Total: $" + order.getTotal());
+        io.print("Bestelldatum: " +order.getDate());
+        io.print("Kundenname: " + order.getCustomerName());
+        io.print("Staat: " + order.getState());
+        io.print("Steuersatz: " + order.getTaxRate());
+        io.print("Produkttyp:" + order.getProductType());
+        io.print("Größe: " + order.getArea() + "square feet");
+        io.print("Kosten pro Quadratfuß: $" + order.getCostPerSquareFoot());
+        io.print("Arbeitsosten pro Quadratfuß: $" + order.getLabourCostPerSquareFoot());
+        io.print("Materialkosten: $" + order.getMaterialCost());
+        io.print("Arbeitskosten: $" + order.getLabourCost());
+        io.print("Steuer: $" + order.getTax());
+        io.print("Gesamtsumme: $" + order.getTotal());
     }
 
     public void displayNotSaved() {
-        io.print("Your changes have not been saved.");
+        io.print("Ihre Änderungen wurden nicht gespeichert.");
     }
     
     public Order displayCurrentGetEdits(List<String> stateList, List<Product> productList, Order order) {
@@ -266,13 +268,6 @@ public class FlooringView {
         boolean validProduct = false;
         boolean validState = false;
         String customerName = null;
-        String oldName = order.getCustomerName();
-                    String oldState = order.getState();
-                                String oldProduct = order.getProductType();
-                                BigDecimal oldArea = order.getArea();
-
-
-        LocalDate date = null;
         String inputState = null;
         String inputProduct = null;
         List<String> productTypeList = new ArrayList<>();
@@ -281,19 +276,19 @@ public class FlooringView {
         }
         BigDecimal area;
         while (!validName) {
-            customerName = io.readString("Please enter customer name[" + order.getCustomerName() + "]: ").trim();
+            customerName = io.readString("Bitte geben Sie den Kundennamen ein[" + order.getCustomerName() + "]: ").trim();
             if (!isAlphaPeriodComma(customerName) && !customerName.equals("")) {
-                io.print("Invalid Format!  Allowed characters: numbers, letters, commas, and periods. Name cannot be 'null'.");
+                io.print("Ungültiges Format! Zulässige Zeichen: Zahlen, Buchstaben, Kommas und Punkte.");
             } else {
                 validName = true;
             }
             
         }
         while (!validState) {
-            inputState = io.readString("Please enter state[" + order.getState().toUpperCase() + "]: (using 2 letter abbreviation) ");
+            inputState = io.readString("Biite geben Sie den Staat ein[" + order.getState().toUpperCase() + "]: (Nur aus zwei Buchstaben bestehende Abkürzungen.) ");
             String upperState = inputState.toUpperCase();
             if (!stateList.contains(upperState) && !inputState.equals("")) {
-                io.print("Floors cannot be sold in " + upperState + "currently.  Please try again.");
+                io.print("Fußböden können nicht in " + upperState + " verkauft werden.  Bitte geben Sie einen anderen Staat ein.");
             } else {
                 validState = true;
             }
