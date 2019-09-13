@@ -56,10 +56,12 @@ class FlooringTDaoStubImpl implements FlooringTaxDao {
         return theStubStates;
     }
 
+    
+
     @Override
-    public void loadRateList() throws FilePersistenceException {
-        taxes.put(firstTax.getStateAbbreviation(), firstTax);
-        taxes.put(secondTax.getStateAbbreviation(), secondTax);
+    public void loadRateList(String filename) throws FilePersistenceException {
+          taxes.put(firstTax.getStateAbbreviation(), firstTax);
+        taxes.put(secondTax.getStateAbbreviation(), secondTax); //To change body of generated methods, choose Tools | Templates.
     }
    
 }

@@ -43,9 +43,11 @@ class FlooringPDaoStubImpl implements FlooringProductDao {
         else return null;
     }
 
+   
+
     @Override
-    public void loadProductInfo() throws FilePersistenceException {
-            products.put(firstProduct.getProductType(), firstProduct);
+    public void loadProductInfo(String filename) throws FilePersistenceException {
+        products.put(firstProduct.getProductType(), firstProduct);
             products.put(secondProduct.getProductType(), secondProduct);
     }
 

@@ -36,8 +36,8 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 
     @Override
     public void initialLoadProductTaxInfo() throws FilePersistenceException {
-        tDao.loadRateList();
-        pDao.loadProductInfo();
+        tDao.loadRateList("Taxes.txt");
+        pDao.loadProductInfo("Products.txt");
     }
 
     @Override

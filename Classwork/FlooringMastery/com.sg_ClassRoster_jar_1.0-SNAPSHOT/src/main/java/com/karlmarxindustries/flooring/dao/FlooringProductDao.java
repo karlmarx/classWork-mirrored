@@ -19,5 +19,5 @@ public interface FlooringProductDao {
 
     public Product getProduct(String productType) throws FilePersistenceException;
 
-    public void loadProductInfo() throws FilePersistenceException;
+    public void loadProductInfo(String filename) throws FilePersistenceException;
 }

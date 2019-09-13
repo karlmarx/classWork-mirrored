@@ -27,6 +27,7 @@ public class FlooringTaxDaoImpl implements FlooringTaxDao {
     private Map<String, Tax> taxes = new HashMap<>();
  //   private Set<String> stateList = new HashSet<>(); //unnecessary?
     private static final String DELIMITER = ",";
+    private String filename;
     private static final String FILENAME = "Taxes.txt";
             //change above to varaible later
 
@@ -57,10 +58,10 @@ public class FlooringTaxDaoImpl implements FlooringTaxDao {
     }
 
     @Override
-    public void loadRateList() throws FilePersistenceException {
+    public void loadRateList(String filename) throws FilePersistenceException {
           Scanner scanner;
         try {
-            scanner = new Scanner(new BufferedReader(new FileReader(FILENAME)));
+            scanner = new Scanner(new BufferedReader(new FileReader(filename)));
         } catch (FileNotFoundException e) {
             throw new FilePersistenceException("Uh-oh!", e);
         }

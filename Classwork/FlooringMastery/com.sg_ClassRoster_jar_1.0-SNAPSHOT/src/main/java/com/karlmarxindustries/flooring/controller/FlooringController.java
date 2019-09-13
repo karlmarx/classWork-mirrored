@@ -41,6 +41,7 @@ public class FlooringController {
     }
 
     public void run() throws FilePersistenceException, NoOrdersOnDateException, FlooringDuplicateIdException, FlooringDataValidationException, NoMatchingOrdersException {
+        view.displayTitleBanner();
         boolean keepGoing = true;
         int menuSelection = 0;
         try {
@@ -50,6 +51,7 @@ public class FlooringController {
             view.displayErrorMessage(messages.getString(e.getMessage()));
             keepGoing = false;
         }
+        
         while (keepGoing) {
 
             menuSelection = getMenuSelection();

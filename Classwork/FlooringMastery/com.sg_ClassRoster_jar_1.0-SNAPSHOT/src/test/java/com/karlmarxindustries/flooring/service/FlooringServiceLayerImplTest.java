@@ -10,7 +10,6 @@ import com.karlmarxindustries.flooring.dto.Order;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -39,13 +38,13 @@ public class FlooringServiceLayerImplTest {
 //         Order orderThree = oDao.thirdOrderDate2;
          
     }
-    @Before
-    public void loadOrdersForTests() throws FilePersistenceException {
+  //  @Before
+ //   public void loadOrdersForTests() throws FilePersistenceException {
 //        testOrderOne = this.oDao.getOrder(1); //order#1 
 //        testOrderTwo = this.oDao.getOrder(2);             //order #2
 //        testOrderThree = this.oDao.getOrder(7);
    //     service.initialLoadProductTaxInfo();
-    }
+    
     @Test
     public void testCalculateCostsTaxesTotal() throws FilePersistenceException, FlooringDuplicateIdException, FlooringDataValidationException {
         Order order = new Order(LocalDate.parse("2019-10-01"), "mister mister", "KY", new BigDecimal("20.00"), "Tile");

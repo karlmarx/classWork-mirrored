@@ -6,12 +6,9 @@
 package com.karlmarxindustries.flooring.dao;
 
 import com.karlmarxindustries.flooring.dto.Order;
-import com.karlmarxindustries.flooring.service.FlooringServiceLayer;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -32,17 +29,17 @@ public class FlooringOrderDaoImplTest {
     @Test
     public void testGetFilenames() {
         String[] filenames = testODao.getOrderFileNames("OrdersTest/");
-        
+        List <String> filenamesList = filenames.asList();
         Assertions.assertNotNull(filenames, "should not be null, there are files in dir");
         Assertions.assertEquals(2, filenames.length, "there should be two files in dir");
-        
+        Assertions.assertTrue(filenamesList.contains("Orders_06012013.txt"), "this filename (Orders_06012013.txt) should be in the list.");
+         Assertions.assertTrue(filenamesList.contains("Orders_06022013.txt"), "this filename(Orders_06012013.txt)  should be in the list.");         
+          Assertions.assertFalse(filenamesList.contains("ProductsTEST.txt"), "this filename (ProductsTEST.txt)  should be in the list.");      
     }
     @Test
     public void testCreateOrder() throws FilePersistenceException {
         int orderNumber1 = 21;
         Order orderToAdd = new Order(LocalDate.parse("2020-12-12"), "Bill", "TX", new BigDecimal("101.0"), "TILE");
-        
-       
         
         Order gotBack = testODao.createOrder(orderNumber1, orderToAdd);
         Order gottenOrder = testODao.getOrder(orderNumber1);
@@ -136,7 +133,7 @@ public class FlooringOrderDaoImplTest {
         Assertions.assertEquals(new BigDecimal("249.00"), fromLine.getArea(), "Area should be 249.00");
         Assertions.assertEquals(new BigDecimal("3.50"), fromLine.getCostPerSquareFoot(), "Cost per sq ft should be 3.50");
         Assertions.assertEquals(new BigDecimal("4.15"), fromLine.getLabourCostPerSquareFoot(), "labor cost per sq ft should be 4.15");
-        Assertions.assertEquals(new BigDecimal("871.40"), fromLine.getMaterialCost(), "material cost should be 871.40");
+        Assertions.assertEquals(new BigDecimal("871.50"), fromLine.getMaterialCost(), "material cost should be 871.50");
         Assertions.assertEquals(new BigDecimal("1033.35"), fromLine.getLabourCost(), "Labour cost should be 1033.53");
         Assertions.assertEquals(new BigDecimal("476.21"),    fromLine.getTax(), "Tax should be 476.21");
         Assertions.assertEquals(new BigDecimal("2381.06")  , fromLine.getTotal(), "Total should be 2381.06");
@@ -145,7 +142,7 @@ public class FlooringOrderDaoImplTest {
     
     @Test
     public void marshallOrderTest(){
-        Order toTextify = new Order(LocalDate.parse("1983-10-26"), "Stephin Meritt", "NY",   new BigDecimal(250.00).setScale(2), "Wood");
+        Order toTextify = new Order(LocalDate.parse("1983-10-26"), "Stephin Merritt", "NY",   new BigDecimal(250.00).setScale(2), "Wood");
         toTextify.setOrderNumber(193);
         toTextify.setTaxRate(new BigDecimal("0.1"));
         toTextify.setCostPerSquareFoot( new BigDecimal("1.99"));
@@ -157,7 +154,7 @@ public class FlooringOrderDaoImplTest {
         
         String orderAsText = testODao.marshallOrder(toTextify);
         
-        Assertions.assertEquals("193,Stephin Merrit,NY,0.1,Wood,250.00,1.99,1000.00,123123.00,99999.00,4.00,123313123123.00", orderAsText, "lines should match.");
+        Assertions.assertEquals("193,Stephin Merritt,NY,0.1,Wood,250.00,1.99,1000.00,123123.00,99999.00,4.00,123313123123.00", orderAsText, "lines should match.");
         
     }
     @Test
@@ -178,24 +175,4 @@ public class FlooringOrderDaoImplTest {
         Assertions.assertEquals(toTextify, orderFromText, "input/output should be same");
     }
         
-     @Test
-     public void testMarshallUnmarshallNameHasCommas() throws FilePersistenceException{
-         
-     }
-      @Test
-     public void testMarshallUnmarshallNameHasCommasIsNull() throws FilePersistenceException{
-         
-     }
-      @Test
-     public void testMarshallUnmarshallNameIsNull() throws FilePersistenceException{
-         
-     }
-     
-//    @Test
-//     public void testMarshallUnmarshallNameNull() throws FilePersistenceException{
-//         
-//     }
-     //test marshall?
-     
-    
 }

@@ -26,7 +26,7 @@ public class FlooringProductDaoImpl implements FlooringProductDao {
 
     private Map<String, Product> products = new HashMap<>();
     private static final String DELIMITER = ",";
-    private static final String FILENAME = "Products.txt";
+   // private static final String FILENAME = "Products.txt";
 
     Product unmarshallProduct(String productAsText) throws FilePersistenceException {
         String[] productTokens = productAsText.split(DELIMITER);
@@ -51,10 +51,10 @@ public class FlooringProductDaoImpl implements FlooringProductDao {
    
 
     @Override
-    public void loadProductInfo() throws FilePersistenceException {
+    public void loadProductInfo(String filename) throws FilePersistenceException {
         Scanner scanner;
         try {
-            scanner = new Scanner(new BufferedReader(new FileReader(FILENAME)));
+            scanner = new Scanner(new BufferedReader(new FileReader(filename)));
         } catch (FileNotFoundException e) {
             throw new FilePersistenceException("Uh-oh!", e);
         }

@@ -33,7 +33,7 @@ public class FlooringControllerBilingual {
     FlooringViewDeutsch viewDE;
     Locale aLocale = new Locale("en", "US");
     Locale deLocale = new Locale("de", "DE");
-  
+
     ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", aLocale);
     ResourceBundle messagesDE = ResourceBundle.getBundle("MessagesBundle", deLocale);
 
@@ -44,7 +44,7 @@ public class FlooringControllerBilingual {
     }
 
     public void run() throws FilePersistenceException, NoOrdersOnDateException, FlooringDuplicateIdException, FlooringDataValidationException, NoMatchingOrdersException {
-        
+        view.displayTitleBanner();
         boolean keepGoing = true;
         int menuSelection = 0;
         try {
@@ -54,36 +54,39 @@ public class FlooringControllerBilingual {
             view.displayErrorMessage(messages.getString(e.getMessage()));
             keepGoing = false;
         }
+
         while (keepGoing) {
+            try {
+                menuSelection = getMenuSelection();
 
-            menuSelection = getMenuSelection();
-
-            switch (menuSelection) {
-                case 1:
-                    displayOrders();
-                    break;
-                case 2:
-                    addOrder();
-                    break;
-                case 3:
-                    editOrder();
-                    break;
-                case 4:
-                    removeOrder();
-                    break;
-                case 5:
-                    saveCurrentWork();
-                    break;
-                case 6:
-                    keepGoing = false;
-                    break;
-                case 7:
-                    menuDeutsch();
-                    break;
-                default:
-                    unknownCommand();
+                switch (menuSelection) {
+                    case 1:
+                        displayOrders();
+                        break;
+                    case 2:
+                        addOrder();
+                        break;
+                    case 3:
+                        editOrder();
+                        break;
+                    case 4:
+                        removeOrder();
+                        break;
+                    case 5:
+                        saveCurrentWork();
+                        break;
+                    case 6:
+                        keepGoing = false;
+                        break;
+                    case 7:
+                        menuDeutsch();
+                        break;
+                    default:
+                        unknownCommand();
+                }
+            } catch (NoOrdersOnDateException e) {
+                view.displayErrorMessage(messages.getString(e.getMessage()));
             }
-
         }
         exitMessage();
     }
@@ -95,7 +98,7 @@ public class FlooringControllerBilingual {
     private int getMenuSelectionDE() {
         return viewDE.printMenuAndGetSelection();
     }
-    
+
     private void addOrder() throws FilePersistenceException {
         view.displayAddOrderBanner();
 
@@ -117,6 +120,7 @@ public class FlooringControllerBilingual {
             }
         } while (hasErrors);
     }
+
     private void addOrderDE() throws FilePersistenceException {
         viewDE.displayAddOrderBanner();
 
@@ -142,24 +146,15 @@ public class FlooringControllerBilingual {
     private void displayOrders() throws FilePersistenceException, NoOrdersOnDateException {
         view.displayDisplayOrdersBanner();
         LocalDate searchDate = view.getDesiredDate();
-        try {
-            List<Order> ordersForDate = service.getOrdersForDate(searchDate);
-            view.displayOrdersForDate(ordersForDate);
-        } catch (NoOrdersOnDateException e) {
-            view.displayErrorMessage(messages.getString(e.getMessage()));
-        }
+        List<Order> ordersForDate = service.getOrdersForDate(searchDate);
+        view.displayOrdersForDate(ordersForDate);
     }
 
     private void displayOrdersDE() throws FilePersistenceException, NoOrdersOnDateException {
         viewDE.displayDisplayOrdersBanner();
         LocalDate searchDate = viewDE.getDesiredDate();
-        try {
-            List<Order> ordersForDate = service.getOrdersForDate(searchDate);
-            viewDE.displayOrdersForDate(ordersForDate);
-        } catch (NoOrdersOnDateException e) {
-                            viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
-
-        }
+        List<Order> ordersForDate = service.getOrdersForDate(searchDate);
+        viewDE.displayOrdersForDate(ordersForDate);
     }
 
     private void removeOrder() throws FilePersistenceException, NoMatchingOrdersException {
@@ -178,7 +173,7 @@ public class FlooringControllerBilingual {
                 view.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-                          view.displayErrorMessage(messages.getString(e.getMessage()));
+            view.displayErrorMessage(messages.getString(e.getMessage()));
 
         }
 
@@ -200,7 +195,7 @@ public class FlooringControllerBilingual {
                 viewDE.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-                           viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
+            viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
 
         }
 
@@ -233,17 +228,20 @@ public class FlooringControllerBilingual {
                 viewDE.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-                viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
+            viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
         }
     }
-private void saveCurrentWork() throws FilePersistenceException {
+
+    private void saveCurrentWork() {
         boolean isConfirmed = view.displayConfirmSave();
         if (isConfirmed) {
             try {
                 service.saveWorks();
-                view.displaySaveSuccess();///try catch for persistence exception
+                view.displaySaveSuccess();
             } catch (TestingModeException e) {
                 view.displayErrorMessage(messages.getString(e.getMessage()));
+            } catch (FilePersistenceException f) {
+                view.displayErrorMessage(messages.getString(f.getMessage()));
             }
         } else {
             view.displayNotSaved();
@@ -251,14 +249,16 @@ private void saveCurrentWork() throws FilePersistenceException {
 
     }
 
-    private void saveCurrentWorkDE() throws FilePersistenceException {
+    private void saveCurrentWorkDE() {
         boolean isConfirmed = viewDE.displayConfirmSave();
         if (isConfirmed) {
             try {
                 service.saveWorks();
-                viewDE.displaySaveSuccess();///try catch for persistence exception
+                viewDE.displaySaveSuccess();
             } catch (TestingModeException e) {
                 viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
+            } catch (FilePersistenceException f) {
+                viewDE.displayErrorMessage(messagesDE.getString(f.getMessage()));
             }
         } else {
             viewDE.displayNotSaved();
@@ -293,47 +293,51 @@ private void saveCurrentWork() throws FilePersistenceException {
                 view.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-                view.displayErrorMessage(messages.getString(e.getMessage()));
+            view.displayErrorMessage(messages.getString(e.getMessage()));
         }
     }
 
     private void menuDeutsch() throws FilePersistenceException, NoOrdersOnDateException, NoMatchingOrdersException, FlooringDuplicateIdException, FlooringDataValidationException {
+        viewDE.displayTitleBanner();
         boolean keepGoingDE = true;
         int menuSelectionDE = 0;
         try {
             service.loadOrderData();
             service.initialLoadProductTaxInfo();
         } catch (FilePersistenceException e) {
-                viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
+            viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
             keepGoingDE = false;
         }
         while (keepGoingDE) {
 
             menuSelectionDE = getMenuSelectionDE();
+            try {
+                switch (menuSelectionDE) {
+                    case 1:
+                        displayOrdersDE();
+                        break;
+                    case 2:
+                        addOrderDE();
+                        break;
+                    case 3:
+                        editOrderDE();
+                        break;
+                    case 4:
+                        removeOrderDE();
+                        break;
+                    case 5:
+                        saveCurrentWorkDE();
+                        break;
+                    case 6:
+                        keepGoingDE = false;
+                        break;
+                    default:
+                        unknownCommandDE();
+                }
+            } catch (NoOrdersOnDateException e) {
+                viewDE.displayErrorMessage(messagesDE.getString(e.getMessage()));
 
-            switch (menuSelectionDE) {
-                case 1:
-                    displayOrdersDE();
-                    break;
-                case 2:
-                    addOrderDE();
-                    break;
-                case 3:
-                    editOrderDE();
-                    break;
-                case 4:
-                    removeOrderDE();
-                    break;
-                case 5:
-                    saveCurrentWorkDE();
-                    break;
-                case 6:
-                    keepGoingDE = false;
-                    break;
-                default:
-                    unknownCommandDE();
             }
-
         }
         exitMessageDE();
     }
