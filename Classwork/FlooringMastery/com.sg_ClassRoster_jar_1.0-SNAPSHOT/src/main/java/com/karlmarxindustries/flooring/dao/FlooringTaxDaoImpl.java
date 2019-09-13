@@ -62,7 +62,7 @@ public class FlooringTaxDaoImpl implements FlooringTaxDao {
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(FILENAME)));
         } catch (FileNotFoundException e) {
-            throw new FilePersistenceException("Uh-oh! Could not load tax data into memory", e);
+            throw new FilePersistenceException("Uh-oh!", e);
         }
         String currentLine;
         Tax currentTax;

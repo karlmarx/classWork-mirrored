@@ -21,6 +21,9 @@
     <bean id="view" class="com.karlmarxindustries.flooring.ui.FlooringView">
         <constructor-arg ref="userIO"/>
     </bean>
+   <bean id="viewDeutsch" class="com.karlmarxindustries.flooring.ui.FlooringViewDeutsch">
+        <constructor-arg ref="userIO"/>
+    </bean>
    
     <bean id="taxDao" 
          class="com.karlmarxindustries.flooring.dao.FlooringTaxDaoImpl"/>
@@ -42,5 +45,12 @@
         <constructor-arg ref="serviceLayer"/>
         <constructor-arg ref="view"/>
     </bean>
+     <bean id="controllerBilingual" 
+         class="com.karlmarxindustries.flooring.controller.FlooringControllerBilingual">
+        <constructor-arg ref="serviceLayer"/>
+        <constructor-arg ref="view"/>
+        <constructor-arg ref="viewDeutsch"/>
+    </bean>
+    
    
 </beans>

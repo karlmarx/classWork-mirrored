@@ -35,12 +35,12 @@ public class FlooringViewDeutsch {
         io.print("3. Bestellungen Bearbeiten");
         io.print("4. Bestellungen Löschen");
         io.print("5. Fortschritt Speichern");
-        io.print("6. Abbrechen");
+        io.print("6. Englisch");
         return io.readInt("Bitte wählen Sie aus den obigen Optionen.", 1, 6);
     }
 
     public Order getNewOrderInfo(List<String> stateList, List<Product> productList) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         boolean validDate = false;
         boolean validName = false;
         boolean validProduct = false;
@@ -58,7 +58,7 @@ public class FlooringViewDeutsch {
         while (!validDate) {
             date = getDesiredDate();
             if (date.compareTo(LocalDate.now()) < 0) {
-                io.print("Sie haben ein Datum in der Vergangenheit eingegeben. Bitte geben Sie ein gültiges zukünftiges Datum ein..");
+                io.print("Sie haben ein Datum in der Vergangenheit eingegeben. Bitte geben Sie ein gültiges zukünftiges Datum ein. TT.MM.JJJJ");
             } else {
                 validDate = true;
             }
@@ -183,7 +183,7 @@ public class FlooringViewDeutsch {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         while(!validDate) {
             try {
-                String dateAsText = io.readString("Bitte geben Sie das Datum ein (DD.MM.JJJJ): ").trim();
+                String dateAsText = io.readString("Bitte geben Sie das Datum ein (TT.MM.JJJJ): ").trim();
                 
                 date = LocalDate.parse(dateAsText, formatter);
                 validDate = true;
@@ -295,15 +295,15 @@ public class FlooringViewDeutsch {
         }
         while (!validProduct) {
             this.displayAllProducts(productList);
-            inputProduct = io.readString("Please enter product type from list above[" + order.getProductType().toUpperCase() + "]:  ");
+            inputProduct = io.readString("Bitte geben Sie das Produkt aus der obigen Auswahl ein[" + order.getProductType().toUpperCase() + "]:  ");
             String product = inputProduct.trim().toUpperCase();
             if (!productTypeList.contains(product) && !inputProduct.equals("")) {
-                io.print("That product is not available.  Please select from the available options.");
+                io.print("Dieses Produkt ist nicht verfügbar. Bitte wählen Sie aus den verfügbaren Optionen.");
             } else {
                 validProduct = true;
             }
         }
-        double doubleArea = io.readDoubleAllowBlank("Please enter area in sq feet[" + order.getArea() + "sq ft]. (minimum 100)", 100.0d, Double.MAX_VALUE);
+        double doubleArea = io.readDoubleAllowBlank("Bitte geben Sie den Bereich in Quadratfuß ein[" + order.getArea() + "sq ft]. (mindestens 100)", 100.0d, Double.MAX_VALUE);
         area = new BigDecimal(String.valueOf(doubleArea));
         if (!customerName.equals("")) order.setCustomerName(customerName);
         if(!inputState.equals("")) order.setState(inputState);

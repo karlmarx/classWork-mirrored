@@ -151,7 +151,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         try {
             out = new PrintWriter(new FileWriter(pathToDirectory + File.separator + filename));
         } catch (IOException e) {
-            throw new FilePersistenceException("Could not save order data", e); //add more info
+            throw new FilePersistenceException("Could not save order data.", e); //add more info
         }
         String orderAsText;
         List<Order> ordersForDate = getAllOrdersForDate(date);
@@ -169,7 +169,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
     public void saveAllOrders() throws FilePersistenceException, TestingModeException {
         boolean isModeTesting = this.isModeTesting();
         if (isModeTesting) {
-            throw new TestingModeException("Data cannot be saved while in testing mode. Returning to main menu.");  //catch in controller
+            throw new TestingModeException("Data");  //catch in controller
         } else {
             Collection<Order> allOrders = orders.values();
             Set<LocalDate> allDates = new HashSet<>();
@@ -229,7 +229,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         try {
             scanner = new Scanner(new BufferedReader(new FileReader("Mode.txt")));
         } catch (FileNotFoundException e) {
-            throw new FilePersistenceException("Uh-oh! Could not load mode data into memory. Shutting down.", e);
+            throw new FilePersistenceException("Uh-oh!", e);
         }
         String line = scanner.nextLine();
         String[] modeTokens = line.split(MODE_DELIMITER);

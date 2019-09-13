@@ -56,7 +56,7 @@ public class FlooringProductDaoImpl implements FlooringProductDao {
         try {
             scanner = new Scanner(new BufferedReader(new FileReader(FILENAME)));
         } catch (FileNotFoundException e) {
-            throw new FilePersistenceException("Uh-oh! Could not load product data into memory", e);
+            throw new FilePersistenceException("Uh-oh!", e);
         }
         String currentLine;
         Product currentProduct;

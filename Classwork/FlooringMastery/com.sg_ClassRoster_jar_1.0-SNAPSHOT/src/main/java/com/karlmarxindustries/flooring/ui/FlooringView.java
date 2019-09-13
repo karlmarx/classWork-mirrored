@@ -36,7 +36,7 @@ public class FlooringView {
         io.print("4. Remove an Order");
         io.print("5. Save Current Work");
         io.print("6. Exit");
-        return io.readInt("Please select from the above choices.", 1, 6);
+        return io.readInt("Please select from the above choices.", 1, 7);
     }
 
     public Order getNewOrderInfo(List<String> stateList, List<Product> productList) {

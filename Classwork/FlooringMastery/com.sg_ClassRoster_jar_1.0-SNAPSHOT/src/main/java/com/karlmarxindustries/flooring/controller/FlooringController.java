@@ -17,6 +17,8 @@ import java.util.List;
 import com.karlmarxindustries.flooring.service.FlooringServiceLayer;
 import com.karlmarxindustries.flooring.service.NoMatchingOrdersException;
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +30,9 @@ public class FlooringController {
 
     FlooringView view;
     private FlooringServiceLayer service;
+    Locale aLocale = new Locale("en", "US");
+  
+    ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", aLocale);
     //idea : secret method to switch between test and production
 
     public FlooringController(FlooringServiceLayer service, FlooringView view) {
@@ -42,7 +47,7 @@ public class FlooringController {
             service.loadOrderData();
             service.initialLoadProductTaxInfo();
         } catch (FilePersistenceException e) {
-            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(messages.getString(e.getMessage()));
             keepGoing = false;
         }
         while (keepGoing) {
@@ -97,7 +102,7 @@ public class FlooringController {
                 hasErrors = false;
             } catch (FlooringDuplicateIdException | FlooringDataValidationException e) {
                 hasErrors = true;
-                view.displayErrorMessage(e.getMessage());
+                view.displayErrorMessage(messages.getString(e.getMessage()));
             }
         } while (hasErrors);
     }
@@ -109,7 +114,7 @@ public class FlooringController {
             List<Order> ordersForDate = service.getOrdersForDate(searchDate);
             view.displayOrdersForDate(ordersForDate);
         } catch (NoOrdersOnDateException e) {
-            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(messages.getString(e.getMessage()));
         }
     }
 
@@ -129,7 +134,7 @@ public class FlooringController {
                 view.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(messages.getString(e.getMessage()));
         }
 
     }
@@ -161,7 +166,7 @@ public class FlooringController {
                 view.displayNoChangesMade();
             }
         } catch (NoMatchingOrdersException e) {
-            view.displayErrorMessage(e.getMessage());
+            view.displayErrorMessage(messages.getString(e.getMessage()));
         }
     }
 
@@ -172,7 +177,7 @@ public class FlooringController {
                 service.saveWorks();
                 view.displaySaveSuccess();///try catch for persistence exception
             } catch (TestingModeException e) {
-                view.displayErrorMessage(e.getMessage());
+                view.displayErrorMessage(messages.getString(e.getMessage()));
             }
         } else {
             view.displayNotSaved();

@@ -8,7 +8,6 @@ package com.karlmarxindustries.flooring.service;
 import com.karlmarxindustries.flooring.dao.FilePersistenceException;
 import com.karlmarxindustries.flooring.dto.Order;
 import java.util.List;
-import com.karlmarxindustries.flooring.dao.FlooringAuditDao;
 import com.karlmarxindustries.flooring.dao.FlooringOrderDao;
 import com.karlmarxindustries.flooring.dao.FlooringProductDao;
 import com.karlmarxindustries.flooring.dao.FlooringTaxDao;
@@ -25,7 +24,6 @@ import java.util.Collections;
  * @author karlmarx
  */
 public class FlooringServiceLayerImpl implements FlooringServiceLayer {
-
     FlooringTaxDao tDao;
     FlooringOrderDao oDao;
     FlooringProductDao pDao;
@@ -93,7 +91,6 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 //        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
 //        return removedStudent;
 //    }
-    private FlooringAuditDao auditDao;
 
     private int newOrderNumber() throws FilePersistenceException {
         List<Order> allOrders = oDao.getAllOrders();
@@ -118,7 +115,7 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
     public List<Order> getOrdersForDate(LocalDate searchDate) throws NoOrdersOnDateException, FilePersistenceException {
         List<Order> results = oDao.getAllOrdersForDate(searchDate);
         if (results.size() == 0) {
-            throw new NoOrdersOnDateException("No orders were found for that date.  Please try again.");
+            throw new NoOrdersOnDateException("No");
         }
         return results;
     }
@@ -131,10 +128,10 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
             if (foundOrder.getDate().compareTo(searchDate) == 0) {
                 return foundOrder;
             } else {
-                throw new NoMatchingOrdersException("There were no matching orders for that date.");
+                throw new NoMatchingOrdersException("There");
             }
         } catch (NullPointerException f) {
-            throw new NoMatchingOrdersException("There were no matching orders for that date.");
+            throw new NoMatchingOrdersException("There");
         }
     }
 
