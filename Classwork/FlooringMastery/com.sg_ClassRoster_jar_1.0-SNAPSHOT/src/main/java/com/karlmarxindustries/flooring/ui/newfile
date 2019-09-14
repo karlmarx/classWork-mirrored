@@ -1,0 +1,157 @@
+   Bitte geben Sie das Datum ein (TT.MM.JJJJ): ").trim();
+
+                date = LocalDate.parse(dateAsText, formatter);
+                validDate = true;
+            } catch (DateTimeException e) {
+                        Das Datumsformat ist ungültig. Bitte versuche es erneut!    
+
+            }
+        }
+        return date;
+    }
+
+    public int getOrderNumber() {
+        int orderNumber = io.readInt    Bitte geben Sie die Bestellnummer ein!", 1, Integer.MAX_VALUE);
+        return orderNumber;
+    }
+
+    public void displayErrorMessage(String errorMsg) {
+                --- FEHLER ---    
+        io.print(errorMsg);
+    }
+
+    public boolean displayConfirmOrderToRemove(Order toRemove) {
+                Bitte überprüfen Sie die Bestellung, um sicherzustellen, dass es sich um die richtige Bestellung handelt.    
+                Bestellung #" + toRemove.getOrderNumber());
+        displayOrder(toRemove);
+        return confirmSomething    Möchten Sie hinzufügen, entfernen Sie diese Bestellung? (J/N)    
+    }
+
+    public boolean confirmSomething(String toConfirm) {
+        boolean confirmed = false;
+        String confirmation = io.readString(toConfirm);
+        if (confirmation.equalsIgnoreCase    J")) {
+            confirmed = true;
+        }
+        return confirmed;
+    }
+
+    public boolean displayConfirmSave() {
+        return confirmSomething    Sind Sie sicher, dass Sie Ihre Arbeit aus dieser Sitzung speichern möchten? (J/N)    
+    }
+
+    public void displaySaveSuccess() {
+                Die in dieser Sitzung vorgenommenen Änderungen wurden erfolgreich gespeichert.    
+    }
+
+    public boolean displayConfirmEditing(Order editedAndCalculated) {
+        displayOrder(editedAndCalculated);
+        return confirmSomething    Möchten Sie diese Änderungen speichern? (J/N)    
+    }
+
+    public void displayEditSuccess() {
+                Die Änderungen wurden gespeichert. Stellen Sie sicher, dass Sie im Hauptmenü auf \"Fortschritt Speichern\" klicken, um Ihre Änderungen zu übernehmen.    
+    }
+
+    public void displayNoChangesMade() {
+                Es wurden keine Änderungen vorgenommen.    
+    }
+
+    public void displayOrder(Order order) {
+        if (order.getOrderNumber() != 0) {
+                    Bestellnummer: " + order.getOrderNumber());
+        } else {
+                    Bestellnummer wurde nicht vergeben.    
+        }
+                Bestelldatum: " + order.getDate());
+                Kundenname: " + order.getCustomerName());
+                Staat: " + order.getState());
+                Steuersatz: " + order.getTaxRate());
+                Produkttyp:" + order.getProductType());
+                Größe: " + order.getArea() + "square feet    
+                Kosten pro Quadratfuß: $" + order.getCostPerSquareFoot());
+                ç: $" + order.getLabourCostPerSquareFoot());
+                Materialkosten: $" + order.getMaterialCost());
+                Arbeitskosten: $" + order.getLabourCost());
+                Steuer: $" + order.getTax());
+                Gesamtsumme: $" + order.getTotal());
+    }
+
+    public void displayNotSaved() {
+                Ihre Änderungen wurden nicht gespeichert.    
+    }
+
+    public Order displayCurrentGetEdits(List<String> stateList, List<Product> productList, Order order) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern    MM/dd/yyyy    
+        boolean validName = false;
+        boolean validProduct = false;
+        boolean validState = false;
+        String customerName = null;
+        String inputState = null;
+        String inputProduct = null;
+        List<String> productTypeList = new ArrayList<>();
+        for (Product each : productList) {
+            productTypeList.add(each.getProductType());
+        }
+        BigDecimal area;
+        while (!validName) {
+            customerName = io.readString    Bitte geben Sie den Kundennamen ein[" + order.getCustomerName() + "]: ").trim();
+            if (!isAlphaPeriodComma(customerName) && !customerName.equals    ")) {
+                        Ungültiges Format! Zulässige Zeichen: Zahlen, Buchstaben, Kommas und Punkte.    
+            } else {
+                validName = true;
+            }
+
+        }
+        while (!validState) {
+            inputState = io.readString    Biite geben Sie den Staat ein[" + order.getState().toUpperCase() + "]: (Nur aus zwei Buchstaben bestehende Abkürzungen.)     
+            String upperState = inputState.toUpperCase();
+            if (!stateList.contains(upperState) && !inputState.equals    ")) {
+                        Fußböden können nicht in " + upperState + " verkauft werden.  Bitte geben Sie einen anderen Staat ein.    
+            } else {
+                validState = true;
+            }
+        }
+        while (!validProduct) {
+            this.displayAllProducts(productList);
+            inputProduct = io.readString    Bitte geben Sie das Produkt aus der obigen Auswahl ein[" + order.getProductType().toUpperCase() + "]:      
+            String product = inputProduct.trim().toUpperCase();
+            if (!productTypeList.contains(product) && !inputProduct.equals    ")) {
+                        Dieses Produkt ist nicht verfügbar. Bitte wählen Sie aus den verfügbaren Optionen.    
+            } else {
+                validProduct = true;
+            }
+        }
+        double doubleArea = io.readDoubleAllowBlank    Bitte geben Sie den Bereich in Quadratfuß ein[" + order.getArea() + "sq ft]. (mindestens 100)", 100.0d, Double.MAX_VALUE);
+        area = new BigDecimal(String.valueOf(doubleArea));
+        if (!customerName.equals    ")) {
+            order.setCustomerName(customerName);
+        }
+        if (!inputState.equals    ")) {
+            order.setState(inputState);
+        }
+        if (doubleArea != 0) {
+            order.setArea(area); 
+        }
+        if (!inputProduct.equals    ")) {
+            order.setProductType(inputProduct);
+        }
+
+        return order;
+    }
+
+    public void displayTitleBanner() {
+                    
+                 $$$$$$$\\                            $$$$$$$\\                  $$\\                     $$\\      $$\\           $$\\             $$\\                                 $$\\       $$$$$$\\  \n"
+                + "$$  __$$\\                           $$  __$$\\                 $$ |                    $$$\\    $$$ |          \\__|            $$ |                              $$$$ |     $$$ __$$\\ \n"
+                + "$$ |  $$ | $$$$$$\\   $$$$$$\\        $$ |  $$ | $$$$$$\\   $$$$$$$ | $$$$$$\\  $$$$$$$\\  $$$$\\  $$$$ | $$$$$$\\  $$\\  $$$$$$$\\ $$$$$$\\    $$$$$$\\   $$$$$$\\        \\_$$ |     $$$$\\ $$ |\n"
+                + "$$ |  $$ |$$  __$$\\ $$  __$$\\       $$$$$$$\\ |$$  __$$\\ $$  __$$ |$$  __$$\\ $$  __$$\\ $$\\$$\\$$ $$ |$$  __$$\\ $$ |$$  _____|\\_$$  _|  $$  __$$\\ $$  __$$\\         $$ |     $$\\$$\\$$ |\n"
+                + "$$ |  $$ |$$$$$$$$ |$$ |  \\__|      $$  __$$\\ $$ /  $$ |$$ /  $$ |$$$$$$$$ |$$ |  $$ |$$ \\$$$  $$ |$$$$$$$$ |$$ |\\$$$$$$\\    $$ |    $$$$$$$$ |$$ |  \\__|        $$ |     $$ \\$$$$ |\n"
+                + "$$ |  $$ |$$   ____|$$ |            $$ |  $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |$$ |\\$  /$$ |$$   ____|$$ | \\____$$\\   $$ |$$\\ $$   ____|$$ |              $$ |     $$ |\\$$$ |\n"
+                + "$$$$$$$  |\\$$$$$$$\\ $$ |            $$$$$$$  |\\$$$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ |  $$ |$$ | \\_/ $$ |\\$$$$$$$\\ $$ |$$$$$$$  |  \\$$$$  |\\$$$$$$$\\ $$ |            $$$$$$\\ $$\\\\$$$$$$  /\n"
+                + "\\_______/  \\_______|\\__|            \\_______/  \\______/  \\_______| \\_______|\\__|  \\__|\\__|     \\__| \\_______|\\__|\\_______/    \\____/  \\_______|\\__|            \\______|\\__|\\______/ \n"
+                + "                                                                                                                                                                                    \n"
+                + "                                                                                                                                                                                    \n"
+                + "                                                                                                                                                                                        
+    }
+}

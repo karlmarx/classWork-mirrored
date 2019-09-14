@@ -95,8 +95,10 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
 
     public void loadOrderInfoForAllFiles(String[] files) throws FilePersistenceException {
         for (String filename : files) {
+            if (filename.contains("Orders_") && filename.contains(".txt")){
             loadOrderInfoByFile(filename);
         }
+    }
     }
 
     public Order unmarshallOrder(String orderAsText) throws FilePersistenceException {
@@ -104,9 +106,8 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         String orderNumber = orderTokens[0];
         Order orderFromFile = new Order();
         orderFromFile.setOrderNumber(Integer.valueOf(orderNumber));
-        String commaSubstitution = orderTokens[1].replace("::",","); 
+        String commaSubstitution = orderTokens[1].replace("::", ",");
         String commaAndNullSubstitution = commaSubstitution.replace("*n*u*l*l*", "null");
-//in case of coma in name
         orderFromFile.setCustomerName(commaAndNullSubstitution);
         orderFromFile.setState(orderTokens[2]);
         orderFromFile.setTaxRate(new BigDecimal(orderTokens[3]));
@@ -126,7 +127,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         String orderAsText = anOrder.getOrderNumber() + DELIMITER;
         String commaSubstitution = anOrder.getCustomerName().replace(",", "::");
         String commaAndNullSubstitution = commaSubstitution.replace("null", "*n*u*l*l*");
-      
+
         orderAsText += commaAndNullSubstitution + DELIMITER;
         orderAsText += anOrder.getState() + DELIMITER;
         orderAsText += String.valueOf(anOrder.getTaxRate()) + DELIMITER;
@@ -143,7 +144,6 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
     }
 
     private void saveOrderInfoByDate(LocalDate date) throws FilePersistenceException {
-        //different paths for new files vs edit???? - must create one
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy");
         String dateInString = date.format(formatter);
         String filename = ("Orders_" + dateInString + ".txt");
@@ -189,14 +189,10 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
             }
         }
 
-        //this addresses if a date has been removed completely and the file should be deleted.
+      
     }
 
-//    @Override
-//    public Order createOrder(Integer orderNumber, Order order) throws FilePersistenceException {
-//        Order newOrder = orders.put(orderNumber, order);
-//        return newOrder;
-//    }
+
     @Override
     public void editOrder(Integer orderNumber, Order order) throws FilePersistenceException {
         orders.replace(orderNumber, order);
@@ -208,8 +204,6 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         return removedOrder;
     }
 
-    
-
     @Override
     public Order getOrder(Integer orderNumber) throws FilePersistenceException {
         return orders.get(orderNumber);
@@ -218,7 +212,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
     @Override
     public Order createOrder(Integer orderNumber, Order toAdd) {
         Order newOrder = orders.put(orderNumber, toAdd);
-      
+
         return newOrder;
     }
 
@@ -239,6 +233,7 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
         scanner.close();
         return isTesting;
     }
+
     private void deleteFileIfEmpty(LocalDate each) throws FilePersistenceException {
 
         List<Order> orders = this.getAllOrdersForDate(each);
@@ -250,9 +245,6 @@ public class FlooringOrderDaoImpl implements FlooringOrderDao {
             file.delete();
         }
 
-    } ///test this
+    } 
 
-   
-
-    
 }

@@ -5,10 +5,8 @@
  */
 package com.karlmarxindustries.flooring.dao;
 
-import com.karlmarxindustries.flooring.dto.Order;
 import com.karlmarxindustries.flooring.dto.Tax;
 import java.util.List;
-import java.util.Set;
 
 /**
  *

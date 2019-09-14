@@ -9,13 +9,15 @@ package com.karlmarxindustries.flooring.service;
  *
  * @author karlmarx
  */
-public class FlooringDataValidationException extends Exception {
+public class AreaTooSmallException extends Exception {
 
-    public FlooringDataValidationException(String message) {
+    public AreaTooSmallException() {
+    }
+    public AreaTooSmallException(String message) {
         super(message);
     }
 
-    public FlooringDataValidationException(String message,
+    public AreaTooSmallException(String message,
             Throwable cause) {
         super(message, cause);
     }

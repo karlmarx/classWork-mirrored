@@ -12,11 +12,9 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  *
@@ -37,7 +35,7 @@ public class FlooringProductDaoImpl implements FlooringProductDao {
         productFromFile.setLaborCostPerSquareFoot(new BigDecimal(productTokens[2]));
         return productFromFile;
     }
-
+    
     @Override
     public List<Product> getAllProducts() throws FilePersistenceException {
         return new ArrayList<Product>(products.values());
@@ -60,7 +58,7 @@ public class FlooringProductDaoImpl implements FlooringProductDao {
         }
         String currentLine;
         Product currentProduct;
-        String headerLine = scanner.nextLine(); //to skip the first line
+        String headerLine = scanner.nextLine(); 
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
             currentProduct = unmarshallProduct(currentLine);

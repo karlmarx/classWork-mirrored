@@ -7,7 +7,6 @@ package com.karlmarxindustries.flooring.dao;
 
 import com.karlmarxindustries.flooring.dto.Product;
 import java.util.List;
-import java.util.Set;
 
 /**
  *

@@ -52,45 +52,16 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
 
     public Order calculateAndOrderNumber(Order order) throws
             FlooringDuplicateIdException,
-            FlooringDataValidationException,
-            FilePersistenceException {
+            
+            FilePersistenceException, AreaTooSmallException {
+        if (order.getArea().compareTo(new BigDecimal("100.00")) < 0) {
+            throw new AreaTooSmallException("areaTooSmall");
+        }
         this.calculateCostsTaxesTotal(order);
         order.setOrderNumber(newOrderNumber());
         return order;
     }
 
-//    public void validateStudentData(Order student) throws
-//            FlooringDataValidationException {
-//
-//        if (student.getFirstName() == null
-//                || student.getFirstName().trim().length() == 0
-//                || student.getLastName() == null
-//                || student.getLastName().trim().length() == 0
-//                || student.getCohort() == null
-//                || student.getCohort().trim().length() == 0) {
-//
-//            throw new FlooringDataValidationException(
-//                    "ERROR: All fields [First Name, Last Name, Cohort] are required.");
-//        }
-//    }
-//
-//    @Override
-//    public List<Order> getAllStudents() throws FilePersistenceException {
-//        return dao.getAllStudents();
-//    }
-//
-//    @Override
-//    public Order getStudent(String studentId) throws FilePersistenceException {
-//        return dao.getStudent(studentId);
-//    }
-//
-//    @Override
-//    public Order removeStudent(String studentId) throws FilePersistenceException {
-//        Order removedStudent = dao.removeStudent(studentId);
-//        // Write to audit log
-//        auditDao.writeAuditEntry("Student " + studentId + " REMOVED.");
-//        return removedStudent;
-//    }
 
     private int newOrderNumber() throws FilePersistenceException {
         List<Order> allOrders = oDao.getAllOrders();
@@ -103,13 +74,7 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
         return newOrderNumber;
     }
 
-//    public void addOrder(Order toAdd) {
-//        oDao.createOrder(toAdd);
-//    }
-    @Override
-    public List<Order> getAllOrders() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public List<Order> getOrdersForDate(LocalDate searchDate) throws NoOrdersOnDateException, FilePersistenceException {
@@ -148,9 +113,11 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
     @Override
     public Order calculateCostsTaxesTotal(Order order) throws
             FlooringDuplicateIdException,
-            FlooringDataValidationException,
-            FilePersistenceException {
-
+            FilePersistenceException, AreaTooSmallException
+             {
+       if (order.getArea().compareTo(new BigDecimal("100.00")) < 0) {
+            throw new AreaTooSmallException("areaTooSmall");
+        }       
         Product productChosen = pDao.getProduct(order.getProductType().toUpperCase());
         BigDecimal taxRate = tDao.getTax(order.getState().toUpperCase()).getTaxRate();
         order.setTaxRate(taxRate);
@@ -183,5 +150,7 @@ public class FlooringServiceLayerImpl implements FlooringServiceLayer {
         Order newOrder = oDao.createOrder(toAdd.getOrderNumber(), toAdd);
         return newOrder;
     }
+
+  
 
 }

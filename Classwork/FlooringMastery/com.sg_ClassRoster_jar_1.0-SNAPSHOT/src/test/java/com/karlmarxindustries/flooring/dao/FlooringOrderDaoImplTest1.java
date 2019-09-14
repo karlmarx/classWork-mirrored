@@ -19,11 +19,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author karlmarx
  */
-public class FlooringOrderDaoImplTest {
+public class FlooringOrderDaoImplTest1 {
 
     FlooringOrderDaoImpl testODao;
 
-    public FlooringOrderDaoImplTest() {
+    public FlooringOrderDaoImplTest1() {
         ApplicationContext ctx
                 = new ClassPathXmlApplicationContext("flooringTestApplicationContext.xml");
         testODao = ctx.getBean("oDao", FlooringOrderDaoImpl.class);

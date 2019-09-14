@@ -20,17 +20,9 @@ public interface FlooringServiceLayer {
     
     public Order calculateAndOrderNumber(Order student) throws
             FlooringDuplicateIdException,
-            FlooringDataValidationException,
+        
+            AreaTooSmallException, 
             FilePersistenceException;
- 
-//    public List<Order> getAllStudents() throws
-//            FilePersistenceException;
-// 
-//    public Order getStudent(String studentId) throws
-//            FilePersistenceException;
-// 
-//    public Order removeStudent(String studentId) throws
-//            FilePersistenceException;
 
     public void initialLoadProductTaxInfo() throws FilePersistenceException;
     public String firstLetterCapRestLower (String string); 
@@ -43,7 +35,6 @@ public interface FlooringServiceLayer {
     public Order addOrder(Order toAdd) throws FilePersistenceException;
     
 
-    public List<Order> getAllOrders();
 
     public List<Order> getOrdersForDate(LocalDate searchDate) throws NoOrdersOnDateException, FilePersistenceException;
 
@@ -53,11 +44,13 @@ public interface FlooringServiceLayer {
 
     public void saveWorks() throws FilePersistenceException, TestingModeException ;
 
-    public Order calculateCostsTaxesTotal(Order edited) throws FlooringDuplicateIdException,
-            FlooringDataValidationException,
+    public Order calculateCostsTaxesTotal(Order edited) throws FlooringDuplicateIdException, AreaTooSmallException,
+       
             FilePersistenceException;
 
     public void editOrder(Order editedAndCalculated) throws FilePersistenceException;
 
     public void loadOrderData() throws FilePersistenceException;
+
+ 
 }

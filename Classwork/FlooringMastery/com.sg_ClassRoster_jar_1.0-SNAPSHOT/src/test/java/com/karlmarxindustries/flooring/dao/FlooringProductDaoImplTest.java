@@ -49,15 +49,13 @@ public class FlooringProductDaoImplTest {
         Assertions.assertTrue(allProductTypes.contains("LAMINATE"), "Laminate should be a product type");
         Assertions.assertTrue(allProductTypes.contains("TILE"), "Tile should be a product type");
         Assertions.assertFalse(allProductTypes.contains("COTTON"), "Cotton should not be a product type");
-        
-
-
+        Assertions.assertFalse(allProductTypes.contains("PRODUCTTYPE"), "PRODUCTTYPE should not be a product type");
     }
 
     @Test
     public void testGetProduct() throws FilePersistenceException {
         Product shouldBeNull = testPDao.getProduct("WOOD");
-        
+
         testPDao.loadProductInfo("ProductsTEST.txt");
         Product gotNoProduct = testPDao.getProduct("PAPER");
         Product gottenProduct = testPDao.getProduct("WOOD");

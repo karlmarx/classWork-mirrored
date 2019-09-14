@@ -6,7 +6,6 @@
 package com.karlmarxindustries.flooring.dao;
 
 import com.karlmarxindustries.flooring.dto.Order;
-import com.karlmarxindustries.flooring.dto.Product;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,27 +14,22 @@ import java.util.List;
  * @author karlmarx
  */
 public interface FlooringOrderDao {
-    
-    //crudd
-    public  Order createOrder(Integer orderNumber, Order order) throws FilePersistenceException;
-    
-    public void editOrder(Integer orderNumber, Order order)  throws FilePersistenceException;
 
-    public Order removeOrder(Integer orderNumber)  throws FilePersistenceException;
-    
+    public Order createOrder(Integer orderNumber, Order order) throws FilePersistenceException;
+
+    public void editOrder(Integer orderNumber, Order order) throws FilePersistenceException;
+
+    public Order removeOrder(Integer orderNumber) throws FilePersistenceException;
+
     public List<Order> getAllOrdersForDate(LocalDate date) throws FilePersistenceException;
-    
+
     public List<Order> getAllOrders() throws FilePersistenceException;
 
     public Order getOrder(Integer orderNumber) throws FilePersistenceException;
 
-   
-
-//    public void createOrder(Order toAdd);
-
     public void loadOrders() throws FilePersistenceException;
-    
+
     public boolean isModeTesting() throws FilePersistenceException;
-    
-     public void saveAllOrders() throws FilePersistenceException, TestingModeException;
+
+    public void saveAllOrders() throws FilePersistenceException, TestingModeException;
 }

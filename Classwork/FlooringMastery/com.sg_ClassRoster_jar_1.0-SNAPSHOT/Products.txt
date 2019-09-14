@@ -1,5 +1,24 @@
 ProductType,CostPerSquareFoot,LaborCostPerSquareFoot
-Carpet,2.25,2.10
-Laminate,1.75,2.10
-Tile,3.50,4.15
-Wood,5.15,4.75
+Reticuloril,166.20,83.00
+Corbonium,94.00,0.00
+Aluminine,31.00,8.18
+Ossegen,25.00,4.00
+Stableized Primonite,81.75,5.00
+Gaseous Mesorus,55.00,493.49
+Dynagen,85.00,7.31
+Ossenite,37.20,5.76
+Destablilized Molybdenesium,93.73,7.00
+Common Evegen,1.00,7.00
+Venusine,89.21,9.66
+Destresium,99.00,4.00
+Non-refractive Ultrium,89.40,0.48
+Baryil,59.64,4.01
+Gravidium,47.00,5.23
+Lithite,83.00,1.69
+Metallus,85.00,3.47
+Aluminine,448.00,88.00
+Xenomite,95.00,5.63
+Gaseous Mesorus,66.00,6.00
+Vanadus,25.00,0.84
+Non-flammable Ultrine,1.00,4.53
+Metallomite,71.00,8.39

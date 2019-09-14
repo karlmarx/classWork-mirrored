@@ -18,37 +18,39 @@ import java.util.Map;
  * @author karlmarx
  */
 class FlooringTDaoStubImpl implements FlooringTaxDao {
-    
-   private Map<String, Tax> taxes = new HashMap<>();
-   Tax firstTax;
-   Tax secondTax;
+
+    private Map<String, Tax> taxes = new HashMap<>();
+    Tax firstTax;
+    Tax secondTax;
 
     public FlooringTDaoStubImpl(Tax firstTax, Tax secondTax) {
         this.firstTax = firstTax;
         this.secondTax = secondTax;
     }
 
-   
     @Override
     public List<Tax> getAllTaxes() throws FilePersistenceException {
         List<Tax> theStubTaxes = new ArrayList<>();
-            theStubTaxes.add(firstTax);
-            theStubTaxes.add(secondTax);
-            return theStubTaxes;
+        theStubTaxes.add(firstTax);
+        theStubTaxes.add(secondTax);
+        return theStubTaxes;
     }
 
     @Override
     public Tax getTax(String stateAbbr) throws FilePersistenceException {
-      
-        if (stateAbbr.equalsIgnoreCase(firstTax.getStateAbbreviation())) return firstTax;
-        else if(stateAbbr.equalsIgnoreCase(secondTax.getStateAbbreviation())) return secondTax;
-        else return null;
-     }
-    
+
+        if (stateAbbr.equalsIgnoreCase(firstTax.getStateAbbreviation())) {
+            return firstTax;
+        } else if (stateAbbr.equalsIgnoreCase(secondTax.getStateAbbreviation())) {
+            return secondTax;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public List<String> getAllStates() throws FilePersistenceException {
-                List<String> theStubStates = new ArrayList<>();
+        List<String> theStubStates = new ArrayList<>();
         List<Tax> theTaxes = this.getAllTaxes();
         for (Tax tax : theTaxes) {
             theStubStates.add(tax.getStateAbbreviation());
@@ -56,12 +58,10 @@ class FlooringTDaoStubImpl implements FlooringTaxDao {
         return theStubStates;
     }
 
-    
-
     @Override
     public void loadRateList(String filename) throws FilePersistenceException {
-          taxes.put(firstTax.getStateAbbreviation(), firstTax);
-        taxes.put(secondTax.getStateAbbreviation(), secondTax); //To change body of generated methods, choose Tools | Templates.
+        taxes.put(firstTax.getStateAbbreviation(), firstTax);
+        taxes.put(secondTax.getStateAbbreviation(), secondTax);
     }
-   
+
 }

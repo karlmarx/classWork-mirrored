@@ -40,11 +40,7 @@
         <constructor-arg ref="productDao"/>   
     </bean>
    
-    <bean id="controller" 
-         class="com.karlmarxindustries.flooring.controller.FlooringController">
-        <constructor-arg ref="serviceLayer"/>
-        <constructor-arg ref="view"/>
-    </bean>
+    
      <bean id="controllerBilingual" 
          class="com.karlmarxindustries.flooring.controller.FlooringControllerBilingual">
         <constructor-arg ref="serviceLayer"/>

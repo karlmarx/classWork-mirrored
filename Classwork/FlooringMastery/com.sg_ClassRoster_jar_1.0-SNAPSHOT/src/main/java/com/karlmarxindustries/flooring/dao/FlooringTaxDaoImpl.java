@@ -12,11 +12,9 @@ import java.io.FileReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  *
@@ -25,11 +23,8 @@ import java.util.Set;
 public class FlooringTaxDaoImpl implements FlooringTaxDao {
 
     private Map<String, Tax> taxes = new HashMap<>();
- //   private Set<String> stateList = new HashSet<>(); //unnecessary?
     private static final String DELIMITER = ",";
     private String filename;
-    private static final String FILENAME = "Taxes.txt";
-            //change above to varaible later
 
     Tax unmarshallTax(String taxAsText) throws FilePersistenceException {
         String[] taxTokens = taxAsText.split(DELIMITER);
@@ -54,7 +49,7 @@ public class FlooringTaxDaoImpl implements FlooringTaxDao {
     @Override
     public List<String> getAllStates() throws FilePersistenceException {
         List<String> states = new ArrayList<>(taxes.keySet());    
-       return states;//To change body of generated methods, choose Tools | Templates.
+       return states;
     }
 
     @Override
@@ -67,7 +62,7 @@ public class FlooringTaxDaoImpl implements FlooringTaxDao {
         }
         String currentLine;
         Tax currentTax;
-        String headerLine = scanner.nextLine(); //to skip the first line
+        String headerLine = scanner.nextLine(); 
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
             currentTax = unmarshallTax(currentLine);

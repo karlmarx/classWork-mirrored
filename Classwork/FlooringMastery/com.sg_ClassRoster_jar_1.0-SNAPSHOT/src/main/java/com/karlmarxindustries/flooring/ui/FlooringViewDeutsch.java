@@ -30,12 +30,12 @@ public class FlooringViewDeutsch {
 
     public int printMenuAndGetSelection() {
         io.print("<<BodenMeister 1.0>>");
-        io.print("1. Bestellungen Anzeigen");
-        io.print("2. Bestellungen Anlegen");
-        io.print("3. Bestellungen Bearbeiten");
-        io.print("4. Bestellungen Löschen");
-        io.print("5. Fortschritt Speichern");
-        io.print("6. Englisch");
+        io.print("[1] Bestellungen Anzeigen");
+        io.print("[2] Bestellungen Anlegen");
+        io.print("[3] Bestellungen Bearbeiten");
+        io.print("[4] Bestellungen Löschen");
+        io.print("[5] Fortschritt Speichern");
+        io.print("[6] Englisch");
         return io.readInt("Bitte wählen Sie aus den obigen Optionen.", 1, 6);
     }
 
@@ -108,14 +108,12 @@ public class FlooringViewDeutsch {
 
     public void displayOrdersForDate(List<Order> orderList) {
         io.print("+++++++++++++++++++++++");
-        for (Order order  : orderList) {
+        for (Order order : orderList) {
             this.displayOrder(order);
             io.print("+++++++++++++++++++++++");
         }
         io.readString("Bitte drücken Sie die Eingabetaste, um fortzufahren.");
     }
-
-
 
     public void displayEditOrderBanner() {
         io.print("=== Bestellungen Löschen ===");
@@ -133,10 +131,8 @@ public class FlooringViewDeutsch {
         io.print("Unbekannte Anweisung!!!");
     }
 
-  
-
     public boolean isAlphaPeriodComma(String stringToCheck) {
-         Pattern pattern = Pattern.compile("^[A-Za-z0-9 .,]*$");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9 .,]*$");
 // Pattern pattern = Pattern.compile("^[\\w .,]+$");
         Matcher m = pattern.matcher(stringToCheck);
         boolean doesItMatch = m.matches();
@@ -150,11 +146,9 @@ public class FlooringViewDeutsch {
             io.print(counter + ". [" + currentProduct.getProductType() + "] - Kosten: $"
                     + currentProduct.getCostPerSquareFoot() + " - Arbeitskosten: $"
                     + currentProduct.getLaborCostPerSquareFoot());
-                     io.print("++++++++++++++++++++++++++");
+            io.print("==========================");
             counter++;
         }
-        io.print("==========================");
-        //io.readString("Please hit enter to continue.");
     }
 
     public boolean displayConfirmOrderToAdd(Order toAdd) {
@@ -166,41 +160,42 @@ public class FlooringViewDeutsch {
             confirmed = true;
             io.print("Die Bestellung wurde angelegt und mit der Bestellnummer #" + toAdd.getOrderNumber() + "versehen."); //split this up?
         } else {
-            io.print(
-"Die Bestellung wurde nicht angelegt."); //put this logic in controller probably
+            io.print("Die Bestellung wurde nicht angelegt.");
         }
         return confirmed;
     }
 
     public void displayDisplayOrdersBanner() {
-               io.print("=== Bestellungen Anzeigen ===");
+        io.print("=== Bestellungen Anzeigen ===");
     }
 
     public LocalDate getDesiredDate() {
-        
+
         boolean validDate = false;
         LocalDate date = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        while(!validDate) {
+        while (!validDate) {
             try {
                 String dateAsText = io.readString("Bitte geben Sie das Datum ein (TT.MM.JJJJ): ").trim();
-                
+
                 date = LocalDate.parse(dateAsText, formatter);
                 validDate = true;
-            } catch (DateTimeException e) { //this okay to handle here?
+            } catch (DateTimeException e) {
                 io.print("Das Datumsformat ist ungültig. Bitte versuche es erneut!");
-                
+
             }
         }
-         return date;   
+        return date;
     }
+
     public int getOrderNumber() {
         int orderNumber = io.readInt("Bitte geben Sie die Bestellnummer ein!", 1, Integer.MAX_VALUE);
         return orderNumber;
     }
-    public void displayErrorMessage(String errorMsg){
-            io.print("--- FEHLER ---");
-            io.print(errorMsg);
+
+    public void displayErrorMessage(String errorMsg) {
+        io.print("--- FEHLER ---");
+        io.print(errorMsg);
     }
 
     public boolean displayConfirmOrderToRemove(Order toRemove) {
@@ -209,14 +204,16 @@ public class FlooringViewDeutsch {
         displayOrder(toRemove);
         return confirmSomething("Möchten Sie hinzufügen, entfernen Sie diese Bestellung? (J/N)");
     }
+
     public boolean confirmSomething(String toConfirm) {
         boolean confirmed = false;
         String confirmation = io.readString(toConfirm);
         if (confirmation.equalsIgnoreCase("J")) {
             confirmed = true;
-        } 
+        }
         return confirmed;
     }
+
     public boolean displayConfirmSave() {
         return confirmSomething("Sind Sie sicher, dass Sie Ihre Arbeit aus dieser Sitzung speichern möchten? (J/N)");
     }
@@ -224,7 +221,6 @@ public class FlooringViewDeutsch {
     public void displaySaveSuccess() {
         io.print("Die in dieser Sitzung vorgenommenen Änderungen wurden erfolgreich gespeichert.");
     }
-
 
     public boolean displayConfirmEditing(Order editedAndCalculated) {
         displayOrder(editedAndCalculated);
@@ -238,13 +234,14 @@ public class FlooringViewDeutsch {
     public void displayNoChangesMade() {
         io.print("Es wurden keine Änderungen vorgenommen.");
     }
+
     public void displayOrder(Order order) {
         if (order.getOrderNumber() != 0) {
             io.print("Bestellung nummer: " + order.getOrderNumber());
         } else {
             io.print("Bestellnummer wurde nicht vergeben.");
         }
-        io.print("Bestelldatum: " +order.getDate());
+        io.print("Bestelldatum: " + order.getDate());
         io.print("Kundenname: " + order.getCustomerName());
         io.print("Staat: " + order.getState());
         io.print("Steuersatz: " + order.getTaxRate());
@@ -261,7 +258,7 @@ public class FlooringViewDeutsch {
     public void displayNotSaved() {
         io.print("Ihre Änderungen wurden nicht gespeichert.");
     }
-    
+
     public Order displayCurrentGetEdits(List<String> stateList, List<Product> productList, Order order) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         boolean validName = false;
@@ -282,7 +279,7 @@ public class FlooringViewDeutsch {
             } else {
                 validName = true;
             }
-            
+
         }
         while (!validState) {
             inputState = io.readString("Biite geben Sie den Staat ein[" + order.getState().toUpperCase() + "]: (Nur aus zwei Buchstaben bestehende Abkürzungen.) ");
@@ -305,28 +302,34 @@ public class FlooringViewDeutsch {
         }
         double doubleArea = io.readDoubleAllowBlank("Bitte geben Sie den Bereich in Quadratfuß ein[" + order.getArea() + "sq ft]. (mindestens 100)", 100.0d, Double.MAX_VALUE);
         area = new BigDecimal(String.valueOf(doubleArea));
-        if (!customerName.equals("")) order.setCustomerName(customerName);
-        if(!inputState.equals("")) order.setState(inputState);
-        if(doubleArea != 0) order.setArea(area); //does this work?
-        if(!inputProduct.equals("")) order.setProductType(inputProduct);
-       
+        if (!customerName.equals("")) {
+            order.setCustomerName(customerName);
+        }
+        if (!inputState.equals("")) {
+            order.setState(inputState);
+        }
+        if (doubleArea != 0) {
+            order.setArea(area); 
+        }
+        if (!inputProduct.equals("")) {
+            order.setProductType(inputProduct);
+        }
 
         return order;
-        //send to service layer for calculations and to validate state.
     }
 
     public void displayTitleBanner() {
         io.print("");
-        io.print(" $$$$$$$\\                            $$$$$$$\\                  $$\\                     $$\\      $$\\           $$\\             $$\\                                 $$\\       $$$$$$\\  \n" +
-"$$  __$$\\                           $$  __$$\\                 $$ |                    $$$\\    $$$ |          \\__|            $$ |                              $$$$ |     $$$ __$$\\ \n" +
-"$$ |  $$ | $$$$$$\\   $$$$$$\\        $$ |  $$ | $$$$$$\\   $$$$$$$ | $$$$$$\\  $$$$$$$\\  $$$$\\  $$$$ | $$$$$$\\  $$\\  $$$$$$$\\ $$$$$$\\    $$$$$$\\   $$$$$$\\        \\_$$ |     $$$$\\ $$ |\n" +
-"$$ |  $$ |$$  __$$\\ $$  __$$\\       $$$$$$$\\ |$$  __$$\\ $$  __$$ |$$  __$$\\ $$  __$$\\ $$\\$$\\$$ $$ |$$  __$$\\ $$ |$$  _____|\\_$$  _|  $$  __$$\\ $$  __$$\\         $$ |     $$\\$$\\$$ |\n" +
-"$$ |  $$ |$$$$$$$$ |$$ |  \\__|      $$  __$$\\ $$ /  $$ |$$ /  $$ |$$$$$$$$ |$$ |  $$ |$$ \\$$$  $$ |$$$$$$$$ |$$ |\\$$$$$$\\    $$ |    $$$$$$$$ |$$ |  \\__|        $$ |     $$ \\$$$$ |\n" +
-"$$ |  $$ |$$   ____|$$ |            $$ |  $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |$$ |\\$  /$$ |$$   ____|$$ | \\____$$\\   $$ |$$\\ $$   ____|$$ |              $$ |     $$ |\\$$$ |\n" +
-"$$$$$$$  |\\$$$$$$$\\ $$ |            $$$$$$$  |\\$$$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ |  $$ |$$ | \\_/ $$ |\\$$$$$$$\\ $$ |$$$$$$$  |  \\$$$$  |\\$$$$$$$\\ $$ |            $$$$$$\\ $$\\\\$$$$$$  /\n" +
-"\\_______/  \\_______|\\__|            \\_______/  \\______/  \\_______| \\_______|\\__|  \\__|\\__|     \\__| \\_______|\\__|\\_______/    \\____/  \\_______|\\__|            \\______|\\__|\\______/ \n" +
-"                                                                                                                                                                                    \n" +
-"                                                                                                                                                                                    \n" +
-"                                                                                                                                                                                    ");
+        io.print(" $$$$$$$\\                            $$$$$$$\\                  $$\\                     $$\\      $$\\           $$\\             $$\\                                 $$\\       $$$$$$\\  \n"
+                + "$$  __$$\\                           $$  __$$\\                 $$ |                    $$$\\    $$$ |          \\__|            $$ |                              $$$$ |     $$$ __$$\\ \n"
+                + "$$ |  $$ | $$$$$$\\   $$$$$$\\        $$ |  $$ | $$$$$$\\   $$$$$$$ | $$$$$$\\  $$$$$$$\\  $$$$\\  $$$$ | $$$$$$\\  $$\\  $$$$$$$\\ $$$$$$\\    $$$$$$\\   $$$$$$\\        \\_$$ |     $$$$\\ $$ |\n"
+                + "$$ |  $$ |$$  __$$\\ $$  __$$\\       $$$$$$$\\ |$$  __$$\\ $$  __$$ |$$  __$$\\ $$  __$$\\ $$\\$$\\$$ $$ |$$  __$$\\ $$ |$$  _____|\\_$$  _|  $$  __$$\\ $$  __$$\\         $$ |     $$\\$$\\$$ |\n"
+                + "$$ |  $$ |$$$$$$$$ |$$ |  \\__|      $$  __$$\\ $$ /  $$ |$$ /  $$ |$$$$$$$$ |$$ |  $$ |$$ \\$$$  $$ |$$$$$$$$ |$$ |\\$$$$$$\\    $$ |    $$$$$$$$ |$$ |  \\__|        $$ |     $$ \\$$$$ |\n"
+                + "$$ |  $$ |$$   ____|$$ |            $$ |  $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |$$ |\\$  /$$ |$$   ____|$$ | \\____$$\\   $$ |$$\\ $$   ____|$$ |              $$ |     $$ |\\$$$ |\n"
+                + "$$$$$$$  |\\$$$$$$$\\ $$ |            $$$$$$$  |\\$$$$$$  |\\$$$$$$$ |\\$$$$$$$\\ $$ |  $$ |$$ | \\_/ $$ |\\$$$$$$$\\ $$ |$$$$$$$  |  \\$$$$  |\\$$$$$$$\\ $$ |            $$$$$$\\ $$\\\\$$$$$$  /\n"
+                + "\\_______/  \\_______|\\__|            \\_______/  \\______/  \\_______| \\_______|\\__|  \\__|\\__|     \\__| \\_______|\\__|\\_______/    \\____/  \\_______|\\__|            \\______|\\__|\\______/ \n"
+                + "                                                                                                                                                                                    \n"
+                + "                                                                                                                                                                                    \n"
+                + "                                                                                                                                                                                    ");
     }
 }

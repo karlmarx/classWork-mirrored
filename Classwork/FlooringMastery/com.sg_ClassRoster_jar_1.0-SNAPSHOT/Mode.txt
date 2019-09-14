@@ -1,1 +1,1 @@
-appSettings::Production
+appSettings::Training

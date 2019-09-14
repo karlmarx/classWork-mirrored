@@ -18,11 +18,11 @@ import java.util.Map;
  * @author karlmarx
  */
 class FlooringPDaoStubImpl implements FlooringProductDao {
+
     Product firstProduct;
     Product secondProduct;
     Map<String, Product> products = new HashMap<>();
 
-    
     public FlooringPDaoStubImpl(Product firstProduct, Product secondProduct) {
         this.firstProduct = firstProduct;
         this.secondProduct = secondProduct;
@@ -38,19 +38,19 @@ class FlooringPDaoStubImpl implements FlooringProductDao {
 
     @Override
     public Product getProduct(String productType) throws FilePersistenceException {
-         if (productType.equalsIgnoreCase(firstProduct.getProductType())) return firstProduct;
-        else if(productType.equalsIgnoreCase(secondProduct.getProductType())) return secondProduct;
-        else return null;
+        if (productType.equalsIgnoreCase(firstProduct.getProductType())) {
+            return firstProduct;
+        } else if (productType.equalsIgnoreCase(secondProduct.getProductType())) {
+            return secondProduct;
+        } else {
+            return null;
+        }
     }
-
-   
 
     @Override
     public void loadProductInfo(String filename) throws FilePersistenceException {
         products.put(firstProduct.getProductType(), firstProduct);
-            products.put(secondProduct.getProductType(), secondProduct);
+        products.put(secondProduct.getProductType(), secondProduct);
     }
 
-  
-    
 }

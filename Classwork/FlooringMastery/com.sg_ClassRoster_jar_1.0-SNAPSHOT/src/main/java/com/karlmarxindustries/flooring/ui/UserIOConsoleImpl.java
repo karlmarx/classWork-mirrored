@@ -5,6 +5,7 @@
  */
 package com.karlmarxindustries.flooring.ui;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -12,109 +13,122 @@ import java.util.Scanner;
  * @author karlmarx
  */
 public class UserIOConsoleImpl implements UserIO {
+
     Scanner scanner = new Scanner(System.in);
-        
-  //  @Override
+
+    @Override
     public void print(String message) {
         System.out.println(message);
     }
 
-   // @Override
+    @Override
     public double readDouble(String prompt) {
-            double result = 0;
-            print(prompt);
-            result = scanner.nextDouble();
-            scanner.nextLine();
-            return result;
+        double result = 0;
+        print(prompt);
+        result = scanner.nextDouble();
+        scanner.nextLine();
+        return result;
     }
 
-   // @Override
+    @Override
     public double readDouble(String prompt, double min, double max) {
-            double result = 0;
-            boolean badInput = true;
-            
-            while(badInput)  {
-                result = readDouble(prompt);
-                if (Double.compare(result, min) >= 0 && Double.compare(result, max) <=0){
-                    badInput = false;
-                } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
-                }
-           }
-            return result;
-           
-    }
-    
-     public double readDoubleAllowBlank(String prompt, double min, double max) {
-            double result = 0;
-            String resultString;
-            boolean badInput = true;
-            
-            while(badInput)  {
-                resultString = readString(prompt);
-                result = Double.parseDouble(resultString);
-                if (resultString.equals("")|| Double.compare(result, min) >= 0 && Double.compare(result, max) <=0){
-                    badInput = false;
-                } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
-                }
-                if(resultString.equals("")) {
-                    result =0d;
-                }
-           }
-            return result;
-           
-    }
-  //  @Override
-    public float readFloat(String prompt) {
-            float result = 0;
-            print(prompt);
-            result = scanner.nextFloat();
-            scanner.nextLine();
-            return result;
+        double result = 0;
+        boolean badInput = true;
+
+        while (badInput) {
+            result = readDouble(prompt);
+            if (Double.compare(result, min) >= 0 && Double.compare(result, max) <= 0) {
+                badInput = false;
+            } else {
+                print("Input need to be >= " + min + " or <= " + max + ".");
+            }
+        }
+        return result;
+
     }
 
- //   @Override
-    public float readFloat(String prompt, float min, float max) {
-            float result = 0;
-            boolean badInput = true;
-            
-            while(badInput)  {
-                result = readFloat(prompt);
-                if (Float.compare(result, min) >= 0 && Float.compare(result, max) <=0){
-                    badInput = false;
-                } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
-                }
-           }
-             return result; 
+    @Override
+    public double readDoubleAllowBlank(String prompt, double min, double max) {
+        double result = 0;
+        String resultString;
+        boolean badInput = true;
+
+        while (badInput) {
+            resultString = readString(prompt);
+            result = Double.parseDouble(resultString);
+            if (resultString.equals("") || Double.compare(result, min) >= 0 && Double.compare(result, max) <= 0) {
+                badInput = false;
+            } else {
+                print("Input need to be >= " + min + " or <= " + max + ".");
+            }
+            if (resultString.equals("")) {
+                result = 0d;
+            }
+        }
+        return result;
+//MAkethis piggyback
     }
-    
+    //  @Override
+
+    public float readFloat(String prompt) {
+        float result = 0;
+        print(prompt);
+        result = scanner.nextFloat();
+        scanner.nextLine();
+        return result;
+    }
+
+    //   @Override
+    public float readFloat(String prompt, float min, float max) {
+        float result = 0;
+        boolean badInput = true;
+
+        while (badInput) {
+            result = readFloat(prompt);
+            if (Float.compare(result, min) >= 0 && Float.compare(result, max) <= 0) {
+                badInput = false;
+            } else {
+                print("Input need to be >= " + min + " or <= " + max + ".");
+            }
+        }
+        return result;
+    }
+
     //@Override
     public int readInt(String prompt) {
-            int result = 0;
+             int result = 0;
             print(prompt);
-            result = scanner.nextInt();
-            scanner.nextLine();
-            return result;
+            boolean continueInput = true;
+            do{
+                try{
+                    result = scanner.nextInt();
+                 //changed to fix issue with alpha input in menu
+                    scanner.nextLine();
+                    continueInput = false;
+                } catch (InputMismatchException e){
+                      System.out.println("Try Again.  An integer is required.");
+                      scanner.nextLine();
+                }
+            }
+            while (continueInput);
+             return result;
     }
 
-   // @Override
+    // @Override
     public int readInt(String prompt, int min, int max) {
-            int result = 0;
-            boolean badInput = true;
-            
-            while(badInput)  {
-                result = readInt(prompt);
-                if (result >= min && result <= max){
-                    badInput = false;
-                } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
-                }
-                
-               
-           }
-             return result; 
+        int result = 0;
+        boolean badInput = true;
+
+        while (badInput) {
+            result = readInt(prompt);
+            if (result >= min && result <= max ) {
+                badInput = false;
+            } else {
+                print("Input need to be >= " + min + " or <= " + max + ".");
+            }
+
+        }
+        return result;
     }
 
     //@Override
@@ -128,28 +142,28 @@ public class UserIOConsoleImpl implements UserIO {
 
     //@Override
     public long readLong(String prompt, long min, long max) {
-            long result = 0;
-            boolean badInput = true;
-            
-            while(badInput)  {
-                result = readLong(prompt);
-                if (result >= min && result <= max){
-                    badInput = false;
-                } else {
-                    print("Input need to be >= " + min + " or <= " + max + ".");
-                }
-           }
-             return result;     
-    }
+        long result = 0;
+        boolean badInput = true;
 
-   // @Override
-    public String readString(String prompt) {
-        String result = "";
-        
-        print(prompt);
-        result = scanner.nextLine();
-        
+        while (badInput) {
+            result = readLong(prompt);
+            if (result >= min && result <= max) {
+                badInput = false;
+            } else {
+                print("Input need to be >= " + min + " or <= " + max + ".");
+            }
+        }
         return result;
     }
-    
+
+    // @Override
+    public String readString(String prompt) {
+        String result = "";
+
+        print(prompt);
+        result = scanner.nextLine();
+
+        return result;
+    }
+
 }
