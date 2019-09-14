@@ -266,6 +266,9 @@ public class FlooringView {
     public void displayEditOrderBanner() {
         io.print(messages.getString("20"));
     }
+    public void displayRemoveOrderBanner() {
+        io.print(messages.getString("20a"));
+    }
 
     public void displayRemoveSuccessBanner() {
         io.readString(messages.getString("21"));

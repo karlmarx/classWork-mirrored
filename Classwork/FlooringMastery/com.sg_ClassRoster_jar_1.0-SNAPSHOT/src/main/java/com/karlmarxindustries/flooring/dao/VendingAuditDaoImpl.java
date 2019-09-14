@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author karlmarx
  */
-public class FlooringLoggerDaoImpl implements FlooringLoggerDao {
+public class VendingAuditDaoImpl implements FlooringLoggerDao {
     public static final String AUDIT_FILE = "audit.txt";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
     public void stamp(BigDecimal balance, String after_money_was_inserted) {
